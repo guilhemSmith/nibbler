@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   system.hpp                                         :+:      :+:    :+:   */
+/*   print.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/18 15:41:20 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/18 16:03:48 by gsmith           ###   ########.fr       */
+/*   Created: 2019/11/18 15:48:56 by gsmith            #+#    #+#             */
+/*   Updated: 2019/11/18 15:49:44 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SYSTEM_HPP
-# define SYSTEM_HPP
+#include "Print.hpp"
 
-# include <dlfcn.h>
-
-#endif
+void	sayHello(std::string name) {
+	std::cout << "Hello, " << name << '!' << std::endl;
+}
