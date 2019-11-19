@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/11/19 11:39:58 by gsmith           ###   ########.fr        #
+#    Updated: 2019/11/19 17:04:15 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ DIR_DEP = depend
 DIR_INC = include
 
 FILES_SRC = \
-	main.cpp
+	main.cpp \
+	Arguments.cpp
 FILES_BUILD = $(FILES_SRC:.cpp=.o)
 FILES_DEP = $(FILES_SRC:.cpp=.d)
 
@@ -96,6 +97,7 @@ endif
 
 $(NAME): $(LIB_A) $(BUILD)
 	@Make -C $(LIB_A_DIR) all
+	@Make $(LIB_A)
 ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Compiling $(subst $(S_N),$(S_B),$(YELLOW))$(NAME)$(YELLOW) binary...$(NC)\r"
 endif
@@ -167,7 +169,6 @@ ifndef VERBOSE
 	printf "$(PREFIX)$(RED)Deleting symbolic link to $(subst $(S_N),$(S_B),$(RED))$(LIB_A_DIR)/$(LIB_A)$(RED)...$(NC)\r"
 endif
 	rm -f $(LIB_A)
-	sleep 2
 ifndef VERBOSE
 	printf "$(PREFIX)$(PURPLE)Symbolic link to $(subst $(S_N),$(S_B),$(PURPLE))$(LIB_A_DIR)/$(LIB_A)$(PURPLE) deleted.          \n$(NC)"
 	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(RED))Deleting $(NAME)$(RED) binary...$(NC)\r"
