@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/11/20 11:55:55 by gsmith           ###   ########.fr        #
+#    Updated: 2019/11/20 13:59:20 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,12 @@ DIR_INC = include
 
 FILES_SRC = \
 	main.cpp \
-	Arguments.cpp
+	Arguments.cpp \
+	Game.cpp \
+	Grid.cpp \
+	SnakeHead.cpp \
+	Obstacle.cpp \
+	Apple.cpp
 FILES_BUILD = $(FILES_SRC:.cpp=.o)
 FILES_DEP = $(FILES_SRC:.cpp=.d)
 
