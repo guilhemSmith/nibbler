@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 14:05:48 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/19 17:07:59 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/20 11:54:49 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,12 @@
 #include <iostream>
 #include "Arguments.hpp"
 
-Arguments::Arguments(int argc, char * argv[]) {
+Arguments::Arguments(void): startingLib(STARTINGLIB_MIN), width(WIDTH_MIN), \
+				height(HEIGHT_MIN) {}
+
+Arguments::~Arguments(void) {}
+
+void			Arguments::init(int argc, char * argv[]) {
 	if (argc != 4) {
 		throw Arguments::InvalidArguments();
 	}
@@ -23,8 +28,6 @@ Arguments::Arguments(int argc, char * argv[]) {
 	this->initWidth(argv[2]);
 	this->initHeight(argv[3]);
 }
-
-Arguments::~Arguments(void) {}
 
 int				Arguments::getStartingLib(void) {
 	return this->startingLib;

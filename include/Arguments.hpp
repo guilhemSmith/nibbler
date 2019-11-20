@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 13:58:27 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/19 15:37:51 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/20 11:54:19 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,22 @@
 // temporary define to be replace with static attribute from lib class or main.
 # define STARTINGLIB_MIN 0
 # define STARTINGLIB_MAX 2
-# define WIDTH_MAX 1600
-# define WIDTH_MIN 640
-# define HEIGHT_MAX 900
-# define HEIGHT_MIN 480
+# define WIDTH_MAX 100
+# define WIDTH_MIN 30
+# define HEIGHT_MAX 100
+# define HEIGHT_MIN 30
 
 class Arguments {
 public:
-	Arguments(int argc, char * argv[]);
+	Arguments(void);
 	~Arguments(void);
 
+	void			init(int argc, char * argv[]);
 	int				getStartingLib(void);
 	int				getWidth(void);
 	int				getHeight(void);
 
 private:
-	Arguments(void);
 	Arguments(Arguments const & rhs);
 	Arguments &		operator=(Arguments const & rhs) const;
 

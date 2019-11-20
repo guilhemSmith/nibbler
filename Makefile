@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/11/19 17:04:15 by gsmith           ###   ########.fr        #
+#    Updated: 2019/11/20 11:55:55 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,6 +84,11 @@ endif
 	rm -df $(DIR_BUILD) || True
 ifndef VERBOSE
 	printf "$(PREFIX)$(PURPLE)Object files cleaned.   \n$(NC)"
+	printf "$(PREFIX)$(RED)Deleting symbolic link to $(subst $(S_N),$(S_B),$(RED))$(LIB_A_DIR)/$(LIB_A)$(RED)...$(NC)\r"
+endif
+	rm -f $(LIB_A)
+ifndef VERBOSE
+	printf "$(PREFIX)$(PURPLE)Symbolic link to $(subst $(S_N),$(S_B),$(PURPLE))$(LIB_A_DIR)/$(LIB_A)$(PURPLE) deleted.          \n$(NC)"
 	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(RED))Deleting $(NAME)$(RED) binary...$(NC)\r"
 endif
 	rm -f $(NAME)
