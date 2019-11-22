@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:39:49 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/20 14:23:08 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/22 13:52:20 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,13 @@ int		main(int argc, char * argv[]) {
 		game.spawn_obstacle(0, i);
 		game.spawn_obstacle(args.getWidth() - 1, i);
 	}
-	game.spawn_apple(args.getWidth() / 2, args.getHeight() / 2);
+	game.spawn_apple(args.getWidth() / 2 + 5, args.getHeight() / 2);
 	game.print_grid();
-	// void *		dl_handle = dlopen("libPrint.so", RTLD_LAZY | RTLD_LOCAL);
+	std::cout << "score: " << game.get_score() << std::endl;
+	while (game.move(1, 0));
+	game.print_grid();
+	std::cout << "score: " << game.get_score() << std::endl;
+	// void *		dl_handle = dlopen("dyn_lib/libprint/libPrint.so", RTLD_LAZY | RTLD_LOCAL);
 	// if (!dl_handle) {
 	// 	std::cerr << "error occured while loading libprint.so" << std::endl;
 	// 	return 1;

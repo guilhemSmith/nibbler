@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:36 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/20 14:15:15 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/22 13:47:45 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ public:
 
 	bool			spawn_obstacle(size_t x, size_t y);
 	bool			spawn_apple(size_t x, size_t y);
+	bool			spawn_snake(size_t x, size_t y, int dir_x, int dir_y);
 	void			print_grid(void) const;
+	bool			move(int x, int y);
+	int				get_score(void) const;
 
 private:
 	Game(void);
