@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/11/22 11:43:19 by gsmith           ###   ########.fr        #
+#    Updated: 2019/11/25 17:07:10 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,6 +76,7 @@ PREFIX = $(subst $(S_N),$(S_D),$(WHITE))[$(NAME)] - $(NC)
 
 .PHONY: all
 all:
+	sh setup.sh
 	@Make -C $(LIB_A_DIR) all
 	@Make $(NAME)
 
@@ -85,7 +86,7 @@ ifndef VERBOSE
 	printf "$(PREFIX)$(RED)Cleaning object files...$(NC)\r"
 endif
 	rm -f $(BUILD)
-	rm -df $(DIR_BUILD) || True
+	rm -rf $(DIR_BUILD) || True
 ifndef VERBOSE
 	printf "$(PREFIX)$(PURPLE)Object files cleaned.   \n$(NC)"
 	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(RED))Deleting $(NAME)$(RED) binary...$(NC)\r"
@@ -151,7 +152,7 @@ ifndef VERBOSE
 	printf "$(PREFIX)$(RED)Cleaning dependencies files...$(NC)\r"
 endif
 	rm -f $(DEP)
-	rm -df $(DIR_DEP) 2>/dev/null || True
+	rm -rf $(DIR_DEP) 2>/dev/null || True
 ifndef VERBOSE
 	printf "$(PREFIX)$(PURPLE)Dependencies files cleaned.   \n$(NC)"
 endif
