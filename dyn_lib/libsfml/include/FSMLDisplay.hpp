@@ -13,19 +13,28 @@
 #ifndef FSML_DISPLAY_HPP
 # define FSML_DISPLAY_HPP
 
-# include "IDisplay.hpp"
+# include <iostream>
 # include <SFML/Graphics.hpp>
+# include "IDisplay.hpp"
 
 class	FSMLDisplay: public IDisplay {
-	public:
-		FSMLDisplay(void);
-		virtual ~FSMLDisplay(void);
-		sf::RenderWindow	*getWindow(void) const;
+public:
+	FSMLDisplay(void);
+ 	~FSMLDisplay(void);
+	sf::RenderWindow	*getWindow(void) const;
+	void			displayGameWindow(void);
+	void			sayHello(std::string name);
 
-	private:
-		FSMLDisplay(FSMLDisplay const &src);
-		FSMLDisplay &operator=(FSMLDisplay const &rhs);
-		sf::RenderWindow	*_window;
+private:
+				FSMLDisplay(FSMLDisplay const &src);
+	FSMLDisplay 		&operator=(FSMLDisplay const &rhs);
+	sf::RenderWindow	*_window;
 };
+
+extern "C" {
+    IDisplay *createDisplay(void);
+    void deleteDisplay(IDisplay *disp);
+    void sayHello(std::string name);
+}
 
 #endif

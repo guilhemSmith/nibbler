@@ -28,6 +28,7 @@ DIR_SRC = src
 DIR_BUILD = build
 DIR_DEP = depend
 DIR_INC = include
+GAME_INC = ../../include
 
 FILES_SRC = \
 	print.cpp
@@ -37,7 +38,7 @@ FILES_DEP = $(FILES_SRC:.cpp=.d)
 SRC = $(addprefix $(DIR_SRC)/, $(FILES_SRC))
 BUILD = $(addprefix $(DIR_BUILD)/, $(FILES_BUILD))
 DEP = $(addprefix $(DIR_DEP)/, $(FILES_DEP))
-INC = -I $(DIR_INC)
+INC = -I $(DIR_INC) -I $(GAME_INC)
 
 # Color and output macros
 

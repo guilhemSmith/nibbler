@@ -15,3 +15,25 @@
 void	sayHello(std::string name) {
 	std::cout << "Hello, " << name << '!' << std::endl;
 }
+
+PrintDisplay::PrintDisplay(void) {
+}
+
+PrintDisplay::~PrintDisplay(void) {
+}
+
+void	PrintDisplay::displayGameWindow(void) {
+    std::cout << "DisplayGameWindow called from PrintLib" << std::endl;
+}
+
+void	PrintDisplay::sayHello(std::string name) {
+    std::cout << "This from Print Lib: hello, " << name << "!" << std::endl;
+}
+
+IDisplay *createDisplay(void) {
+    return new PrintDisplay();
+}
+
+void	deleteDisplay(IDisplay *disp) {
+    delete disp;
+}

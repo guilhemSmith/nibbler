@@ -14,7 +14,24 @@
 # define PRINT_HPP
 
 # include <iostream>
+# include "IDisplay.hpp"
 
-extern "C" void		sayHello(std::string name);
+class	PrintDisplay: public IDisplay {
+public:
+	PrintDisplay(void);
+ 	~PrintDisplay(void);
+	void	displayGameWindow(void);
+	void	sayHello(std::string name);
+
+private:
+	PrintDisplay(PrintDisplay const &src);
+	PrintDisplay &operator=(PrintDisplay const &rhs);
+};
+
+extern "C" {
+    IDisplay *createDisplay(void);
+    void deleteDisplay(IDisplay *disp);
+    void sayHello(std::string name);
+}
 
 #endif

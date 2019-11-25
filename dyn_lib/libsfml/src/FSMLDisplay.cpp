@@ -13,13 +13,33 @@
 #include "FSMLDisplay.hpp"
 
 FSMLDisplay::FSMLDisplay(void) {
-	
+    _window = new sf::RenderWindow(
+	sf::VideoMode((sf::VideoMode::getDesktopMode().width / 2),
+	(sf::VideoMode::getDesktopMode().height)),
+	"Nibbler - FSML");
 }
 
 FSMLDisplay::~FSMLDisplay(void) {
-	delete _window;
+    delete _window;
 }
 
 sf::RenderWindow	*FSMLDisplay::getWindow() const {
-	return	_window;
+    return	_window;
+}
+
+void	FSMLDisplay::displayGameWindow(void) {
+    std::cout << "DisplayGameWindow called from SFML" << std::endl;
+    _window->display();
+}
+
+void	FSMLDisplay::sayHello(std::string name) {
+    std::cout << "This from FSML: hello, " << name << "!" << std::endl;
+}
+
+IDisplay *createDisplay(void) {
+    return new FSMLDisplay();
+}
+
+void	deleteDisplay(IDisplay *disp) {
+    delete disp;
 }

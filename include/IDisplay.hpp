@@ -13,9 +13,13 @@
 #ifndef IDISPLAY_HPP
 # define IDISPLAY_HPP
 
-class IDisplay {
-
-
-};
+extern "C" {
+    class IDisplay {
+    public:
+	virtual void	sayHello(std::string) = 0;
+	virtual 	~IDisplay(void) {};
+	virtual void	displayGameWindow() = 0;
+    };
+}
 
 #endif

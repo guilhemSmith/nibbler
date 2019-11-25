@@ -34,7 +34,6 @@ FILES_SRC = \
 	Arguments.cpp \
 	Game.cpp \
 	Grid.cpp \
-	SnakeHead.cpp \
 	Obstacle.cpp \
 	Apple.cpp
 FILES_BUILD = $(FILES_SRC:.cpp=.o)

@@ -16,7 +16,7 @@ endif
 
 # Compiling macros
 
-NAME = libfsml.so
+NAME = libsfml.so
 
 CXX = clang++
 CXXFLAGS = -std=c++11 -Wall -Werror -Wextra
