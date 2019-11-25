@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:54:55 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/22 11:30:57 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/25 16:41:50 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,20 @@
 
 class SnakeHead: public Snake {
 public:
-	SnakeHead(int x, int y, int tail_x, int tail_y);
+	SnakeHead(int x, int y, size_t tail_x, size_t tail_y);
 	SnakeHead(SnakeHead const & rhs);
 	virtual ~SnakeHead(void);
 
 	virtual IEntity *			clone(void) const;
 	virtual char				get_symbol(void) const;
-	std::array<int, 2>			get_tail(void) const;
-	void						forward_tail(int x, int y);
+	std::array<size_t, 2>		get_tail(void) const;
+	void						set_tail(std::array<size_t, 2> pos);
 
 private:
 	SnakeHead(void);
 	SnakeHead const &			operator=(SnakeHead const & rhs) const;
 
-	std::array<int, 2>			tail;	
+	std::array<size_t, 2>		tail;	
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:54:55 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/22 13:34:28 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/25 16:56:43 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ public:
 	virtual char				get_symbol(void) const;
 	std::array<int, 2>			get_dir() const;
 	void						set_dir(int x, int y);
+	std::array<size_t, 2>		get_dest(size_t x, size_t y) const;
 
 private:
 	Snake(void);

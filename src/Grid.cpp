@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:51:59 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/22 13:43:56 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/25 17:02:50 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,26 +77,57 @@ void			Grid::print(void) const {
 }
 
 bool			Grid::move_head(int x, int y) {
-	std::array<int, 2>	tail_pos = this->head->get_tail();
-	Snake *				tail = dynamic_cast<Snake *>( \
-							this->entities[tail_pos[1] * this->width \
-								+ tail_pos[0]]);
-	std::array<int, 2>	tail_dir = tail->get_dir();
+	size_t		collid_x = this->head_pos[0] + x;
+	size_t		collid_y = this->head_pos[1] + y;
+	size_t		collid_pos = this->clampPos(collid_x, collid_y);
+	IEntity *	collider = this->entities[collid_pos];
 
-	this->head->forward_tail(tail_dir[0], tail_dir[1]);
+	if (collider != NULL) { 
+		if (collider->collide()) {
+			return false;
+		} else {
+			this->growSnake(x, y);
+		}
+	} else {
+		this->updateTail(x, y);
+	}
+	this->updateHead(x, y);
+	return true;
+}
+
+void			Grid::growSnake(int x, int y) {
+	size_t	pos = this->clampPos(this->head_pos[0], this->head_pos[1]);
+	 
+	this->entities[pos] = new Snake(x, y);
+}
+
+void			Grid::updateTail(int x, int y) {
+	std::array<size_t, 2>	tail_pos = this->head->get_tail();
+	Snake *					tail = dynamic_cast<Snake *>( \
+								this->entities[tail_pos[1] * this->width \
+									+ tail_pos[0]]);
+	std::array<size_t, 2>	new_pos = tail->get_dest(tail_pos[0], tail_pos[1]);
+
+	this->clampPos(new_pos[0], new_pos[1]);
+	this->head->set_tail(new_pos);
 	tail->set_dir(x, y);
 	this->entities[this->head_pos[0] + this->head_pos[1] * this->width] = tail;
 	this->entities[tail_pos[0] + tail_pos[1] * this->width] = NULL;
+}
+
+void			Grid::updateHead(int x, int y) {
 	this->head_pos[0] = this->head_pos[0] + x;
 	this->head_pos[1] = this->head_pos[1] + y;
-	IEntity *			collider = this->entities[this->head_pos[0] \
-							+ this->head_pos[1] * this->width];
-	if (collider != NULL && collider->collide()) {
-		delete this->head;
-		this->head = NULL;
-		return false;
+	size_t	pos = this->clampPos(this->head_pos[0], this->head_pos[1]);
+	this->entities[pos] = this->head;
+}
+
+size_t			Grid::clampPos(size_t &x, size_t &y) const {
+	if (x >= this->width) {
+		x = 0;
 	}
-	this->entities[this->head_pos[0] + this->head_pos[1] \
-		* this->width] = this->head;
-	return true;
+	if (y >= this->height) {
+		y = 0;
+	}
+	return x + y * this->width;
 }
