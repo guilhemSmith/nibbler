@@ -24,6 +24,8 @@ public:
 	sf::RenderWindow	*getWindow(void) const;
 	void			displayGameWindow(void);
 	void			sayHello(std::string name);
+	void			eventLoop(void);
+	void			swapDisplay(int newDisplay);
 
 private:
 				FSMLDisplay(FSMLDisplay const &src);
@@ -32,9 +34,11 @@ private:
 };
 
 extern "C" {
-    IDisplay *createDisplay(void);
-    void deleteDisplay(IDisplay *disp);
-    void sayHello(std::string name);
+    IDisplay			*createDisplay(void);
+    void			deleteDisplay(IDisplay *disp);
+    void			sayHello(std::string name);
+    void			eventLoop(void);
+    void			swapDisplay(int newDisplay);
 }
 
 #endif

@@ -16,9 +16,11 @@
 extern "C" {
     class IDisplay {
     public:
-	virtual void	sayHello(std::string) = 0;
 	virtual 	~IDisplay(void) {};
+	virtual void	sayHello(std::string) = 0;
 	virtual void	displayGameWindow() = 0;
+	virtual void	eventLoop() = 0;		
+	virtual void	swapDisplay(int newDisplay) = 0;
     };
 }
 

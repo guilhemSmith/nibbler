@@ -37,3 +37,13 @@ IDisplay *createDisplay(void) {
 void	deleteDisplay(IDisplay *disp) {
     delete disp;
 }
+
+void	PrintDisplay::swapDisplay(int newDisplay) {
+    std::cout << "must swap display to " << newDisplay << std::endl;
+}
+
+void	PrintDisplay::eventLoop(void) {
+    while (1)
+	;
+}
+

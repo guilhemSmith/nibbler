@@ -22,6 +22,8 @@ public:
  	~PrintDisplay(void);
 	void	displayGameWindow(void);
 	void	sayHello(std::string name);
+	void	eventLoop(void);
+	void	swapDisplay(int newDisplay);
 
 private:
 	PrintDisplay(PrintDisplay const &src);
@@ -32,6 +34,8 @@ extern "C" {
     IDisplay *createDisplay(void);
     void deleteDisplay(IDisplay *disp);
     void sayHello(std::string name);
+    void eventLoop(void);
+    void swapDisplay(int newDisplay);
 }
 
 #endif

@@ -29,6 +29,8 @@ sf::RenderWindow	*FSMLDisplay::getWindow() const {
 
 void	FSMLDisplay::displayGameWindow(void) {
     std::cout << "DisplayGameWindow called from SFML" << std::endl;
+    _window->setPosition(sf::Vector2i(100, 0));
+    _window->clear(sf::Color::Black);
     _window->display();
 }
 
@@ -42,4 +44,30 @@ IDisplay *createDisplay(void) {
 
 void	deleteDisplay(IDisplay *disp) {
     delete disp;
+}
+
+void	FSMLDisplay::swapDisplay(int newDisplay) {
+    //the swap of display must happen in main/outside of the display
+    std::cout << "must swap display to " << newDisplay << std::endl;
+    _window->close();
+}
+
+void	FSMLDisplay::eventLoop(void) {
+    sf::Event event;
+    std::cout << "start event loop"<< std::endl;
+    while (_window->isOpen()) {
+	while (_window->pollEvent(event)) {
+	    if (event.type == sf::Event::Closed
+	    || (event.type == sf::Event::KeyPressed
+		&& event.key.code == sf::Keyboard::Escape))
+		_window->close();
+	    else if (event.type == sf::Event::KeyPressed) {
+		if (event.key.code == sf::Keyboard::Num2) {
+		    FSMLDisplay::swapDisplay(2);
+		}
+	    }
+	    _window->clear(sf::Color::Black);
+	    _window->display();
+	}
+    }
 }

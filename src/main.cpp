@@ -18,6 +18,7 @@
 
 #include "../dyn_lib/libsfml/include/FSMLDisplay.hpp"
 
+#define LIBSDL 0
 #define LIBSFML 1
 #define LIBPRINT 2
 
@@ -41,6 +42,9 @@ IDisplay	*init_display(int starting_lib, void *dl_handle) {
 	    std::cerr << "error occured while loading libprint.so" << std::endl;
 	    return NULL;
 	}
+    }
+    else {
+	return NULL;
     }
     createDisplay = (IDisplay*(*)(void))dlsym(dl_handle, "createDisplay"); 
     disp = createDisplay();
@@ -80,8 +84,8 @@ int		main(int argc, char * argv[]) {
 	}
 	disp->sayHello("world");
 	disp->displayGameWindow();
+	disp->eventLoop();
 
-	//while (1) ;
 	dlclose(dl_handle);
 	return 0;
 }

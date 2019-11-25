@@ -17,7 +17,8 @@ endif
 # Compiling macros
 
 NAME = nibbler
-LIB_A = libprint.so
+LIB_A = ./dyn_lib/libprint/libprint.so
+LIB_B = ./dyn_lib/libsfml/libsfml.so
 
 CXX = clang++
 CXXFLAGS = -std=c++11 -Wall -Werror -Wextra
@@ -47,6 +48,7 @@ INC = -I $(DIR_INC)
 ## lib directories
 
 LIB_A_DIR = dyn_lib/libprint
+LIB_B_DIR = dyn_lib/libsfml
 
 LIB_INC = -I $(LIB_A_DIR)/$(DIR_INC)
 
@@ -76,7 +78,9 @@ PREFIX = $(subst $(S_N),$(S_D),$(WHITE))[$(NAME)] - $(NC)
 .PHONY: all
 all:
 	@Make -C $(LIB_A_DIR) all
+	@Make -C $(LIB_B_DIR) all
 	@Make $(LIB_A)
+	@Make $(LIB_B)
 	@Make $(NAME)
 
 .PHONY: re
