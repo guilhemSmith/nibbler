@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/11/25 14:19:50 by gsmith           ###   ########.fr        #
+#    Updated: 2019/11/25 17:07:10 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,8 @@ FILES_SRC = \
 	Arguments.cpp \
 	Game.cpp \
 	Grid.cpp \
+	Snake.cpp \
+	SnakeHead.cpp \
 	Obstacle.cpp \
 	Apple.cpp
 FILES_BUILD = $(FILES_SRC:.cpp=.o)
@@ -98,7 +100,7 @@ endif
 
 # Binary and object files building
 
-$(NAME):  $(BUILD)
+$(NAME): $(BUILD)
 	@Make -C $(LIB_A_DIR) all
 ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Compiling $(subst $(S_N),$(S_B),$(YELLOW))$(NAME)$(YELLOW) binary...$(NC)\r"

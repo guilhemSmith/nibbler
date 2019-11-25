@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 13:50:21 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/20 13:56:26 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/22 13:34:02 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ public:
 	virtual ~Obstacle(void);
 
 	virtual IEntity *	clone(void) const;
-	virtual bool		is_collider(void) const;
+	virtual bool		collide(void);
 	virtual char		get_symbol(void) const;
 
 private:

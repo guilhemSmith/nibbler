@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 13:52:56 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/20 14:00:01 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/22 13:34:09 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ IEntity *		Obstacle::clone(void) const {
 	return new Obstacle(*this);
 }
 
-bool			Obstacle::is_collider(void) const {
+bool			Obstacle::collide(void) {
 	return true;
 }
 
