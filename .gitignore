@@ -28,3 +28,6 @@
 
 # Executable
 nibbler
+
+#editor files
+.vscode

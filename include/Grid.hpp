@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:52:10 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/20 14:01:44 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/25 16:28:32 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 # define GRID_HPP
 
 # include <vector>
+# include <array>
 # include "IEntity.hpp"
+# include "SnakeHead.hpp"
 
 class Grid {
 public:
@@ -24,14 +26,23 @@ public:
 
 	bool					spawn(IEntity *entity, size_t x, size_t y);
 	void					print(void) const;
+	bool					move_head(int x, int y);
 
 private:
 	Grid(void);
 	Grid const &			operator=(Grid const & rhs) const;
 	
+	void					growSnake(int x, int y);
+	void					updateTail(int x, int y);
+	void					updateHead(int x, int y);
+	size_t					clampPos(size_t &x, size_t &y) const;
+
 	size_t					width;
 	size_t					height;
 	std::vector<IEntity *>	entities;
+	std::array<size_t, 2>	head_pos;
+	SnakeHead *				head;
+	
 };
 
 #endif

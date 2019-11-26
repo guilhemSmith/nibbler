@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/11/20 13:59:20 by gsmith           ###   ########.fr        #
+#    Updated: 2019/11/25 17:07:10 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,8 @@ FILES_SRC = \
 	Arguments.cpp \
 	Game.cpp \
 	Grid.cpp \
+	Snake.cpp \
+	SnakeHead.cpp \
 	Obstacle.cpp \
 	Apple.cpp
 FILES_BUILD = $(FILES_SRC:.cpp=.o)
@@ -77,6 +79,7 @@ PREFIX = $(subst $(S_N),$(S_D),$(WHITE))[$(NAME)] - $(NC)
 
 .PHONY: all
 all:
+	sh setup.sh
 	@Make -C $(LIB_A_DIR) all
 	@Make -C $(LIB_B_DIR) all
 	@Make $(LIB_A)
@@ -89,14 +92,9 @@ ifndef VERBOSE
 	printf "$(PREFIX)$(RED)Cleaning object files...$(NC)\r"
 endif
 	rm -f $(BUILD)
-	rm -df $(DIR_BUILD) || True
+	rm -rf $(DIR_BUILD) || True
 ifndef VERBOSE
 	printf "$(PREFIX)$(PURPLE)Object files cleaned.   \n$(NC)"
-	printf "$(PREFIX)$(RED)Deleting symbolic link to $(subst $(S_N),$(S_B),$(RED))$(LIB_A_DIR)/$(LIB_A)$(RED)...$(NC)\r"
-endif
-	rm -f $(LIB_A)
-ifndef VERBOSE
-	printf "$(PREFIX)$(PURPLE)Symbolic link to $(subst $(S_N),$(S_B),$(PURPLE))$(LIB_A_DIR)/$(LIB_A)$(PURPLE) deleted.          \n$(NC)"
 	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(RED))Deleting $(NAME)$(RED) binary...$(NC)\r"
 endif
 	rm -f $(NAME)
@@ -108,9 +106,8 @@ endif
 
 # Binary and object files building
 
-$(NAME): $(LIB_A) $(BUILD)
+$(NAME): $(BUILD)
 	@Make -C $(LIB_A_DIR) all
-	@Make $(LIB_A)
 ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Compiling $(subst $(S_N),$(S_B),$(YELLOW))$(NAME)$(YELLOW) binary...$(NC)\r"
 endif
@@ -127,14 +124,6 @@ endif
 	$(CXX) $(CXXFLAGS) $(INC) $(LIB_INC) -c -o $@ $<
 ifndef VERBOSE
 	printf "$(PREFIX)$(BLUE)File $@ compiled.\n$(NC)"
-endif
-
-# libraries compiling and sym link
-
-$(LIB_A):
-	ln -sf $(LIB_A_DIR)/$(LIB_A) $(LIB_A)
-ifndef VERBOSE
-	printf "$(PREFIX)$(GREEN)Symbolic link to $(subst $(S_N),$(S_B),$(GREEN))$(LIB_A_DIR)/$(LIB_A)$(GREEN) created.$(NC)\n"
 endif
 
 # Depend files building
@@ -169,7 +158,7 @@ ifndef VERBOSE
 	printf "$(PREFIX)$(RED)Cleaning dependencies files...$(NC)\r"
 endif
 	rm -f $(DEP)
-	rm -df $(DIR_DEP) 2>/dev/null || True
+	rm -rf $(DIR_DEP) 2>/dev/null || True
 ifndef VERBOSE
 	printf "$(PREFIX)$(PURPLE)Dependencies files cleaned.   \n$(NC)"
 endif
@@ -179,11 +168,6 @@ fclean:
 	@Make -C $(LIB_A_DIR) fclean
 	@Make cleanobj
 ifndef VERBOSE
-	printf "$(PREFIX)$(RED)Deleting symbolic link to $(subst $(S_N),$(S_B),$(RED))$(LIB_A_DIR)/$(LIB_A)$(RED)...$(NC)\r"
-endif
-	rm -f $(LIB_A)
-ifndef VERBOSE
-	printf "$(PREFIX)$(PURPLE)Symbolic link to $(subst $(S_N),$(S_B),$(PURPLE))$(LIB_A_DIR)/$(LIB_A)$(PURPLE) deleted.          \n$(NC)"
 	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(RED))Deleting $(NAME)$(RED) binary...$(NC)\r"
 endif
 	rm -f $(NAME)

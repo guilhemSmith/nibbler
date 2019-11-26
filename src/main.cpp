@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:39:49 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/20 14:23:08 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/25 17:03:23 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,18 @@ int		main(int argc, char * argv[]) {
 		game.spawn_obstacle(i, 0);
 		game.spawn_obstacle(i, args.getHeight() - 1);
 	}
-	for (int i = 1; i < args.getHeight() - 1; i++) {
-		game.spawn_obstacle(0, i);
-		game.spawn_obstacle(args.getWidth() - 1, i);
-	}
-	game.spawn_apple(args.getWidth() / 2, args.getHeight() / 2);
+	// for (int i = 1; i < args.getHeight() - 1; i++) {
+	// 	game.spawn_obstacle(0, i);
+	// 	game.spawn_obstacle(args.getWidth() - 1, i);
+	// }
+	game.spawn_obstacle(args.getWidth() / 3, args.getHeight() / 2);
+	game.spawn_apple(args.getWidth() / 2 + 5, args.getHeight() / 2);
+	game.spawn_apple(args.getWidth() / 2 + 6, args.getHeight() / 2);
+	game.spawn_apple(args.getWidth() / 2 + 7, args.getHeight() / 2);
 	game.print_grid();
-
+	std::cout << "score: " << game.get_score() << std::endl;
+	while (game.move(1, 0));
+	game.print_grid();
 	disp = init_display(args.getStartingLib(), dl_handle);
 	if (disp == NULL) {
 	    std::cerr << "Couldn't open the library" << std::endl;
