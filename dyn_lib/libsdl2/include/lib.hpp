@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   system.hpp                                         :+:      :+:    :+:   */
+/*   lib.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/18 15:41:20 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/26 13:13:03 by gsmith           ###   ########.fr       */
+/*   Created: 2019/11/26 13:08:54 by gsmith            #+#    #+#             */
+/*   Updated: 2019/11/26 13:20:30 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SYSTEM_HPP
-# define SYSTEM_HPP
+#ifndef LIB_HPP
+# define LIB_HPP
 
-# include <dlfcn.h>
-# include <iostream>
+# include <SDL2/SDL.h>
+# include "libsdl2.hpp"
 
 #endif

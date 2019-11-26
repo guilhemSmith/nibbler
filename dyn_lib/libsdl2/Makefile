@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/11/26 13:11:43 by gsmith           ###   ########.fr        #
+#    Updated: 2019/11/26 13:14:13 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,12 +16,13 @@ endif
 
 # Compiling macros
 
-NAME = nibbler
+NAME = libsdl2.so
 
 CXX = clang++
 CXXFLAGS = -std=c++11 -Wall -Werror -Wextra
+LIBFLAGS = -shared -fPIC
 
-## directories and files
+## main directories and files
 
 DIR_SRC = src
 DIR_BUILD = build
@@ -29,27 +30,14 @@ DIR_DEP = depend
 DIR_INC = include
 
 FILES_SRC = \
-	main.cpp \
-	Arguments.cpp \
-	Game.cpp \
-	Grid.cpp \
-	Snake.cpp \
-	SnakeHead.cpp \
-	Obstacle.cpp \
-	Apple.cpp
+	lib.cpp
 FILES_BUILD = $(FILES_SRC:.cpp=.o)
 FILES_DEP = $(FILES_SRC:.cpp=.d)
 
 SRC = $(addprefix $(DIR_SRC)/, $(FILES_SRC))
 BUILD = $(addprefix $(DIR_BUILD)/, $(FILES_BUILD))
 DEP = $(addprefix $(DIR_DEP)/, $(FILES_DEP))
-INC = -I $(DIR_INC)
-
-## lib directories
-
-LIB_A_DIR = dyn_lib/libsdl2
-
-LIB_INC = -I $(LIB_A_DIR)/$(DIR_INC)
+INC = -I $(DIR_INC) -I $(HOME)/.brew/include
 
 # Color and output macros
 
@@ -75,10 +63,7 @@ PREFIX = $(subst $(S_N),$(S_D),$(WHITE))[$(NAME)] - $(NC)
 # Build all and rebuild
 
 .PHONY: all
-all:
-	sh setup.sh
-	@Make -C $(LIB_A_DIR) all
-	@Make $(NAME)
+all: $(NAME)
 
 .PHONY: re
 re:
@@ -86,28 +71,26 @@ ifndef VERBOSE
 	printf "$(PREFIX)$(RED)Cleaning object files...$(NC)\r"
 endif
 	rm -f $(BUILD)
-	rm -rf $(DIR_BUILD) || True
+	rm -df $(DIR_BUILD) || True
 ifndef VERBOSE
 	printf "$(PREFIX)$(PURPLE)Object files cleaned.   \n$(NC)"
-	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(RED))Deleting $(NAME)$(RED) binary...$(NC)\r"
+	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(RED))Deleting $(LIBPRINT)$(RED) library...$(NC)\r"
 endif
 	rm -f $(NAME)
 ifndef VERBOSE
-	printf "$(PREFIX)$(PURPLE)Binary $(subst $(S_N),$(S_B),$(PURPLE))$(NAME)$(PURPLE) deleted.          \n$(NC)"
+	printf "$(PREFIX)$(PURPLE)Library $(subst $(S_N),$(S_B),$(PURPLE))$(LIBPRINT)$(PURPLE) deleted.          \n$(NC)"
 endif
-	@Make -C $(LIB_A_DIR) re
 	@Make all
 
 # Binary and object files building
 
 $(NAME): $(BUILD)
-	@Make -C $(LIB_A_DIR) all
 ifndef VERBOSE
-	printf "$(PREFIX)$(YELLOW)Compiling $(subst $(S_N),$(S_B),$(YELLOW))$(NAME)$(YELLOW) binary...$(NC)\r"
+	printf "$(PREFIX)$(YELLOW)Compiling $(subst $(S_N),$(S_B),$(YELLOW))$(NAME)$(YELLOW) library...$(NC)\r"
 endif
-	$(CXX) $(CXXFLAGS) $(INC) $(LIB_INC) -o $@ $^
+	$(CXX) $(CXXFLAGS) $(LIBFLAGS) $(INC) -o $@ $^
 ifndef VERBOSE
-	printf "$(PREFIX)$(BLUE)Binary $(subst $(S_N),$(S_B),$(BLUE))$(NAME)$(BLUE) ready.      \n$(NC)"
+	printf "$(PREFIX)$(BLUE)Library $(subst $(S_N),$(S_B),$(BLUE))$(NAME)$(BLUE) ready.      \n$(NC)"
 endif
 
 $(DIR_BUILD)/%.o: $(DIR_SRC)/%.cpp
@@ -115,7 +98,7 @@ ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Compiling $@...$(NC)\r"
 endif
 	mkdir -p $(DIR_BUILD)
-	$(CXX) $(CXXFLAGS) $(INC) $(LIB_INC) -c -o $@ $<
+	$(CXX) $(CXXFLAGS) $(INC) $(PR_INC) -c -o $@ $<
 ifndef VERBOSE
 	printf "$(PREFIX)$(BLUE)File $@ compiled.\n$(NC)"
 endif
@@ -127,7 +110,7 @@ ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Writing dependency $@...$(NC)\r"
 endif
 	mkdir -p $(DIR_DEP)
-	$(CXX) $(CXXFLAGS) $(INC) $(LIB_INC) -MT $(@:$(DIR_DEP)/%.d=$(DIR_BUILD)/%.o) -MM $< \
+	$(CXX) $(CXXFLAGS) $(INC) -MT $(@:$(DIR_DEP)/%.d=$(DIR_BUILD)/%.o) -MM $< \
 		| sed 's,\(.*\)\.o[ :]*,\1.o $@ : ,g' > $@
 ifndef VERBOSE
 	printf "$(PREFIX)$(CYAN)Dependency $@ updated.  \n$(NC)"
@@ -137,11 +120,6 @@ endif
 
 .PHONY: clean
 clean:
-	@Make -C $(LIB_A_DIR) clean
-	@Make cleanobj
-
-.PHONY: cleanobj
-cleanobj:
 ifndef VERBOSE
 	printf "$(PREFIX)$(RED)Cleaning object files...$(NC)\r"
 endif
@@ -152,15 +130,13 @@ ifndef VERBOSE
 	printf "$(PREFIX)$(RED)Cleaning dependencies files...$(NC)\r"
 endif
 	rm -f $(DEP)
-	rm -rf $(DIR_DEP) 2>/dev/null || True
+	rm -df $(DIR_DEP) 2>/dev/null || True
 ifndef VERBOSE
 	printf "$(PREFIX)$(PURPLE)Dependencies files cleaned.   \n$(NC)"
 endif
 
 .PHONY: fclean
-fclean:
-	@Make -C $(LIB_A_DIR) fclean
-	@Make cleanobj
+fclean: clean
 ifndef VERBOSE
 	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(RED))Deleting $(NAME)$(RED) binary...$(NC)\r"
 endif
