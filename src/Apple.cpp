@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 13:52:56 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/22 13:37:13 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/27 16:51:09 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,24 @@ Apple::Apple(Apple const & rhs): score(rhs.score) {}
 
 Apple::~Apple(void) {}
 
-IEntity *		Apple::clone(void) const {
+IEntity *				Apple::clone(void) const {
 	return new Apple(*this);
 }
 
-bool			Apple::collide(void) {
+bool					Apple::collide(void) {
 	this->increment_score();
 	delete this;
 	return false;
 }
 
-char			Apple::get_symbol(void) const {
+char					Apple::get_symbol(void) const {
 	return '@';
 }
 
-void			Apple::increment_score(void) {
+void					Apple::increment_score(void) {
 	this->score += Apple::value;
+}
+
+IDisplay::EMotif		Apple::get_motif(void) const {
+	return IDisplay::apple;
 }

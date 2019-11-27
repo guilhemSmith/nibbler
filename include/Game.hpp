@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:36 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/22 13:47:45 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/27 16:50:08 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,18 @@ public:
 	void			print_grid(void) const;
 	bool			move(int x, int y);
 	int				get_score(void) const;
+	void			quit_game(void);
+	void			set_display(IDisplay *disp);
+	bool			run(void) const;
 
 private:
 	Game(void);
 	Game const &	operator=(Game const & rhs) const;
 
+	bool			stopped;
 	bool			paused;
 	int				score;
+	IDisplay		*display;
 	Grid			grid;
 };
 

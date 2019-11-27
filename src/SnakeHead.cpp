@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 11:01:05 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/25 16:41:55 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/27 16:50:57 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ std::array<size_t, 2>	SnakeHead::get_tail(void) const {
 	return this->tail;
 }
 
-
-
 void					SnakeHead::set_tail(std::array<size_t, 2> pos) {
 	this->tail = pos;
+}
+
+IDisplay::EMotif		SnakeHead::get_motif(void) const {
+	return IDisplay::snakeHead;
 }
