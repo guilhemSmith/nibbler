@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lib.hpp                                            :+:      :+:    :+:   */
+/*   libsdl2.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/26 13:08:54 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/26 13:20:30 by gsmith           ###   ########.fr       */
+/*   Created: 2019/11/26 13:10:23 by gsmith            #+#    #+#             */
+/*   Updated: 2019/11/27 14:34:55 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIB_HPP
-# define LIB_HPP
+#include "libsdl2.hpp"
 
-# include <SDL2/SDL.h>
-# include "libsdl2.hpp"
+DisplaySDL2 *	createDisplaySDL2(void) {
+	return new DisplaySDL2();
+}
 
-#endif
+void			deleteDisplaySDL2(DisplaySDL2 * display) {
+	delete display;
+}

@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/11/27 13:46:29 by gsmith           ###   ########.fr        #
+#    Updated: 2019/11/27 15:07:06 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ DIR_DEP = depend
 DIR_INC = include
 
 FILES_SRC = \
-	lib.cpp
+	libsdl2.cpp \
+	DisplaySDL2.cpp
 FILES_BUILD = $(FILES_SRC:.cpp=.o)
 FILES_DEP = $(FILES_SRC:.cpp=.d)
 
