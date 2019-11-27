@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:39:49 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 13:52:33 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/11/27 13:58:37 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,11 @@ int		main(int argc, char * argv[]) {
 	for (int i = 0; i < args.getWidth(); i++){
 		game.spawn_obstacle(i, 0);
 		game.spawn_obstacle(i, args.getHeight() - 1);
+	}
+
+	for (int i = 1; i < args.getHeight() - 1; i++) {
+		game.spawn_obstacle(0, i);
+		game.spawn_obstacle(args.getWidth() - 1, i);
 	}
 
 	game.spawn_obstacle(args.getWidth() / 3, args.getHeight() / 2);
