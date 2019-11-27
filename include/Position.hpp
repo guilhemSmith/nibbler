@@ -6,13 +6,15 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 11:39:21 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 12:09:05 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/27 13:09:36 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #ifndef POSITION_HPP
 # define POSITION_HPP
+
+# include <cstddef>
 
 class Position {
 public:

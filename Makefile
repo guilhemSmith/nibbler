@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/11/27 13:07:46 by gsmith           ###   ########.fr        #
+#    Updated: 2019/11/27 13:33:37 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,10 @@ NAME = nibbler
 
 CXX = clang++
 CXXFLAGS = -std=c++11 -Wall -Werror -Wextra
+
+# lib builder and cleaner
+
+WIZARD = LibWizard.sh
 
 ## directories and files
 
@@ -44,13 +48,6 @@ SRC = $(addprefix $(DIR_SRC)/, $(FILES_SRC))
 BUILD = $(addprefix $(DIR_BUILD)/, $(FILES_BUILD))
 DEP = $(addprefix $(DIR_DEP)/, $(FILES_DEP))
 INC = -I $(DIR_INC)
-
-## lib directories
-
-LIB_DIR_B = dyn_lib/libsdl2
-
-# LIB_DIR_A = -I dyn_lib/libsfml
-LIB_INC_B = -I $(LIB_DIR_B)/$(DIR_INC)
 
 # Color and output macros
 
@@ -77,27 +74,12 @@ PREFIX = $(subst $(S_N),$(S_D),$(WHITE))[$(NAME)] - $(NC)
 
 .PHONY: all
 all:
-	sh setup.sh
-	# @Make -C $(LIB_A_DIR) all
-	@Make -C $(LIB_DIR_B) all
+	sh $(WIZARD)
 	@Make $(NAME)
 
 .PHONY: re
 re:
-ifndef VERBOSE
-	printf "$(PREFIX)$(RED)Cleaning object files...$(NC)\r"
-endif
-	rm -f $(BUILD)
-	rm -rf $(DIR_BUILD) || True
-ifndef VERBOSE
-	printf "$(PREFIX)$(PURPLE)Object files cleaned.   \n$(NC)"
-	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(RED))Deleting $(NAME)$(RED) binary...$(NC)\r"
-endif
-	rm -f $(NAME)
-ifndef VERBOSE
-	printf "$(PREFIX)$(PURPLE)Binary $(subst $(S_N),$(S_B),$(PURPLE))$(NAME)$(PURPLE) deleted.          \n$(NC)"
-endif
-	@Make -C $(LIB_DIR_B) re
+	@Make fclean
 	@Make all
 
 # Binary and object files building
@@ -138,7 +120,7 @@ endif
 
 .PHONY: clean
 clean:
-	@Make -C $(LIB_DIR_B) clean
+	sh $(WIZARD) clean
 	@Make cleanobj
 
 .PHONY: cleanobj
@@ -160,7 +142,7 @@ endif
 
 .PHONY: fclean
 fclean:
-	@Make -C $(LIB_DIR_B) fclean
+	sh $(WIZARD) fclean
 	@Make cleanobj
 ifndef VERBOSE
 	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(RED))Deleting $(NAME)$(RED) binary...$(NC)\r"
