@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 14:25:22 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 17:23:45 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/27 18:09:59 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,16 @@ public:
 	class SDL2Except: std::exception {
 	public:
 		SDL2Except(std::string message);
+		SDL2Except(SDL2Except const & rhs);
+		~SDL2Except(void);
+
+		char const *		what(void) const throw();
+
+	private:
+		SDL2Except(void);
+		SDL2Except const &	operator=(SDL2Except const & rhs);
+
+		std::string			message;
 	};
 	DisplaySDL2(void);
 	DisplaySDL2(DisplaySDL2 const & rhs);

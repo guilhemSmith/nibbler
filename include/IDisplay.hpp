@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 11:19:27 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 17:22:22 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/27 17:28:06 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ public:
 
 	virtual void		newWindow(size_t x, size_t y) = 0;
 	virtual void		refreshDisplay(void) = 0;
-	virtual void		drawStatic(size_t x, size_t y, EMotif motif) = 0;
+	virtual void		drawStatic(t_position pos, EMotif motif) = 0;
 	virtual void		drawMobile(t_position start, t_position stop, \
 							EMotif color, int progression) = 0;
 	virtual void		drawScore(int score) = 0;
