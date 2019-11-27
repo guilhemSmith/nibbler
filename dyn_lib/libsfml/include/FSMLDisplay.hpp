@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:20:13 by tbehra            #+#    #+#             */
-/*   Updated: 2019/11/27 17:13:18 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/11/27 17:26:11 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ public:
 
 	void				newWindow(size_t x, size_t y);
 	void				refreshDisplay(void);
-	void				drawStatic(Position pos, EMotif motif);
-	void				drawMobile(Position start, Position stop, \
+	void				drawStatic(t_position pos, EMotif motif);
+	void				drawMobile(t_position start, t_position stop, \
 							EMotif motif, int progression);
 	void				drawScore(int score);
 	EEvent 				pollEvent(void);

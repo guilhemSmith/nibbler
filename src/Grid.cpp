@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:51:59 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 17:10:04 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/11/27 17:27:41 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,16 @@ bool			Grid::spawn(IEntity *entity, size_t x, size_t y) {
 }
 
 void			Grid::print(IDisplay *disp) const {
+	t_position  pos;
 
 	if (disp) {
 		for (size_t i = 0; i < this->entities.size(); i++) {
 			IEntity *	entity = this->entities[i];
 			if (entity != NULL)
 			{
-				IDisplay::EMotif a = entity->get_motif();
-				disp->drawStatic(Position(i % this->width, i / this->width), 
-					entity->get_motif());
+				pos.x = i % this->width;
+				pos.y = i / this->width;
+				disp->drawStatic(pos, entity->get_motif());
 			}
 		}
 		disp->refreshDisplay();

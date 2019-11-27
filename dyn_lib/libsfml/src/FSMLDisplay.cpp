@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:27:47 by tbehra            #+#    #+#             */
-/*   Updated: 2019/11/27 17:09:21 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/11/27 17:30:18 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,10 @@ void	FSMLDisplay::newWindow(size_t x, size_t y) {
 }
 
 void	FSMLDisplay::refreshDisplay(void) {
-	_window->clear(sf::Color::Black);
 	_window->display();
 }
 
-void	FSMLDisplay::drawStatic(Position pos, EMotif motif) {
+void	FSMLDisplay::drawStatic(t_position pos, EMotif motif) {
 	sf::Color color;
 	switch (motif) {
 		case snake:
@@ -69,11 +68,11 @@ void	FSMLDisplay::drawStatic(Position pos, EMotif motif) {
 	}
 	sf::RectangleShape toDraw(sf::Vector2f(WIDTH_CELL, HEIGHT_CELL));
 	toDraw.setFillColor(color);
-	toDraw.setPosition(pos.get_x() * WIDTH_CELL, pos.get_y() * HEIGHT_CELL);
+	toDraw.setPosition(pos.x * WIDTH_CELL, pos.y * HEIGHT_CELL);
 	_window->draw(toDraw);
 }
 
-void	FSMLDisplay::drawMobile(Position start, Position stop, EMotif motif,
+void	FSMLDisplay::drawMobile(t_position start, t_position stop, EMotif motif,
 		int progression)
 {
 	(void)start;

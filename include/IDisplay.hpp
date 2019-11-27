@@ -6,13 +6,14 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 11:19:27 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 16:41:11 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/11/27 17:28:54 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef IDISPLAY_HPP
 # define IDISPLAY_HPP
 
+# include <cstddef>
 # include "Position.hpp"
 
 class IDisplay {
@@ -36,13 +37,13 @@ public:
 		Two,
 		Three,
 	};
-	
+
 	virtual ~IDisplay(void) {};
 
 	virtual void		newWindow(size_t x, size_t y) = 0;
 	virtual void		refreshDisplay(void) = 0;
-	virtual void		drawStatic(Position pos, EMotif motif) = 0;
-	virtual void		drawMobile(Position start, Position stop, \
+	virtual void		drawStatic(t_position pos, EMotif motif) = 0;
+	virtual void		drawMobile(t_position start, t_position stop, \
 							EMotif color, int progression) = 0;
 	virtual void		drawScore(int score) = 0;
 	virtual EEvent 		pollEvent(void) = 0;
