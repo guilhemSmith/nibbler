@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:27:47 by tbehra            #+#    #+#             */
-/*   Updated: 2019/11/27 17:30:18 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/11/27 18:27:50 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ void	FSMLDisplay::refreshDisplay(void) {
 	_window->display();
 }
 
+void	FSMLDisplay::clearDisplay(void) {
+	_window->clear(sf::Color::Black);
+}
+
 void	FSMLDisplay::drawStatic(t_position pos, EMotif motif) {
 	sf::Color color;
 	switch (motif) {
@@ -84,6 +88,7 @@ void	FSMLDisplay::drawMobile(t_position start, t_position stop, EMotif motif,
 void	FSMLDisplay::drawScore(int score) {
 	(void)score;
 }
+
 
 FSMLDisplay::EEvent FSMLDisplay::pollEvent(void) {
 	sf::Event event;

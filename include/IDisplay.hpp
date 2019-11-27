@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 11:19:27 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 17:28:54 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/11/27 18:08:14 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ public:
 	virtual ~IDisplay(void) {};
 
 	virtual void		newWindow(size_t x, size_t y) = 0;
+	virtual void		clearDisplay(void) = 0;
 	virtual void		refreshDisplay(void) = 0;
 	virtual void		drawStatic(t_position pos, EMotif motif) = 0;
 	virtual void		drawMobile(t_position start, t_position stop, \

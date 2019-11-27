@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:20:13 by tbehra            #+#    #+#             */
-/*   Updated: 2019/11/27 17:26:11 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/11/27 18:08:42 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include <SFML/Graphics.hpp>
 # include "IDisplay.hpp"
 
-# define WIDTH_CELL 50
-# define HEIGHT_CELL 50
+# define WIDTH_CELL 30
+# define HEIGHT_CELL 30
 
 class	FSMLDisplay: public IDisplay {
 public:
@@ -26,6 +26,7 @@ public:
  	~FSMLDisplay(void);
 
 	void				newWindow(size_t x, size_t y);
+	void				clearDisplay(void);
 	void				refreshDisplay(void);
 	void				drawStatic(t_position pos, EMotif motif);
 	void				drawMobile(t_position start, t_position stop, \

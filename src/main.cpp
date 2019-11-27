@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:39:49 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 16:51:46 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/11/27 18:27:46 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ IDisplay	*init_display(int starting_lib, void **dl_handle) {
     return (disp);
 }
 
-//TODO:  get rid of C style casts (createDisplay, deleteDisplay)
+//TODO: get rid of C style casts (createDisplay, deleteDisplay)
 //TODO: remplacer !disp et !deleteDisplay par try catch ?
 //TODO: passer initialize en methode
 void	initialize(Game &game, int width, int height) {
@@ -66,6 +66,8 @@ int		main(int argc, char * argv[]) {
 	void				(*deleteDisplay)(IDisplay *disp);
 	void				*dl_handle = nullptr;
 	IDisplay::EEvent	event;
+	int					mov_x;
+	int					mov_y;
 	
 	try {
 		args.init(argc, argv);
@@ -91,6 +93,8 @@ int		main(int argc, char * argv[]) {
 	disp->refreshDisplay();
 	game.set_display(disp);
 
+	mov_x = 1;
+	mov_y = 0;
 	while (game.run()) {
 		while ((event = disp->pollEvent()) != IDisplay::None) {
 			std::cout << "Event : " << event << std::endl;
@@ -98,7 +102,25 @@ int		main(int argc, char * argv[]) {
 				game.quit_game();
 				break;
 			}
+			if (event == IDisplay::Up && mov_x != 0) {
+				mov_x = 0;
+				mov_y = -1;
+			}
+			if (event == IDisplay::Down && mov_x != 0) {
+				mov_x = 0;
+				mov_y = 1;
+			}
+			if (event == IDisplay::Left && mov_y != 0) {
+				mov_x = -1;
+				mov_y = 0;
+			}
+			if (event == IDisplay::Right && mov_y != 0) {
+				mov_x = 1;
+				mov_y = 0;
+			}
 		}
+		usleep(300000);
+		game.move(mov_x, mov_y);	
 	}
 	deleteDisplay(disp);
 	dlclose(dl_handle);

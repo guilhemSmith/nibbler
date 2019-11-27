@@ -6,13 +6,14 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:36 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 16:50:08 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/11/27 17:59:55 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_HPP
 # define GAME_HPP
 
+# include <unistd.h>
 # include "Grid.hpp"
 
 class Game {
