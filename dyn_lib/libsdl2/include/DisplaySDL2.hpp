@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 14:25:22 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 15:06:48 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/27 16:53:49 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 
 class DisplaySDL2: IDisplay {
 public:
+	class SDL2Except: IDisplay::DisplayExcept {
+	public:
+		SDL2Except(std::string message);
+	};
 	DisplaySDL2(void);
 	DisplaySDL2(DisplaySDL2 const & rhs);
 	~DisplaySDL2(void);
@@ -32,6 +36,11 @@ public:
 	void				drawScore(int score);
 	EEvent 				pollEvent(void);
 private:
+	size_t				width;
+	size_t				height;
+	SDL_Window *		window;
+
+	static size_t const	cell_size = 30; 
 };
 
 #endif

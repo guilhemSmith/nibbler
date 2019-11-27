@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/11/27 15:07:06 by gsmith           ###   ########.fr        #
+#    Updated: 2019/11/27 17:11:19 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,7 +89,7 @@ $(NAME): $(BUILD)
 ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Compiling $(subst $(S_N),$(S_B),$(YELLOW))$(NAME)$(YELLOW) library...$(NC)\r"
 endif
-	$(CXX) $(CXXFLAGS) $(LIBFLAGS) $(INC) -o $@ $^
+	$(CXX) $(CXXFLAGS) $(LIBFLAGS) $(INC) -L$(HOME)/.brew/lib -lSDL2 -o $@ $^
 ifndef VERBOSE
 	printf "$(PREFIX)$(BLUE)Library $(subst $(S_N),$(S_B),$(BLUE))$(NAME)$(BLUE) ready.      \n$(NC)"
 endif
