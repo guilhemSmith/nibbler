@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:41:20 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/18 16:03:48 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/27 12:11:37 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 # define SYSTEM_HPP
 
 # include <dlfcn.h>
+# include <iostream>
 
 #endif

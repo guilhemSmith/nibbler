@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/11/25 17:07:10 by gsmith           ###   ########.fr        #
+#    Updated: 2019/11/27 12:16:21 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,9 +47,7 @@ INC = -I $(DIR_INC)
 
 ## lib directories
 
-LIB_A_DIR = dyn_lib/libprint
-
-LIB_INC = -I $(LIB_A_DIR)/$(DIR_INC)
+# LIB_DIR_A = -I dyn_lib/libsfml
 
 # Color and output macros
 
@@ -77,7 +75,7 @@ PREFIX = $(subst $(S_N),$(S_D),$(WHITE))[$(NAME)] - $(NC)
 .PHONY: all
 all:
 	sh setup.sh
-	@Make -C $(LIB_A_DIR) all
+	# @Make -C $(LIB_A_DIR) all
 	@Make $(NAME)
 
 .PHONY: re
@@ -101,7 +99,6 @@ endif
 # Binary and object files building
 
 $(NAME): $(BUILD)
-	@Make -C $(LIB_A_DIR) all
 ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Compiling $(subst $(S_N),$(S_B),$(YELLOW))$(NAME)$(YELLOW) binary...$(NC)\r"
 endif
