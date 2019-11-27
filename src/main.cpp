@@ -6,12 +6,11 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:39:49 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/26 13:13:32 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/27 13:05:17 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "system.hpp"
-#include "libsdl2.hpp"
 #include "Arguments.hpp"
 #include "Game.hpp"
 

@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/11/26 13:11:43 by gsmith           ###   ########.fr        #
+#    Updated: 2019/11/27 13:07:46 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,9 +47,10 @@ INC = -I $(DIR_INC)
 
 ## lib directories
 
-LIB_A_DIR = dyn_lib/libsdl2
+LIB_DIR_B = dyn_lib/libsdl2
 
-LIB_INC = -I $(LIB_A_DIR)/$(DIR_INC)
+# LIB_DIR_A = -I dyn_lib/libsfml
+LIB_INC_B = -I $(LIB_DIR_B)/$(DIR_INC)
 
 # Color and output macros
 
@@ -77,7 +78,8 @@ PREFIX = $(subst $(S_N),$(S_D),$(WHITE))[$(NAME)] - $(NC)
 .PHONY: all
 all:
 	sh setup.sh
-	@Make -C $(LIB_A_DIR) all
+	# @Make -C $(LIB_A_DIR) all
+	@Make -C $(LIB_DIR_B) all
 	@Make $(NAME)
 
 .PHONY: re
@@ -95,13 +97,12 @@ endif
 ifndef VERBOSE
 	printf "$(PREFIX)$(PURPLE)Binary $(subst $(S_N),$(S_B),$(PURPLE))$(NAME)$(PURPLE) deleted.          \n$(NC)"
 endif
-	@Make -C $(LIB_A_DIR) re
+	@Make -C $(LIB_DIR_B) re
 	@Make all
 
 # Binary and object files building
 
 $(NAME): $(BUILD)
-	@Make -C $(LIB_A_DIR) all
 ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Compiling $(subst $(S_N),$(S_B),$(YELLOW))$(NAME)$(YELLOW) binary...$(NC)\r"
 endif
@@ -137,7 +138,7 @@ endif
 
 .PHONY: clean
 clean:
-	@Make -C $(LIB_A_DIR) clean
+	@Make -C $(LIB_DIR_B) clean
 	@Make cleanobj
 
 .PHONY: cleanobj
@@ -159,7 +160,7 @@ endif
 
 .PHONY: fclean
 fclean:
-	@Make -C $(LIB_A_DIR) fclean
+	@Make -C $(LIB_DIR_B) fclean
 	@Make cleanobj
 ifndef VERBOSE
 	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(RED))Deleting $(NAME)$(RED) binary...$(NC)\r"
