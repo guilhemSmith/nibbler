@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 11:19:27 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 12:08:57 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/27 16:15:29 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define IDISPLAY_HPP
 
 # include "Position.hpp"
-
+# include <exception>
+# include <string>
 
 class IDisplay {
 public:
@@ -37,7 +38,22 @@ public:
 		Two,
 		Three,
 	};
-	
+
+	class DisplayExcept: std::exception {
+	public:
+		DisplayExcept(void);
+		DisplayExcept(DisplayExcept const & rhs);
+		virtual ~DisplayExcept(void);
+
+		const char *	what(void) const throw();
+
+	protected:
+		std::string		message;
+
+	private:
+		DisplayExcept const &	operator=(DisplayExcept const & );
+	};
+
 	virtual ~IDisplay(void) {};
 
 	virtual void		newWindow(size_t x, size_t y) = 0;
