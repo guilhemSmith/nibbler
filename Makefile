@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/11/25 17:07:10 by gsmith           ###   ########.fr        #
+#    Updated: 2019/11/27 13:48:28 by tbehra           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,7 @@ endif
 # Compiling macros
 
 NAME = nibbler
-LIB_A = ./dyn_lib/libprint/libprint.so
-LIB_B = ./dyn_lib/libsfml/libsfml.so
+LIB_A = ./dyn_lib/libsfml/libsfml.so
 
 CXX = clang++
 CXXFLAGS = -std=c++11 -Wall -Werror -Wextra
@@ -49,10 +48,7 @@ INC = -I $(DIR_INC)
 
 ## lib directories
 
-LIB_A_DIR = dyn_lib/libprint
-LIB_B_DIR = dyn_lib/libsfml
-
-LIB_INC = -I $(LIB_A_DIR)/$(DIR_INC)
+LIB_A_DIR = dyn_lib/libsfml
 
 # Color and output macros
 
@@ -80,11 +76,8 @@ PREFIX = $(subst $(S_N),$(S_D),$(WHITE))[$(NAME)] - $(NC)
 .PHONY: all
 all:
 	sh setup.sh
-	@Make -C $(LIB_A_DIR) all
-	@Make -C $(LIB_B_DIR) all
-	@Make $(LIB_A)
-	@Make $(LIB_B)
-	@Make $(NAME)
+	Make -C $(LIB_A_DIR) all
+	Make $(NAME)
 
 .PHONY: re
 re:
@@ -107,11 +100,10 @@ endif
 # Binary and object files building
 
 $(NAME): $(BUILD)
-	@Make -C $(LIB_A_DIR) all
 ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Compiling $(subst $(S_N),$(S_B),$(YELLOW))$(NAME)$(YELLOW) binary...$(NC)\r"
 endif
-	$(CXX) $(CXXFLAGS) $(INC) $(LIB_INC) -o $@ $^
+	$(CXX) $(CXXFLAGS) $(INC) -o $@ $^
 ifndef VERBOSE
 	printf "$(PREFIX)$(BLUE)Binary $(subst $(S_N),$(S_B),$(BLUE))$(NAME)$(BLUE) ready.      \n$(NC)"
 endif
@@ -121,7 +113,7 @@ ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Compiling $@...$(NC)\r"
 endif
 	mkdir -p $(DIR_BUILD)
-	$(CXX) $(CXXFLAGS) $(INC) $(LIB_INC) -c -o $@ $<
+	$(CXX) $(CXXFLAGS) $(INC) -c -o $@ $<
 ifndef VERBOSE
 	printf "$(PREFIX)$(BLUE)File $@ compiled.\n$(NC)"
 endif
@@ -133,7 +125,7 @@ ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Writing dependency $@...$(NC)\r"
 endif
 	mkdir -p $(DIR_DEP)
-	$(CXX) $(CXXFLAGS) $(INC) $(LIB_INC) -MT $(@:$(DIR_DEP)/%.d=$(DIR_BUILD)/%.o) -MM $< \
+	$(CXX) $(CXXFLAGS) $(INC) -MT $(@:$(DIR_DEP)/%.d=$(DIR_BUILD)/%.o) -MM $< \
 		| sed 's,\(.*\)\.o[ :]*,\1.o $@ : ,g' > $@
 ifndef VERBOSE
 	printf "$(PREFIX)$(CYAN)Dependency $@ updated.  \n$(NC)"

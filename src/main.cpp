@@ -6,12 +6,11 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 15:39:49 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/25 17:03:23 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/27 13:52:33 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "system.hpp"
-#include "Print.hpp"
 #include "Arguments.hpp"
 #include "Game.hpp"
 #include "IDisplay.hpp"
@@ -27,25 +26,17 @@ IDisplay	*init_display(int starting_lib, void *dl_handle) {
     IDisplay		*disp;
 
     if (starting_lib == LIBSFML) {
-	dl_handle = dlopen("./dyn_lib/libsfml/libsfml.so",
-		RTLD_LAZY | RTLD_LOCAL);
-	if (!dl_handle) {
-	    std::cerr << "error occured while loading libsfml.so" << std::endl;
-	    return NULL;
-	}
-	//TODO:  get rid of C style casts
-    }
-    else if (starting_lib == LIBPRINT) {
-	dl_handle = dlopen("./dyn_lib/libprint/libprint.so",
-		RTLD_LAZY | RTLD_LOCAL);
-	if (!dl_handle) {
-	    std::cerr << "error occured while loading libprint.so" << std::endl;
-	    return NULL;
-	}
+		dl_handle = dlopen("./dyn_lib/libsfml/libsfml.so",
+			RTLD_LAZY | RTLD_LOCAL);
+		if (!dl_handle) {
+			std::cerr << "error occured while loading libsfml.so" << std::endl;
+			return NULL;
+		}
     }
     else {
-	return NULL;
+		return NULL;
     }
+	//TODO:  get rid of C style casts
     createDisplay = (IDisplay*(*)(void))dlsym(dl_handle, "createDisplay"); 
     disp = createDisplay();
     return (disp);
@@ -55,6 +46,7 @@ int		main(int argc, char * argv[]) {
 	Arguments	args;
 	IDisplay	*disp;	
 	void		*dl_handle = nullptr;
+	EEvent		event;
 	
 	try {
 		args.init(argc, argv);
@@ -65,31 +57,33 @@ int		main(int argc, char * argv[]) {
 	std::cout << "lib: " << args.getStartingLib() \
 		<< "\nwidth: " << args.getWidth() \
 		<< "\nheight: " << args.getHeight() << std::endl;
+
 	Game	game(args.getWidth(), args.getHeight());
 	for (int i = 0; i < args.getWidth(); i++){
 		game.spawn_obstacle(i, 0);
 		game.spawn_obstacle(i, args.getHeight() - 1);
 	}
-	// for (int i = 1; i < args.getHeight() - 1; i++) {
-	// 	game.spawn_obstacle(0, i);
-	// 	game.spawn_obstacle(args.getWidth() - 1, i);
-	// }
+
 	game.spawn_obstacle(args.getWidth() / 3, args.getHeight() / 2);
 	game.spawn_apple(args.getWidth() / 2 + 5, args.getHeight() / 2);
 	game.spawn_apple(args.getWidth() / 2 + 6, args.getHeight() / 2);
 	game.spawn_apple(args.getWidth() / 2 + 7, args.getHeight() / 2);
 	game.print_grid();
 	std::cout << "score: " << game.get_score() << std::endl;
-	while (game.move(1, 0));
-	game.print_grid();
+
 	disp = init_display(args.getStartingLib(), dl_handle);
 	if (disp == NULL) {
+		//TODO: remplacer par try catch
 	    std::cerr << "Couldn't open the library" << std::endl;
 	    return 1;
 	}
-	disp->sayHello("world");
-	disp->displayGameWindow();
-	disp->eventLoop();
+	while (game.move(1, 0)) {
+		disp.newWindow();
+		while ((event = disp.pollEvent()) != None) {
+			std::cout << "Event : " << event << std::endl;
+		}
+		game.print_grid();
+	}
 
 	dlclose(dl_handle);
 	return 0;

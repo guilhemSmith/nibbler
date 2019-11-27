@@ -3,25 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   IDisplay.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/21 17:48:20 by tbehra            #+#    #+#             */
-/*   Updated: 2019/11/21 18:04:54 by tbehra           ###   ########.fr       */
+/*   Created: 2019/11/27 11:19:27 by gsmith            #+#    #+#             */
+/*   Updated: 2019/11/27 13:41:02 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef IDISPLAY_HPP
 # define IDISPLAY_HPP
 
-extern "C" {
-    class IDisplay {
-    public:
-	virtual 	~IDisplay(void) {};
-	virtual void	sayHello(std::string) = 0;
-	virtual void	displayGameWindow() = 0;
-	virtual void	eventLoop() = 0;		
-	virtual void	swapDisplay(int newDisplay) = 0;
-    };
-}
+# include "Position.hpp"
+
+class IDisplay {
+public:
+	enum EMotif {
+		obstacle,
+		apple,
+		snake,
+		snakeHead,
+	};
+
+	enum EEvent {
+		None,
+		Quit,
+		Up,
+		Down,
+		Left,
+		Right,
+		Pause,
+		One,
+		Two,
+		Three,
+	};
+	
+	virtual ~IDisplay(void) {};
+
+	virtual void		newWindow(size_t x, size_t y) = 0;
+	virtual void		refreshDisplay(void) = 0;
+	virtual void		drawStatic(Position pos, EMotif motif) = 0;
+	virtual void		drawMobile(Position start, Position stop, \
+							EMotif color, int progression) = 0;
+	virtual void		drawScore(int score) = 0;
+	virtual EEvent 		pollEvent(void) = 0;
+};
 
 #endif
