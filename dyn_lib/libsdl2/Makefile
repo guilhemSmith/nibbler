@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/11/26 13:14:13 by gsmith           ###   ########.fr        #
+#    Updated: 2019/11/27 13:46:29 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ FILES_DEP = $(FILES_SRC:.cpp=.d)
 SRC = $(addprefix $(DIR_SRC)/, $(FILES_SRC))
 BUILD = $(addprefix $(DIR_BUILD)/, $(FILES_BUILD))
 DEP = $(addprefix $(DIR_DEP)/, $(FILES_DEP))
-INC = -I $(DIR_INC) -I $(HOME)/.brew/include
+INC = -I $(DIR_INC) -I $(HOME)/.brew/include -I ../../$(DIR_INC)
 
 # Color and output macros
 
