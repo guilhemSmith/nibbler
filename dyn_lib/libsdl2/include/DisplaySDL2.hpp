@@ -6,19 +6,21 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 14:25:22 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 16:53:49 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/27 17:23:45 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DISPLAYSDL2_HPP
 # define DISPLAYSDL2_HPP
 
+# include <exception>
+# include <string>
 # include <SDL2/SDL.h>
 # include "IDisplay.hpp"
 
 class DisplaySDL2: IDisplay {
 public:
-	class SDL2Except: IDisplay::DisplayExcept {
+	class SDL2Except: std::exception {
 	public:
 		SDL2Except(std::string message);
 	};
@@ -30,8 +32,8 @@ public:
 
 	void				newWindow(size_t x, size_t y);
 	void				refreshDisplay(void);
-	void				drawStatic(Position pos, EMotif motif);
-	void				drawMobile(Position start, Position stop, \
+	void				drawStatic(t_position pos, EMotif motif);
+	void				drawMobile(t_position start, t_position stop, \
 							EMotif color, int progression);
 	void				drawScore(int score);
 	EEvent 				pollEvent(void);
