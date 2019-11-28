@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:54:42 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/25 16:57:43 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/27 16:50:38 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,8 @@ void					Snake::set_dir(int x, int y) {
 
 std::array<size_t, 2>	Snake::get_dest(size_t x, size_t y) const {
 	return {x + this->dir[0], y + this->dir[1]}; 
+}
+
+IDisplay::EMotif		Snake::get_motif(void) const {
+	return IDisplay::snake;
 }

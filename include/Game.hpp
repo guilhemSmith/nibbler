@@ -6,27 +6,22 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:36 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/22 13:47:45 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/28 17:37:01 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_HPP
 # define GAME_HPP
 
+#include "Loader.hpp"
 # include "Grid.hpp"
 
 class Game {
 public:
-	Game(size_t width, size_t height);
-	Game(Game const & rhs);
+	Game(int lib, size_t width, size_t height);
 	~Game(void);
 
-	bool			spawn_obstacle(size_t x, size_t y);
-	bool			spawn_apple(size_t x, size_t y);
-	bool			spawn_snake(size_t x, size_t y, int dir_x, int dir_y);
-	void			print_grid(void) const;
-	bool			move(int x, int y);
-	int				get_score(void) const;
+	bool			run(void);
 
 private:
 	Game(void);
@@ -34,7 +29,12 @@ private:
 
 	bool			paused;
 	int				score;
+	Loader			loader;
 	Grid			grid;
+	
+	bool			spawn_obstacle(size_t x, size_t y);
+	bool			spawn_apple(size_t x, size_t y);
+	bool			spawn_snake(size_t x, size_t y, int dir_x, int dir_y);
 };
 
 #endif
