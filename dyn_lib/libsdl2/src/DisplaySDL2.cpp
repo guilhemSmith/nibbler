@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/28 15:07:25 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/28 17:54:33 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,10 @@ void				DisplaySDL2::newWindow(size_t x, size_t y) {
 		throw SDL2Except("Failed to create an SDL2 window");
 	}
 	this->surf = SDL_GetWindowSurface(this->wind);
+	this->clearDisplay();
+}
+
+void				DisplaySDL2::clearDisplay(void) {
 	SDL_FillRect( this->surf, NULL, \
 		SDL_MapRGB(this->surf->format, 0x00, 0x00, 0x00));
 	this->refreshDisplay();

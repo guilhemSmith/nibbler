@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 14:25:22 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/28 15:06:33 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/28 17:57:54 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <map>
 # include "IDisplay.hpp"
 
-class DisplaySDL2: IDisplay {
+class DisplaySDL2: public IDisplay {
 public:
 	class SDL2Except: std::exception {
 	public:
@@ -42,6 +42,7 @@ public:
 	DisplaySDL2 const &	operator=(DisplaySDL2 const & rhs);
 
 	void				newWindow(size_t x, size_t y);
+	void				clearDisplay(void);
 	void				refreshDisplay(void);
 	void				drawStatic(t_position pos, EMotif motif);
 	void				drawMobile(t_position start, t_position stop, \
@@ -57,7 +58,7 @@ private:
 	EEvent				pollWindowEvent(SDL_Event event);
 	EEvent				pollKeyDownEvent(SDL_Event event);
 
-	static size_t const	cell_size = 10;
+	static size_t const	cell_size = 16;
 	static std::map<SDL_Scancode, EEvent> const keyMap;
 };
 

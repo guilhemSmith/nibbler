@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 13:08:14 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 14:34:46 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/28 17:56:27 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # include "DisplaySDL2.hpp" 
 
 extern "C" {
-	DisplaySDL2 *	createDisplaySDL2(void);
-	void			deleteDisplaySDL2(DisplaySDL2 * display);
+	IDisplay *		createDisplay(void);
+	void			deleteDisplay(IDisplay * display);
 }
 
 #endif
