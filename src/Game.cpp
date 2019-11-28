@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/22 13:48:46 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/27 15:46:55 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #include "Snake.hpp"
 #include "Obstacle.hpp"
 
-Game::Game(size_t width, size_t height): paused(false), score(0), \
-				grid(Grid(width, height)) {}
+Game::Game(size_t width, size_t height): stopped(false), paused(false), \
+				 score(0), grid(Grid(width, height)){}
 
 Game::~Game(void) {}
 
@@ -54,7 +54,7 @@ bool			Game::spawn_snake(size_t x, size_t y, int dir_x, int dir_y) {
 }
 
 void			Game::print_grid(void) const {
-	this->grid.print();
+	this->grid.print(this->display);
 }
 
 bool			Game::move(int x, int y) {
@@ -63,4 +63,20 @@ bool			Game::move(int x, int y) {
 
 int				Game::get_score(void) const {
 	return this->score;
+}
+
+
+void			Game::quit_game(void) {
+	this->stopped = true;
+}
+
+bool			Game::run(void) const {
+	if (this->stopped)
+		return false;
+	this->print_grid();
+	return true;
+}
+
+void			Game::set_display(IDisplay *disp) {
+	this->display = disp;
 }

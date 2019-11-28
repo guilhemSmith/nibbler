@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:54:55 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/25 16:41:50 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/27 16:48:36 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ public:
 
 	virtual IEntity *			clone(void) const;
 	virtual char				get_symbol(void) const;
+	IDisplay::EMotif			get_motif(void) const;
+
 	std::array<size_t, 2>		get_tail(void) const;
 	void						set_tail(std::array<size_t, 2> pos);
 

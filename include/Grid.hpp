@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:52:10 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/25 16:28:32 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/27 15:47:25 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ public:
 	~Grid(void);
 
 	bool					spawn(IEntity *entity, size_t x, size_t y);
-	void					print(void) const;
+	void					print(IDisplay *disp) const;
 	bool					move_head(int x, int y);
 
 private:

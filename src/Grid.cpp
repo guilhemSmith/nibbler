@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:51:59 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/25 17:02:50 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/27 18:27:48 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,36 @@ bool			Grid::spawn(IEntity *entity, size_t x, size_t y) {
 	return false;
 }
 
-void			Grid::print(void) const {
-	for (size_t i = 0; i < this->entities.size(); i++) {
-		IEntity *	entity = this->entities[i];
-		if (i % this->width == 0) {
-			std::cout << '\n';
+void			Grid::print(IDisplay *disp) const {
+	t_position  pos;
+
+	if (disp) {
+		disp->clearDisplay();
+		for (size_t i = 0; i < this->entities.size(); i++) {
+			IEntity *	entity = this->entities[i];
+			if (entity != NULL)
+			{
+				pos.x = i % this->width;
+				pos.y = i / this->width;
+				disp->drawStatic(pos, entity->get_motif());
+			}
 		}
-		if (entity == NULL) {
-			std::cout << ' ';
-		} else {
-			std::cout << entity->get_symbol();
-		}
+		disp->refreshDisplay();
 	}
-	std::cout << std::endl;
+	else {
+		for (size_t i = 0; i < this->entities.size(); i++) {
+			IEntity *	entity = this->entities[i];
+			if (i % this->width == 0) {
+				std::cout << '\n';
+			}
+			if (entity == NULL) {
+				std::cout << ' ';
+			} else {
+				std::cout << entity->get_symbol();
+			}
+		}
+		std::cout << std::endl;
+	}
 }
 
 bool			Grid::move_head(int x, int y) {
@@ -97,15 +114,15 @@ bool			Grid::move_head(int x, int y) {
 
 void			Grid::growSnake(int x, int y) {
 	size_t	pos = this->clampPos(this->head_pos[0], this->head_pos[1]);
-	 
+
 	this->entities[pos] = new Snake(x, y);
 }
 
 void			Grid::updateTail(int x, int y) {
 	std::array<size_t, 2>	tail_pos = this->head->get_tail();
 	Snake *					tail = dynamic_cast<Snake *>( \
-								this->entities[tail_pos[1] * this->width \
-									+ tail_pos[0]]);
+			this->entities[tail_pos[1] * this->width \
+			+ tail_pos[0]]);
 	std::array<size_t, 2>	new_pos = tail->get_dest(tail_pos[0], tail_pos[1]);
 
 	this->clampPos(new_pos[0], new_pos[1]);
