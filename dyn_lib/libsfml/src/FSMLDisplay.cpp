@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:27:47 by tbehra            #+#    #+#             */
-/*   Updated: 2019/11/27 18:27:50 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/11/28 14:36:01 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@ FSMLDisplay::~FSMLDisplay(void) {
 	delete _window;
 }
 
+const std::map<sf::Keyboard::Key, IDisplay::EEvent> FSMLDisplay::keyboardToEvent = {
+	{sf::Keyboard::Num2, IDisplay::EEvent::Two},
+	{sf::Keyboard::Up, IDisplay::EEvent::Up},
+	{sf::Keyboard::Down, IDisplay::EEvent::Down},
+	{sf::Keyboard::Left, IDisplay::EEvent::Left},
+	{sf::Keyboard::Right, IDisplay::EEvent::Right},
+};
+
 IDisplay *createDisplay(void) {
 	return new FSMLDisplay();
 }
@@ -29,16 +37,11 @@ void	deleteDisplay(IDisplay *disp) {
 
 void	FSMLDisplay::newWindow(size_t x, size_t y) {
 	std::cout << "New window called from SFML" << std::endl;
-	(void)x;
-	(void)y;
-
 	if (_window)
 		_window->close();
 	_window = new sf::RenderWindow(
-			sf::VideoMode((sf::VideoMode::getDesktopMode().width),
-				(sf::VideoMode::getDesktopMode().height)),
+			sf::VideoMode(WIDTH_CELL * x, HEIGHT_CELL * y),
 			"Nibbler - FSML");
-
 	_window->setPosition(sf::Vector2i(100, 0));
 	_window->clear(sf::Color::Black);
 	_window->display();
@@ -90,7 +93,7 @@ void	FSMLDisplay::drawScore(int score) {
 }
 
 
-FSMLDisplay::EEvent FSMLDisplay::pollEvent(void) {
+IDisplay::EEvent FSMLDisplay::pollEvent(void) {
 	sf::Event event;
 	if (!_window->isOpen())
 		return None;
@@ -101,16 +104,12 @@ FSMLDisplay::EEvent FSMLDisplay::pollEvent(void) {
 			return Quit;
 		}
 		if (event.type == sf::Event::KeyPressed) {
-			if (event.key.code == sf::Keyboard::Num2)
-				return Two;
-			if (event.key.code == sf::Keyboard::Up)
-				return Up;
-			if (event.key.code == sf::Keyboard::Down)
-				return Down;
-			if (event.key.code == sf::Keyboard::Left)
-				return Left;
-			if (event.key.code == sf::Keyboard::Right)
-				return Right;
+			try {
+				return this->keyboardToEvent.at(event.key.code);
+			}
+			catch (std::out_of_range &oor) {
+				continue;
+			}
 		}
 	}	
 	return (None);
