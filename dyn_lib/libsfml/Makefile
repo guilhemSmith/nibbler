@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tbehra <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/21 17:25:31 by tbehra            #+#    #+#              #
-#    Updated: 2019/11/21 18:01:43 by tbehra           ###   ########.fr        #
+#    Updated: 2019/11/28 15:37:20 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,16 +31,15 @@ DIR_INC = include
 GAME_INC = ../../include
 
 FILES_SRC = \
-	FSMLDisplay.cpp
+	SFMLDisplay.cpp
 FILES_BUILD = $(FILES_SRC:.cpp=.o)
 FILES_DEP = $(FILES_SRC:.cpp=.d)
 
 SRC = $(addprefix $(DIR_SRC)/, $(FILES_SRC))
 BUILD = $(addprefix $(DIR_BUILD)/, $(FILES_BUILD))
 DEP = $(addprefix $(DIR_DEP)/, $(FILES_DEP))
-INC = -I $(DIR_INC) -I $(GAME_INC)
+INC = -I $(DIR_INC) -I $(GAME_INC) -I ~/.brew/include
 
-SFML = -I ~/.brew/include
 SFMLINK = -L ~/.brew/lib -lsfml-system -lsfml-window -lsfml-graphics -lsfml-network -lsfml-audio -rpath ~/.brew/lib
 
 # Color and output macros
@@ -102,7 +101,7 @@ ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Compiling $@...$(NC)\r"
 endif
 	mkdir -p $(DIR_BUILD)
-	$(CXX) $(CXXFLAGS) $(INC) $(PR_INC) -c -o $@ $< $(SFML)
+	$(CXX) $(CXXFLAGS) $(INC) $(PR_INC) -c -o $@ $<
 ifndef VERBOSE
 	printf "$(PREFIX)$(BLUE)File $@ compiled.\n$(NC)"
 endif
@@ -114,7 +113,7 @@ ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Writing dependency $@...$(NC)\r"
 endif
 	mkdir -p $(DIR_DEP)
-	$(CXX) $(CXXFLAGS) $(INC) -MT $(@:$(DIR_DEP)/%.d=$(DIR_BUILD)/%.o) -MM $(SFML)$< \
+	$(CXX) $(CXXFLAGS) $(INC) -MT $(@:$(DIR_DEP)/%.d=$(DIR_BUILD)/%.o) -MM $< \
 		| sed 's,\(.*\)\.o[ :]*,\1.o $@ : ,g' > $@
 ifndef VERBOSE
 	printf "$(PREFIX)$(CYAN)Dependency $@ updated.  \n$(NC)"

@@ -16,9 +16,9 @@
 #include "IDisplay.hpp"
 
 
-#define LIBSDL 0
-#define LIBSFML 1
-#define LIBPRINT 2
+#define LIBSDL 1
+#define LIBSFML 2
+#define LIB_X 3
 
 IDisplay	*init_display(int starting_lib, void **dl_handle) {
     IDisplay		*(*createDisplay)(void);

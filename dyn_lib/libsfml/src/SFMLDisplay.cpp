@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   FSMLDisplay.cpp                                    :+:      :+:    :+:   */
+/*   SFMLDisplay.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:27:47 by tbehra            #+#    #+#             */
-/*   Updated: 2019/11/28 14:36:01 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/11/28 15:32:43 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "FSMLDisplay.hpp"
+#include "SFMLDisplay.hpp"
 
-FSMLDisplay::FSMLDisplay(void): _window(NULL) {
+SFMLDisplay::SFMLDisplay(void): _window(NULL) {
 }
 
-FSMLDisplay::~FSMLDisplay(void) {
-	delete _window;
+SFMLDisplay::~SFMLDisplay(void) {
+	if (_window != NULL) {
+		_window->close();
+		delete _window;
+	}
 }
 
-const std::map<sf::Keyboard::Key, IDisplay::EEvent> FSMLDisplay::keyboardToEvent = {
+const std::map<sf::Keyboard::Key, IDisplay::EEvent> SFMLDisplay::keyboardToEvent = {
 	{sf::Keyboard::Num2, IDisplay::EEvent::Two},
 	{sf::Keyboard::Up, IDisplay::EEvent::Up},
 	{sf::Keyboard::Down, IDisplay::EEvent::Down},
@@ -28,34 +31,36 @@ const std::map<sf::Keyboard::Key, IDisplay::EEvent> FSMLDisplay::keyboardToEvent
 };
 
 IDisplay *createDisplay(void) {
-	return new FSMLDisplay();
+	return new SFMLDisplay();
 }
 
 void	deleteDisplay(IDisplay *disp) {
 	delete disp;
 }
 
-void	FSMLDisplay::newWindow(size_t x, size_t y) {
+void	SFMLDisplay::newWindow(size_t x, size_t y) {
 	std::cout << "New window called from SFML" << std::endl;
-	if (_window)
+	if (_window) {
 		_window->close();
+		delete _window;
+	}
 	_window = new sf::RenderWindow(
 			sf::VideoMode(WIDTH_CELL * x, HEIGHT_CELL * y),
-			"Nibbler - FSML");
+			"Nibbler - SFML");
 	_window->setPosition(sf::Vector2i(100, 0));
 	_window->clear(sf::Color::Black);
 	_window->display();
 }
 
-void	FSMLDisplay::refreshDisplay(void) {
+void	SFMLDisplay::refreshDisplay(void) {
 	_window->display();
 }
 
-void	FSMLDisplay::clearDisplay(void) {
+void	SFMLDisplay::clearDisplay(void) {
 	_window->clear(sf::Color::Black);
 }
 
-void	FSMLDisplay::drawStatic(t_position pos, EMotif motif) {
+void	SFMLDisplay::drawStatic(t_position pos, EMotif motif) {
 	sf::Color color;
 	switch (motif) {
 		case snake:
@@ -79,7 +84,7 @@ void	FSMLDisplay::drawStatic(t_position pos, EMotif motif) {
 	_window->draw(toDraw);
 }
 
-void	FSMLDisplay::drawMobile(t_position start, t_position stop, EMotif motif,
+void	SFMLDisplay::drawMobile(t_position start, t_position stop, EMotif motif,
 		int progression)
 {
 	(void)start;
@@ -88,19 +93,18 @@ void	FSMLDisplay::drawMobile(t_position start, t_position stop, EMotif motif,
 	(void)progression;
 }	
 
-void	FSMLDisplay::drawScore(int score) {
+void	SFMLDisplay::drawScore(int score) {
 	(void)score;
 }
 
 
-IDisplay::EEvent FSMLDisplay::pollEvent(void) {
+IDisplay::EEvent SFMLDisplay::pollEvent(void) {
 	sf::Event event;
 	if (!_window->isOpen())
 		return None;
 	while (_window->pollEvent(event)) {
 		if (event.type == sf::Event::Closed)
 		{
-			_window->close();
 			return Quit;
 		}
 		if (event.type == sf::Event::KeyPressed) {

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 13:58:27 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/20 14:22:51 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/28 15:23:05 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # include <exception>
 
 // temporary define to be replace with static attribute from lib class or main.
-# define STARTINGLIB_MIN 0
-# define STARTINGLIB_MAX 2
+# define STARTINGLIB_MIN 1
+# define STARTINGLIB_MAX 3
 # define WIDTH_MAX 100
 # define WIDTH_MIN 30
 # define HEIGHT_MAX 100

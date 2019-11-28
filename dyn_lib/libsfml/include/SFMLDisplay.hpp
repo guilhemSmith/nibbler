@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   FSMLDisplay.hpp                                    :+:      :+:    :+:   */
+/*   SFMLDisplay.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:20:13 by tbehra            #+#    #+#             */
-/*   Updated: 2019/11/28 14:33:11 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/11/28 15:32:39 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FSML_DISPLAY_HPP
-# define FSML_DISPLAY_HPP
+#ifndef SFML_DISPLAY_HPP
+# define SFML_DISPLAY_HPP
 
 # include <iostream>
 # include <SFML/Graphics.hpp>
@@ -21,10 +21,10 @@
 # define WIDTH_CELL 30
 # define HEIGHT_CELL 30
 
-class	FSMLDisplay: public IDisplay {
+class	SFMLDisplay: public IDisplay {
 public:
-	FSMLDisplay(void);
- 	~FSMLDisplay(void);
+	SFMLDisplay(void);
+ 	~SFMLDisplay(void);
 
 	void				newWindow(size_t x, size_t y);
 	void				clearDisplay(void);
@@ -36,8 +36,8 @@ public:
 	EEvent 				pollEvent(void);
 
 private:
-	FSMLDisplay(FSMLDisplay const &src);
-	FSMLDisplay 		&operator=(FSMLDisplay const &rhs);
+	SFMLDisplay(SFMLDisplay const &src);
+	SFMLDisplay 		&operator=(SFMLDisplay const &rhs);
 	sf::RenderWindow	*_window;
 	
 	const static std::map<sf::Keyboard::Key, IDisplay::EEvent> keyboardToEvent;
