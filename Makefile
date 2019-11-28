@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/11/27 17:24:23 by tbehra           ###   ########.fr        #
+#    Updated: 2019/11/28 17:26:03 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,8 @@ FILES_SRC = \
 	Snake.cpp \
 	SnakeHead.cpp \
 	Obstacle.cpp \
-	Apple.cpp
+	Apple.cpp \
+	Loader.cpp
 FILES_BUILD = $(FILES_SRC:.cpp=.o)
 FILES_DEP = $(FILES_SRC:.cpp=.d)
 

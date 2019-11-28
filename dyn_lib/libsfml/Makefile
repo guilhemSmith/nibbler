@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/21 17:25:31 by tbehra            #+#    #+#              #
-#    Updated: 2019/11/28 15:37:20 by gsmith           ###   ########.fr        #
+#    Updated: 2019/11/28 16:25:04 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,19 +70,7 @@ all: $(NAME)
 
 .PHONY: re
 re:
-ifndef VERBOSE
-	printf "$(PREFIX)$(RED)Cleaning object files...$(NC)\r"
-endif
-	rm -f $(BUILD)
-	rm -df $(DIR_BUILD) || True
-ifndef VERBOSE
-	printf "$(PREFIX)$(PURPLE)Object files cleaned.   \n$(NC)"
-	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(RED))Deleting $(LIBPRINT)$(RED) library...$(NC)\r"
-endif
-	rm -f $(NAME)
-ifndef VERBOSE
-	printf "$(PREFIX)$(PURPLE)Library $(subst $(S_N),$(S_B),$(PURPLE))$(LIBPRINT)$(PURPLE) deleted.          \n$(NC)"
-endif
+	@Make fclean
 	@Make all
 
 # Binary and object files building

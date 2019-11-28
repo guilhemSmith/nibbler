@@ -6,22 +6,37 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 15:46:55 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/11/28 17:44:23 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
+#include <iostream>
 #include "Game.hpp"
 #include "Apple.hpp"
 #include "Snake.hpp"
 #include "Obstacle.hpp"
 
-Game::Game(size_t width, size_t height): stopped(false), paused(false), \
-				 score(0), grid(Grid(width, height)){}
+Game::Game(int lib, size_t width, size_t height): \
+				paused(false), score(0), loader(lib, width, height), \
+				grid(Grid(width, height)) {
+	for (size_t i = 0; i < width; i++){
+		this->spawn_obstacle(i, 0);
+		this->spawn_obstacle(i, height - 1);
+	}
+
+	for (size_t i = 1; i < height - 1; i++) {
+		this->spawn_obstacle(0, i);
+		this->spawn_obstacle(width - 1, i);
+	}
+
+	this->spawn_obstacle(width / 3, height / 2);
+	this->spawn_apple(width / 2 + 5, height / 2);
+	this->spawn_apple(width / 2 + 6, height / 2);
+	this->spawn_apple(width / 2 + 7, height / 2);
+}
 
 Game::~Game(void) {}
-
-Game::Game(Game const & rhs): paused(rhs.paused), score(rhs.score), \
-				grid(rhs.grid) {}
 
 bool			Game::spawn_obstacle(size_t x, size_t y) {
 	Obstacle *	obs = new Obstacle();
@@ -53,30 +68,36 @@ bool			Game::spawn_snake(size_t x, size_t y, int dir_x, int dir_y) {
 	return true;
 }
 
-void			Game::print_grid(void) const {
-	this->grid.print(this->display);
-}
+bool			Game::run(void) {
+	IDisplay::EEvent	event;
+	static int					mov_x = 0;
+	static int					mov_y = 1;
+	IDisplay *					disp = this->loader.get_display();
 
-bool			Game::move(int x, int y) {
-	return this->grid.move_head(x, y);
-}
-
-int				Game::get_score(void) const {
-	return this->score;
-}
-
-
-void			Game::quit_game(void) {
-	this->stopped = true;
-}
-
-bool			Game::run(void) const {
-	if (this->stopped)
-		return false;
-	this->print_grid();
+	while ((event = disp->pollEvent()) != IDisplay::None) {
+		std::cout << "Event : " << event << std::endl;
+		if (event == IDisplay::Quit) {
+			return false;
+		}
+		if (event == IDisplay::Up && mov_x != 0) {
+			mov_x = 0;
+			mov_y = -1;
+		}
+		if (event == IDisplay::Down && mov_x != 0) {
+			mov_x = 0;
+			mov_y = 1;
+		}
+		if (event == IDisplay::Left && mov_y != 0) {
+			mov_x = -1;
+			mov_y = 0;
+		}
+		if (event == IDisplay::Right && mov_y != 0) {
+			mov_x = 1;
+			mov_y = 0;
+		}
+	}
+	this->grid.move_head(mov_x, mov_y);
+	usleep(300000);
+	this->grid.print(this->loader.get_display());
 	return true;
-}
-
-void			Game::set_display(IDisplay *disp) {
-	this->display = disp;
 }
