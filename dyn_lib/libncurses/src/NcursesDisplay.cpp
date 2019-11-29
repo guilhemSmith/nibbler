@@ -6,17 +6,19 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:17:41 by tbehra            #+#    #+#             */
-/*   Updated: 2019/11/29 15:22:28 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/11/29 16:12:32 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "NcursesDisplay.hpp"
 
 
-NcursesDisplay::NcursesDisplay(void) {
+NcursesDisplay::NcursesDisplay(void): _window(NULL) {
 }
 
 NcursesDisplay::~NcursesDisplay(void) {
+	if (_window != NULL)
+		delwin(_window);
 	endwin();
 }
 
@@ -48,7 +50,6 @@ IDisplay *createDisplay(void) {
 }
 
 void	deleteDisplay(IDisplay *disp) {
-	endwin();
 	delete disp;
 }
 
@@ -61,26 +62,28 @@ void	NcursesDisplay::initColors(void) {
 }
 
 void	NcursesDisplay::newWindow(size_t x, size_t y) {
-	WINDOW	*stdscr = initscr();
-//	SCREEN	*stdscr = newterm(termType, stdin, stdout);
+	initscr();
+	if (_window)
+		delwin(_window);
+	_window = newwin(y, x, 0, 0);
+//	SCREEN	*secscr = newterm(NULL, stdin, stdout);
+
 	initColors();
 	cbreak();
 	noecho();
-	timeout(0);
-	keypad(stdscr, TRUE);
+	wtimeout(_window, 0);
+	keypad(_window, TRUE);
 	curs_set(0);
 //	getmaxyx(stdscr, h, w);
-	(void)x;
-	(void)y;
 }
 
 void	NcursesDisplay::refreshDisplay(void) {
-	refresh();
+	wrefresh(_window);
 }
 
 void	NcursesDisplay::clearDisplay(void) {
-	clear();
-	refresh();
+	wclear(_window);
+	wrefresh(_window);
 }
 
 void	NcursesDisplay::drawStatic(t_position pos, EMotif motif) {
@@ -92,10 +95,10 @@ void	NcursesDisplay::drawStatic(t_position pos, EMotif motif) {
 	catch (std::out_of_range &oor) {
 		return ;
 	}
-	move(pos.y, pos.x);
-	attron(COLOR_PAIR(sym->get_color()));
-	addch(sym->get_sym());
-	attroff(COLOR_PAIR(sym->get_color()));
+	wmove(_window, pos.y, pos.x);
+	wattron(_window, COLOR_PAIR(sym->get_color()));
+	waddch(_window, sym->get_sym());
+	wattroff(_window, COLOR_PAIR(sym->get_color()));
 }
 
 void	NcursesDisplay::drawMobile(t_position start, t_position stop, EMotif motif,
@@ -114,7 +117,7 @@ void	NcursesDisplay::drawScore(int score) {
 IDisplay::EEvent NcursesDisplay::pollEvent(void) {
 	int ch;
 
-	while((ch = getch()) != ERR) {
+	while((ch = wgetch(_window)) != ERR) {
 		try {
 			return this->keyboardToEvent.at(ch);
 		}
