@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:07:40 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/28 17:42:10 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/29 15:03:02 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 class Loader {
 public:
-	class LoaderExcept: std::exception {
+	class LoaderExcept: public std::exception {
 	public:
 		LoaderExcept(std::string message);
 		LoaderExcept(LoaderExcept const & rhs);
