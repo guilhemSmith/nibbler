@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/28 17:54:33 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/29 15:05:26 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,17 @@ std::map<SDL_Scancode, IDisplay::EEvent> const DisplaySDL2::keyMap = {
 	{SDL_SCANCODE_S, Down},
 	{SDL_SCANCODE_LEFT, Left},
 	{SDL_SCANCODE_A, Left},
-	{SDL_SCANCODE_RIGHT, Left},
-	{SDL_SCANCODE_D, Left},
+	{SDL_SCANCODE_RIGHT, Right},
+	{SDL_SCANCODE_D, Right},
 	{SDL_SCANCODE_ESCAPE, Quit},
 };
 
-DisplaySDL2::DisplaySDL2(void): width(0), height(0), wind(NULL), surf(NULL) {
+DisplaySDL2::DisplaySDL2(void): width(0), height(0), wind(NULL), surf(NULL), \
+					motifMap() {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		throw SDL2Except("Failed to init SDL2");
 	}
 }
-
-DisplaySDL2::DisplaySDL2(DisplaySDL2 const & rhs): width(rhs.width), \
-						height(rhs.height), wind(NULL) {}
 
 DisplaySDL2::~DisplaySDL2(void) {
 	if (this->wind != NULL) {
@@ -43,13 +41,6 @@ DisplaySDL2::~DisplaySDL2(void) {
 		this->wind = NULL;
 	}
 	SDL_Quit();
-}
-
-DisplaySDL2 const &	DisplaySDL2::operator=(DisplaySDL2 const & rhs) {
-	this->width = rhs.width;
-	this->height = rhs.height;
-	this->wind = NULL;
-	return *this;
 }
 
 void				DisplaySDL2::newWindow(size_t x, size_t y) {
@@ -68,13 +59,19 @@ void				DisplaySDL2::newWindow(size_t x, size_t y) {
 		throw SDL2Except("Failed to create an SDL2 window");
 	}
 	this->surf = SDL_GetWindowSurface(this->wind);
+	this->motifMap = {
+		{snakeHead, SDL_MapRGB(this->surf->format, 164, 198, 57)},
+		{snake, SDL_MapRGB(this->surf->format, 135, 169, 107)},
+		{apple, SDL_MapRGB(this->surf->format, 227, 38, 54)},
+		{obstacle, SDL_MapRGB(this->surf->format, 159, 129, 112)},
+	};
 	this->clearDisplay();
+	this->refreshDisplay();
 }
 
 void				DisplaySDL2::clearDisplay(void) {
-	SDL_FillRect( this->surf, NULL, \
+	SDL_FillRect(this->surf, NULL, \
 		SDL_MapRGB(this->surf->format, 0x00, 0x00, 0x00));
-	this->refreshDisplay();
 }
 
 void				DisplaySDL2::refreshDisplay(void) {
@@ -84,8 +81,20 @@ void				DisplaySDL2::refreshDisplay(void) {
 }
 
 void				DisplaySDL2::drawStatic(t_position pos, EMotif motif) {
-	(void)pos;
-	(void)motif;
+	Uint32			color;
+	SDL_Rect		rect = {
+		static_cast<int>(pos.x * DisplaySDL2::cell_size),
+		static_cast<int>(pos.y * DisplaySDL2::cell_size),
+		DisplaySDL2::cell_size,
+		DisplaySDL2::cell_size,
+	};
+	
+	try {
+		color = this->motifMap.at(motif);
+	} catch(std::out_of_range oor) {
+		throw SDL2Except("Trying to render an unknown motif");
+	}
+	SDL_FillRect(this->surf, &rect, color);
 }
 
 void				DisplaySDL2::drawMobile(t_position start, t_position stop, \
@@ -133,11 +142,12 @@ IDisplay::EEvent				DisplaySDL2::pollKeyDownEvent(SDL_Event event) {
 
 DisplaySDL2::SDL2Except::SDL2Except(std::string message): message(message) {
 	char const *	err = SDL_GetError();
-	if (err == NULL) {
+	if (err == NULL || err[0] == 0) {
 		this->message += '.';
+	} else {
+		std::string str(err);
+		this->message += ": " + str;
 	}
-	std::string str(err);
-	this->message += ": " + str;
 }
 
 DisplaySDL2::SDL2Except::~SDL2Except(void) {}

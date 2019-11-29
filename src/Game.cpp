@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/29 13:20:32 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/11/29 15:24:25 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,15 @@ bool			Game::run(void) {
 		if (event == IDisplay::Right && mov_y != 0) {
 			mov_x = 1;
 			mov_y = 0;
+		}
+		if (event >= IDisplay::One && event <= IDisplay::Three) {
+			try {
+				this->loader.load_lib(event - IDisplay::One + 1, \
+					this->grid.get_width(), this->grid.get_height());
+			} catch (std::exception & e) {
+				std::cerr << e.what() << std::endl;
+			}
+			disp = this->loader.get_display();
 		}
 	}
 	this->grid.move_head(mov_x, mov_y);

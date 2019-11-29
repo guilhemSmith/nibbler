@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:51:59 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 18:27:48 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/11/29 15:00:14 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,11 @@ void			Grid::print(IDisplay *disp) const {
 			{
 				pos.x = i % this->width;
 				pos.y = i / this->width;
-				disp->drawStatic(pos, entity->get_motif());
+				try {
+					disp->drawStatic(pos, entity->get_motif());
+				} catch (std::exception & e) {
+					std::cerr << e.what() << std::endl;
+				}
 			}
 		}
 		disp->refreshDisplay();
@@ -147,4 +151,12 @@ size_t			Grid::clampPos(size_t &x, size_t &y) const {
 		y = 0;
 	}
 	return x + y * this->width;
+}
+
+size_t					Grid::get_width(void) const {
+	return this->width;
+}
+
+size_t					Grid::get_height(void) const {
+	return this->height;
 }
