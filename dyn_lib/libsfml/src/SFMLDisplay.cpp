@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:27:47 by tbehra            #+#    #+#             */
-/*   Updated: 2019/11/29 15:02:11 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/04 16:01:08 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ SFMLDisplay::SFMLDisplay(void): _window(NULL) {
 
 SFMLDisplay::~SFMLDisplay(void) {
 	if (_window != NULL) {
+		std::cout << "delete sfml window in destructor" << std::endl;
 		_window->close();
 		delete _window;
 	}
@@ -30,6 +31,7 @@ const std::map<sf::Keyboard::Key, IDisplay::EEvent> SFMLDisplay::keyboardToEvent
 	{sf::Keyboard::Down, IDisplay::EEvent::Down},
 	{sf::Keyboard::Left, IDisplay::EEvent::Left},
 	{sf::Keyboard::Right, IDisplay::EEvent::Right},
+	{sf::Keyboard::Escape, IDisplay::EEvent::Quit},
 };
 
 IDisplay *createDisplay(void) {
@@ -41,8 +43,9 @@ void	deleteDisplay(IDisplay *disp) {
 }
 
 void	SFMLDisplay::newWindow(size_t x, size_t y) {
-	std::cout << "New window called from SFML" << std::endl;
+	std::cout << "new window called" << std::endl;
 	if (_window) {
+		std::cout << "delete sfml window in new window" << std::endl;
 		_window->close();
 		delete _window;
 	}
@@ -63,7 +66,9 @@ void	SFMLDisplay::clearDisplay(void) {
 }
 
 void	SFMLDisplay::drawStatic(t_position pos, EMotif motif) {
+	sf::RectangleShape toDraw;
 	sf::Color color;
+
 	switch (motif) {
 		case snake:
 			color = sf::Color::Red;	
@@ -80,7 +85,7 @@ void	SFMLDisplay::drawStatic(t_position pos, EMotif motif) {
 		default:
 			color = sf::Color::Black;
 	}
-	sf::RectangleShape toDraw(sf::Vector2f(WIDTH_CELL, HEIGHT_CELL));
+	toDraw.setSize(sf::Vector2f(WIDTH_CELL, HEIGHT_CELL));
 	toDraw.setFillColor(color);
 	toDraw.setPosition(pos.x * WIDTH_CELL, pos.y * HEIGHT_CELL);
 	_window->draw(toDraw);
@@ -99,10 +104,9 @@ void	SFMLDisplay::drawScore(int score) {
 	(void)score;
 }
 
-
 IDisplay::EEvent SFMLDisplay::pollEvent(void) {
 	sf::Event event;
-	if (!_window->isOpen())
+	if (_window == NULL || !_window->isOpen())
 		return None;
 	while (_window->pollEvent(event)) {
 		if (event.type == sf::Event::Closed)
