@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/29 15:00:07 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/29 15:24:25 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ bool			Game::run(void) {
 	IDisplay *					disp = this->loader.get_display();
 
 	while ((event = disp->pollEvent()) != IDisplay::None) {
-		std::cout << "Event : " << event << std::endl;
 		if (event == IDisplay::Quit) {
 			return false;
 		}
