@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:51:59 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/29 15:00:14 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/04 17:07:16 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,10 +145,16 @@ void			Grid::updateHead(int x, int y) {
 
 size_t			Grid::clampPos(size_t &x, size_t &y) const {
 	if (x >= this->width) {
-		x = 0;
+		if (x == this->width)
+			x = 0;
+		else
+			x = this->width - 1;
 	}
 	if (y >= this->height) {
-		y = 0;
+		if (y == this->height)
+			y = 0;
+		else
+			y = this->height - 1;
 	}
 	return x + y * this->width;
 }
