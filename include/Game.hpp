@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:36 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/05 15:44:26 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/05 16:22:11 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # include "Loader.hpp"
 # include "Grid.hpp"
 # include "Direction.hpp"
-
-# define SPEED_START 5
 
 class Game {
 public:
@@ -32,10 +30,11 @@ private:
 
 	bool				paused;
 	int					score;
+	bool				speedup;
 	Direction			dir;
 	Direction			dir_next;
 	size_t				frame;
-	size_t				speed;
+	size_t				frame_per_cell;
 	Loader				loader;
 	Grid				grid;
 	

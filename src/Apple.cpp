@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 13:52:56 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/05 15:17:43 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/05 16:23:38 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int const		Apple::value = 50;
 
-Apple::Apple(int & score): score(score) {}
+Apple::Apple(int & score, bool & speedup): score(score), speedup(speedup) {}
 
-Apple::Apple(Apple const & rhs): score(rhs.score) {}
+Apple::Apple(Apple const & rhs): score(rhs.score), speedup(rhs.speedup) {}
 
 Apple::~Apple(void) {}
 
@@ -35,6 +35,7 @@ char					Apple::get_symbol(void) const {
 
 void					Apple::increment_score(void) {
 	this->score += Apple::value;
+	this->speedup = true;
 }
 
 IDisplay::EMotif		Apple::get_motif(void) const {

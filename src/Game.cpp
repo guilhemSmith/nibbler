@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/05 15:47:11 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/05 16:23:51 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 #include "Obstacle.hpp"
 
 Game::Game(int lib, size_t width, size_t height): \
-				paused(false), score(0), dir(Direction(0, 1)), \
-				dir_next(Direction(0, 0)), frame(0), speed(SPEED_START), \
+				paused(false), score(0), speedup(false), dir(Direction(0, 1)), \
+				dir_next(Direction(0, 0)), frame(0), frame_per_cell(30), \
 				loader(lib, width, height), grid(Grid(width, height)) {
 	for (size_t i = 0; i < width; i++){
 		this->spawn_obstacle(Position(i, 0));
@@ -44,7 +44,7 @@ bool			Game::spawn_obstacle(Position pos) {
 }
 
 bool			Game::spawn_apple(Position pos) {
-	Apple *	apl = new Apple(this->score);
+	Apple *	apl = new Apple(this->score, this->speedup);
 
 	if (!this->grid.spawn(apl, pos)) {
 		delete apl;
@@ -87,7 +87,7 @@ bool			Game::run(void) {
 		}
 	}
 	this->frame += 1;
-	if (this->frame == this->speed) {
+	if (this->frame == this->frame_per_cell) {
 		this->dir_next.clamp();
 		if (this->dir_next.length() != 0) {
 			if (!this->dir.is_opposed_to(this->dir_next)) {
@@ -98,10 +98,14 @@ bool			Game::run(void) {
 		if (!this->grid.move_head(this->dir)) {
 			stop = true;
 		}
-		frame = 0;
-	} 
+		this->frame = 0;
+		if (this->speedup) {
+			this->frame_per_cell--;
+			this->speedup = false;
+		}
+	}
 	usleep(Game::disp_freq - (time(0) - time_start));
-	this->grid.print(this->loader.get_display(), frame / this->speed);
+	this->grid.print(this->loader.get_display(), frame / this->frame_per_cell);
 	return !stop;
 }
 

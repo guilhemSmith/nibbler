@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 13:50:21 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/05 15:12:03 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/05 16:24:16 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 class Apple: public IEntity {
 public:
-	Apple(int & score);
+	Apple(int & score, bool & speedup);
 	Apple(Apple const & rhs);
 	virtual ~Apple(void);
 
@@ -32,6 +32,7 @@ private:
 	Apple const &	operator=(Apple const & rhs) const;
 
 	int &				score;
+	bool &				speedup;
 
 	void				increment_score(void);
 
