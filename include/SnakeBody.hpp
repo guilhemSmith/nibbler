@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:54:55 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/05 13:06:52 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/05 17:20:42 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ public:
 	virtual bool				collide(void);
 	virtual char				get_symbol(void) const;
 	IDisplay::EMotif			get_motif(void) const;
+	bool						is_mobile(void) const;
 	Direction					get_dir() const;
 	void						set_dir(Direction dir);
 	Position					get_dest(Position pos) const;

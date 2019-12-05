@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 13:52:56 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 16:51:21 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/12/05 17:21:52 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,8 @@ char			Obstacle::get_symbol(void) const {
 
 IDisplay::EMotif	Obstacle::get_motif(void) const {
 	return IDisplay::obstacle;
+}
+
+bool				Obstacle::is_mobile(void) const {
+	return false;
 }

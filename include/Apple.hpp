@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 13:50:21 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/05 16:24:16 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/05 17:21:23 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ public:
 	virtual char		get_symbol(void) const;
 	IDisplay::EMotif	get_motif(void) const;
 	size_t				grow_value(void) const;
+	bool				is_mobile(void) const;
 
 private:
 	Apple(void);

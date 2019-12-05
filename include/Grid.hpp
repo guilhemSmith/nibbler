@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:52:10 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/05 15:18:44 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/05 17:55:34 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ public:
 	bool					move_head(Direction dir);
 	size_t					get_width(void) const;
 	size_t					get_height(void) const;
+	void					set_head_dir(Direction dir) const;
 
 private:
 	Grid(void);

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:51:59 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/05 15:41:12 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/05 17:56:23 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ Grid::Grid(size_t width, size_t height): \
 				width(width), height(height), grow(false), grow_val(0), \
 				entities(std::vector<IEntity *>(width * height)), \
 				head_pos(width / 2, height / 2), head(NULL) {
-	this->head = new SnakeHead(Direction(0, -1), \
+	this->head = new SnakeHead(Direction(0, 1), \
 		Position(this->head_pos.x, head_pos.y - 4));
 	this->entities[this->head_pos.to_index(width)] = this->head;
 	for (int i = 1; i < 4; i++) {
@@ -69,7 +69,7 @@ void			Grid::print(IDisplay *disp, float adv) const {
 		disp->clearDisplay();
 		for (size_t i = 0; i < this->entities.size(); i++) {
 			IEntity *	entity = this->entities[i];
-			if (entity != NULL)
+			if (entity != NULL && !entity->is_mobile())
 			{
 				Position  pos(i % this->width, i / this->width);
 				try {
@@ -79,7 +79,23 @@ void			Grid::print(IDisplay *disp, float adv) const {
 				}
 			}
 		}
-		(void)adv;
+		Position	pos = this->head_pos;
+		Direction	dir = this->head->get_dir();
+		disp->drawMobile(pos, dir, dir, head->get_motif(), adv);
+		pos = this->head->get_tail();
+		SnakeBody *	snk = dynamic_cast<SnakeBody *> \
+			(this->entities[pos.to_index(this->width)]);
+		dir = snk->get_dir();
+		disp->drawMobile(pos, dir, dir, snk->get_motif(), adv);
+		while (snk != this->head) {
+			pos = snk->get_dest(pos);
+			pos.clamp(this->width, this->height);
+			snk = dynamic_cast<SnakeBody *> \
+				(this->entities[pos.to_index(this->width)]);
+			Direction dst = snk->get_dir();
+			disp->drawMobile(pos, dst, dir, snk->get_motif(), adv);
+			dir = dst;
+		}
 		disp->refreshDisplay();
 	}
 }
@@ -171,4 +187,8 @@ size_t			Grid::get_width(void) const {
 
 size_t			Grid::get_height(void) const {
 	return this->height;
+}
+
+void			Grid::set_head_dir(Direction dir) const {
+	this->head->set_dir(dir);
 }

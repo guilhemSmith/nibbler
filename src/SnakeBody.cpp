@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:54:42 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/05 13:07:29 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/05 17:21:02 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,8 @@ Position			SnakeBody::get_dest(Position pos) const {
 
 IDisplay::EMotif	SnakeBody::get_motif(void) const {
 	return IDisplay::snake;
+}
+
+bool				SnakeBody::is_mobile(void) const {
+	return true;
 }

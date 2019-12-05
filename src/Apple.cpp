@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 13:52:56 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/05 16:23:38 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/05 17:22:12 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,8 @@ IDisplay::EMotif		Apple::get_motif(void) const {
 
 size_t				Apple::grow_value(void) const {
 	return 1;
+}
+
+bool				Apple::is_mobile(void) const {
+	return false;
 }

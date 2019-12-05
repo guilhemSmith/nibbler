@@ -28,9 +28,9 @@ public:
 	void				newWindow(size_t x, size_t y);
 	void				clearDisplay(void);
 	void				refreshDisplay(void);
-	void				drawStatic(Position pos, EMotif motif);
-	void				drawMobile(Position start, Position stop, \
-							EMotif motif, int progression);
+	void				drawStatic(Position & pos, EMotif motif);
+	void				drawMobile(Position & pos, Direction & dest, \
+							Direction & from, EMotif motif, float progression);
 	void				drawScore(int score);
 	EEvent 				pollEvent(void);
 

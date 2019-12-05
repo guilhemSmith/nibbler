@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/05 12:03:29 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/05 18:00:56 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void				DisplaySDL2::refreshDisplay(void) {
 	}
 }
 
-void				DisplaySDL2::drawStatic(Position pos, EMotif motif) {
+void				DisplaySDL2::drawStatic(Position & pos, EMotif motif) {
 	Uint32			color;
 	SDL_Rect		rect = {
 		static_cast<int>(pos.x * DisplaySDL2::cell_size),
@@ -97,12 +97,29 @@ void				DisplaySDL2::drawStatic(Position pos, EMotif motif) {
 	SDL_FillRect(this->surf, &rect, color);
 }
 
-void				DisplaySDL2::drawMobile(Position start, Position stop, \
-						EMotif color, int progression) {
-	(void)start;
-	(void)stop;
-	(void)color;
+void				DisplaySDL2::drawMobile(Position & pos, Direction & dest, \
+							Direction & from, EMotif motif, float progression) {
+	(void)dest;
+	(void)from;
 	(void)progression;
+	(void)pos;
+	(void)motif;
+	Uint32			color;
+	SDL_Rect		rect = {
+		static_cast<int>(pos.x * DisplaySDL2::cell_size \
+			+ dest.x * progression * DisplaySDL2::cell_size),
+		static_cast<int>(pos.y * DisplaySDL2::cell_size \
+			+ dest.y * progression * DisplaySDL2::cell_size),
+		DisplaySDL2::cell_size,
+		DisplaySDL2::cell_size,
+	};
+
+	try {
+		color = this->motifMap.at(motif);
+	} catch(std::out_of_range oor) {
+		throw SDL2Except("Trying to render an unknown motif");
+	}
+	SDL_FillRect(this->surf, &rect, color);
 }
 
 void				DisplaySDL2::drawScore(int score) {

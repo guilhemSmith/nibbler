@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:17:41 by tbehra            #+#    #+#             */
-/*   Updated: 2019/12/05 12:03:29 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/05 17:16:35 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	NcursesDisplay::clearDisplay(void) {
 	wrefresh(_window);
 }
 
-void	NcursesDisplay::drawStatic(Position pos, EMotif motif) {
+void	NcursesDisplay::drawStatic(Position & pos, EMotif motif) {
 	Symbol	*sym = NULL;
 
 	try {
@@ -101,11 +101,12 @@ void	NcursesDisplay::drawStatic(Position pos, EMotif motif) {
 	wattroff(_window, COLOR_PAIR(sym->get_color()));
 }
 
-void	NcursesDisplay::drawMobile(Position start, Position stop, EMotif motif,
-		int progression)
+void	NcursesDisplay::drawMobile(Position & pos, Direction & dest, \
+							Direction & from, EMotif motif, float progression)
 {
-	(void)start;
-	(void)stop;
+	(void)pos;
+	(void)dest;
+	(void)from;
 	(void)motif;
 	(void)progression;
 }	
