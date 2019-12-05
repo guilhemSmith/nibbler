@@ -14,6 +14,8 @@
 #include "Arguments.hpp"
 #include "Game.hpp"
 #include "IDisplay.hpp"
+#include <unistd.h>
+#include <iostream>
 
 int		main(int argc, char * argv[]) {
 	Arguments			args;
@@ -27,6 +29,8 @@ int		main(int argc, char * argv[]) {
 	try {
 		Game	game(args.getStartingLib(), args.getWidth(), args.getHeight());
 		while (game.run());
+		std::cout << "Game Over" << std::endl;
+		usleep(5000000);
 	} catch (std::exception e) {
 		std::cerr << e.what() << std::endl;
 		return 1;

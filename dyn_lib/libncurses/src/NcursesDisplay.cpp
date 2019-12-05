@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   NcursesDisplay.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:17:41 by tbehra            #+#    #+#             */
-/*   Updated: 2019/11/29 16:12:32 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/12/05 12:03:29 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	NcursesDisplay::clearDisplay(void) {
 	wrefresh(_window);
 }
 
-void	NcursesDisplay::drawStatic(t_position pos, EMotif motif) {
+void	NcursesDisplay::drawStatic(Position pos, EMotif motif) {
 	Symbol	*sym = NULL;
 
 	try {
@@ -101,7 +101,7 @@ void	NcursesDisplay::drawStatic(t_position pos, EMotif motif) {
 	wattroff(_window, COLOR_PAIR(sym->get_color()));
 }
 
-void	NcursesDisplay::drawMobile(t_position start, t_position stop, EMotif motif,
+void	NcursesDisplay::drawMobile(Position start, Position stop, EMotif motif,
 		int progression)
 {
 	(void)start;

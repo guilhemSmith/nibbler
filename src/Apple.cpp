@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 13:52:56 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 16:51:09 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/12/05 15:17:43 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ IEntity *				Apple::clone(void) const {
 
 bool					Apple::collide(void) {
 	this->increment_score();
-	delete this;
 	return false;
 }
 
@@ -40,4 +39,8 @@ void					Apple::increment_score(void) {
 
 IDisplay::EMotif		Apple::get_motif(void) const {
 	return IDisplay::apple;
+}
+
+size_t				Apple::grow_value(void) const {
+	return 1;
 }

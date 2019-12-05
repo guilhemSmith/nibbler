@@ -1,40 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Snake.hpp                                          :+:      :+:    :+:   */
+/*   SnakeBody.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:54:55 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 16:48:02 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/12/05 13:06:52 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SNAKE_HPP
-# define SNAKE_HPP
+#ifndef SNAKEBODY_HPP
+# define SNAKEBODY_HPP
 
-# include <array>
+# include "Direction.hpp"
+# include "Position.hpp"
 # include "IEntity.hpp"
 
-class Snake: public IEntity {
+class SnakeBody: public IEntity {
 public:
-	Snake(int x, int y);
-	Snake(Snake const & rhs);
-	virtual ~Snake(void);
+	SnakeBody(Direction dir);
+	SnakeBody(SnakeBody const & rhs);
+	virtual ~SnakeBody(void);
 
 	virtual IEntity *			clone(void) const;
 	virtual bool				collide(void);
 	virtual char				get_symbol(void) const;
 	IDisplay::EMotif			get_motif(void) const;
-	std::array<int, 2>			get_dir() const;
-	void						set_dir(int x, int y);
-	std::array<size_t, 2>		get_dest(size_t x, size_t y) const;
+	Direction					get_dir() const;
+	void						set_dir(Direction dir);
+	Position					get_dest(Position pos) const;
 
 private:
-	Snake(void);
-	Snake const &				operator=(Snake const & rhs) const;
+	SnakeBody(void);
+	SnakeBody const &			operator=(SnakeBody const & rhs) const;
 
-	std::array<int, 2>			dir;
+	Direction					dir;
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/04 18:03:11 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/05 15:47:11 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <iostream>
 #include "Game.hpp"
 #include "Apple.hpp"
-#include "Snake.hpp"
+#include "SnakeBody.hpp"
 #include "Obstacle.hpp"
 
 Game::Game(int lib, size_t width, size_t height): \
@@ -23,47 +23,40 @@ Game::Game(int lib, size_t width, size_t height): \
 				dir_next(Direction(0, 0)), frame(0), speed(SPEED_START), \
 				loader(lib, width, height), grid(Grid(width, height)) {
 	for (size_t i = 0; i < width; i++){
-		this->spawn_obstacle(i, 0);
-		this->spawn_obstacle(i, height - 1);
+		this->spawn_obstacle(Position(i, 0));
+		this->spawn_obstacle(Position(i, height - 1));
 	}
 
-	// for (size_t i = 1; i < height - 1; i++) {
-	// 	this->spawn_obstacle(0, i);
-	// 	this->spawn_obstacle(width - 1, i);
-	// }
-
-	this->spawn_obstacle(width / 3, height / 2);
-	this->spawn_apple(width / 2 + 5, height / 2);
-	this->spawn_apple(width / 2 + 6, height / 2);
-	this->spawn_apple(width / 2 + 7, height / 2);
+	this->spawn_obstacle(Position(width / 3, height / 2));
+	this->spawn_apple(Position(width / 2 + 7, height / 2));
 }
 
 Game::~Game(void) {}
 
-bool			Game::spawn_obstacle(size_t x, size_t y) {
+bool			Game::spawn_obstacle(Position pos) {
 	Obstacle *	obs = new Obstacle();
 
-	if (!this->grid.spawn(obs, x, y)) {
+	if (!this->grid.spawn(obs, pos)) {
 		delete obs;
 		return false;
 	}
 	return true;
 }
 
-bool			Game::spawn_apple(size_t x, size_t y) {
+bool			Game::spawn_apple(Position pos) {
 	Apple *	apl = new Apple(this->score);
 
-	if (!this->grid.spawn(apl, x, y)) {
+	if (!this->grid.spawn(apl, pos)) {
 		delete apl;
 		return false;
 	}
 	return true;
 }
 
-bool			Game::spawn_snake(size_t x, size_t y, int dir_x, int dir_y) {
-	Snake *	snk = new Snake(dir_x, dir_y);
+bool			Game::spawn_snake(Position pos, Direction dir) {
+	SnakeBody *	snk = new SnakeBody(dir);
 
-	if (!this->grid.spawn(snk, x, y)) {
+	if (!this->grid.spawn(snk, pos)) {
 		delete snk;
 		return false;
 	}
@@ -74,10 +67,11 @@ bool			Game::run(void) {
 	IDisplay::EEvent	event;
 	IDisplay *			disp = this->loader.get_display();
 	size_t				time_start = time(0);
+	bool				stop = false;
 
 	while ((event = disp->pollEvent()) != IDisplay::None) {
 		if (event == IDisplay::Quit) {
-			return false;
+			stop = true;
 		}
 		if (event >= IDisplay::Up && event <= IDisplay::Right) {
 			this->update_dir(event);
@@ -101,12 +95,14 @@ bool			Game::run(void) {
 			}
 			this->dir_next = Direction(0, 0);
 		}
-		this->grid.move_head(this->dir.x, this->dir.y);
+		if (!this->grid.move_head(this->dir)) {
+			stop = true;
+		}
 		frame = 0;
 	} 
 	usleep(Game::disp_freq - (time(0) - time_start));
-	this->grid.print(this->loader.get_display());
-	return true;
+	this->grid.print(this->loader.get_display(), frame / this->speed);
+	return !stop;
 }
 
 void			Game::update_dir(IDisplay::EEvent event) {

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/29 15:05:26 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/05 12:03:29 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void				DisplaySDL2::refreshDisplay(void) {
 	}
 }
 
-void				DisplaySDL2::drawStatic(t_position pos, EMotif motif) {
+void				DisplaySDL2::drawStatic(Position pos, EMotif motif) {
 	Uint32			color;
 	SDL_Rect		rect = {
 		static_cast<int>(pos.x * DisplaySDL2::cell_size),
@@ -97,7 +97,7 @@ void				DisplaySDL2::drawStatic(t_position pos, EMotif motif) {
 	SDL_FillRect(this->surf, &rect, color);
 }
 
-void				DisplaySDL2::drawMobile(t_position start, t_position stop, \
+void				DisplaySDL2::drawMobile(Position start, Position stop, \
 						EMotif color, int progression) {
 	(void)start;
 	(void)stop;

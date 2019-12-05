@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 14:25:22 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/29 14:44:43 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/05 12:03:29 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ public:
 	void						newWindow(size_t x, size_t y);
 	void						clearDisplay(void);
 	void						refreshDisplay(void);
-	void						drawStatic(t_position pos, EMotif motif);
-	void						drawMobile(t_position start, t_position stop, \
+	void						drawStatic(Position pos, EMotif motif);
+	void						drawMobile(Position start, Position stop, \
 									EMotif color, int progression);
 	void						drawScore(int score);
 	EEvent 						pollEvent(void);

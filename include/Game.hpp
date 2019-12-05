@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:36 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/04 18:05:36 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/05 15:44:26 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "Grid.hpp"
 # include "Direction.hpp"
 
-# define SPEED_START 10
+# define SPEED_START 5
 
 class Game {
 public:
@@ -40,9 +40,9 @@ private:
 	Grid				grid;
 	
 	void				update_dir(IDisplay::EEvent event);
-	bool				spawn_obstacle(size_t x, size_t y);
-	bool				spawn_apple(size_t x, size_t y);
-	bool				spawn_snake(size_t x, size_t y, int dir_x, int dir_y);
+	bool				spawn_obstacle(Position pos);
+	bool				spawn_apple(Position pos);
+	bool				spawn_snake(Position pos, Direction dir);
 
 	static size_t const	disp_freq = 16666;
 };
