@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/05 18:00:56 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/09 18:13:14 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,17 @@ std::map<SDL_Scancode, IDisplay::EEvent> const DisplaySDL2::keyMap = {
 };
 
 DisplaySDL2::DisplaySDL2(void): width(0), height(0), wind(NULL), surf(NULL), \
-					motifMap() {
+					motifMap(), font(NULL), score_pos() {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		throw SDL2Except("Failed to init SDL2");
+	}
+	if (TTF_Init() < 0) {
+		throw SDL2Except("Failed to init SDL2_TTF");
+	}
+	this->font = TTF_OpenFont("/Library/Fonts/Arial.ttf", \
+		DisplaySDL2::cell_size - 2);
+	if (this->font == NULL) {
+		throw SDL2Except("Failed to load font.");
 	}
 }
 
@@ -40,6 +48,8 @@ DisplaySDL2::~DisplaySDL2(void) {
 		SDL_DestroyWindow(this->wind);
 		this->wind = NULL;
 	}
+	TTF_CloseFont(this->font);
+	TTF_Quit();
 	SDL_Quit();
 }
 
@@ -53,8 +63,8 @@ void				DisplaySDL2::newWindow(size_t x, size_t y) {
 	this->height = y;
 	this->wind = SDL_CreateWindow("Nibbler", SDL_WINDOWPOS_UNDEFINED, \
 						SDL_WINDOWPOS_UNDEFINED, x * DisplaySDL2::cell_size, \
-						y * DisplaySDL2::cell_size, SDL_WINDOW_SHOWN \
-						| SDL_WINDOW_INPUT_FOCUS);
+						y * DisplaySDL2::cell_size + DisplaySDL2::cell_size, \
+						SDL_WINDOW_SHOWN | SDL_WINDOW_INPUT_FOCUS);
 	if (this->wind == NULL) {
 		throw SDL2Except("Failed to create an SDL2 window");
 	}
@@ -65,6 +75,10 @@ void				DisplaySDL2::newWindow(size_t x, size_t y) {
 		{apple, SDL_MapRGB(this->surf->format, 227, 38, 54)},
 		{obstacle, SDL_MapRGB(this->surf->format, 159, 129, 112)},
 	};
+	this->score_pos.x = 1;
+	this->score_pos.y = y * DisplaySDL2::cell_size + 1;
+	this->score_pos.w = DisplaySDL2::cell_size - 2;
+	this->score_pos.h = DisplaySDL2::cell_size - 2;
 	this->clearDisplay();
 	this->refreshDisplay();
 }
@@ -99,11 +113,8 @@ void				DisplaySDL2::drawStatic(Position & pos, EMotif motif) {
 
 void				DisplaySDL2::drawMobile(Position & pos, Direction & dest, \
 							Direction & from, EMotif motif, float progression) {
-	(void)dest;
 	(void)from;
-	(void)progression;
-	(void)pos;
-	(void)motif;
+	
 	Uint32			color;
 	SDL_Rect		rect = {
 		static_cast<int>(pos.x * DisplaySDL2::cell_size \
@@ -123,7 +134,18 @@ void				DisplaySDL2::drawMobile(Position & pos, Direction & dest, \
 }
 
 void				DisplaySDL2::drawScore(int score) {
-	(void)score;
+	SDL_Color White = {255, 255, 255, 255};
+	std::string value;
+	
+	try {
+		value = std::to_string(score);
+	} catch (std::exception e) {
+		value = "ERR";
+	}
+	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(this->font, \
+		value.c_str(), White);
+	SDL_BlitSurface(surfaceMessage, NULL, this->surf, &this->score_pos);
+	SDL_FreeSurface(surfaceMessage);
 }
 
 

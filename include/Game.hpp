@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:36 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/05 16:22:11 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/09 18:24:40 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ private:
 	bool				spawn_snake(Position pos, Direction dir);
 
 	static size_t const	disp_freq = 16666;
+	static size_t const	max_speed = 3;
 };
 
 #endif

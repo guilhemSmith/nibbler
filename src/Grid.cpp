@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:51:59 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/05 17:56:23 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/09 17:53:35 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ void			Grid::print(IDisplay *disp, float adv) const {
 			disp->drawMobile(pos, dst, dir, snk->get_motif(), adv);
 			dir = dst;
 		}
-		disp->refreshDisplay();
 	}
 }
 

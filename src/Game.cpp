@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/05 17:56:40 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/09 18:25:00 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 Game::Game(int lib, size_t width, size_t height): \
 				paused(false), score(0), speedup(false), dir(Direction(0, 1)), \
-				dir_next(Direction(0, 0)), frame(0), frame_per_cell(30), \
+				dir_next(Direction(0, 0)), frame(0), frame_per_cell(15), \
 				loader(lib, width, height), grid(Grid(width, height)) {
 	for (size_t i = 0; i < width; i++) {
 		this->spawn_obstacle(Position(i, 0));
@@ -101,14 +101,19 @@ bool			Game::run(void) {
 		}
 		this->grid.set_head_dir(this->dir);
 		this->frame = 0;
-		if (this->speedup) {
+		if (this->speedup && this->frame_per_cell > Game::max_speed) {
 			this->frame_per_cell--;
 			this->speedup = false;
 		}
 	}
+	if (stop) {
+		return false;
+	}
 	adv = static_cast<float>(frame) / static_cast<float>(this->frame_per_cell);
 	usleep(Game::disp_freq - (time(0) - time_start));
 	this->grid.print(this->loader.get_display(), adv);
+	disp->drawScore(this->score);
+	disp->refreshDisplay();
 	return !stop;
 }
 
