@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 12:16:17 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/10 12:26:17 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/10 13:13:21 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		Score::increase_speed(void) {
 
 	flag = this->speedup;
 	if (this->speedup > 0) {
-		this->speedup -= 1;
+		this->speedup = 0;
 	}
 	return flag;
 }
@@ -34,7 +34,7 @@ void	Score::increment_score(int amount) {
 	if (amount >= Score::palier) {
 		this->speedup += Score::palier / amount;
 	}
-	if (this->value % Score::palier + amount % Score::palier > Score::palier) {
+	if (this->value % Score::palier + amount % Score::palier >= Score::palier) {
 		this->speedup += 1;
 	}
 	this->value += amount;

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 12:12:40 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/10 12:23:16 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/10 13:12:45 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ private:
 	int					value;
 	int					speedup;
 
-	static int const	palier = 200;
+	static int const	palier = 300;
 };
 
 #endif

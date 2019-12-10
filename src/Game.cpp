@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/09 18:25:00 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/10 13:28:43 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@
 #include "Obstacle.hpp"
 
 Game::Game(int lib, size_t width, size_t height): \
-				paused(false), score(0), speedup(false), dir(Direction(0, 1)), \
-				dir_next(Direction(0, 0)), frame(0), frame_per_cell(15), \
+				paused(false), score(), dir(Direction(0, 1)), \
+				dir_next(Direction(0, 0)), frame(0), \
+				frame_per_cell(Game::start_speed), \
 				loader(lib, width, height), grid(Grid(width, height)) {
 	for (size_t i = 0; i < width; i++) {
 		this->spawn_obstacle(Position(i, 0));
@@ -44,7 +45,7 @@ bool			Game::spawn_obstacle(Position pos) {
 }
 
 bool			Game::spawn_apple(Position pos) {
-	Apple *	apl = new Apple(this->score, this->speedup);
+	Apple *	apl = new Apple(this->score);
 
 	if (!this->grid.spawn(apl, pos)) {
 		delete apl;
@@ -71,40 +72,11 @@ bool			Game::run(void) {
 	float				adv;
 
 	while ((event = disp->pollEvent()) != IDisplay::None) {
-		if (event == IDisplay::Quit) {
-			stop = true;
-		}
-		if (event >= IDisplay::Up && event <= IDisplay::Right) {
-			this->update_dir(event);
-		}
-		if (event >= IDisplay::One && event <= IDisplay::Three) {
-			try {
-				this->loader.load_lib(event - IDisplay::One + 1, \
-					this->grid.get_width(), this->grid.get_height());
-			} catch (std::exception & e) {
-				std::cerr << e.what() << std::endl;
-			}
-			disp = this->loader.get_display();
-		}
+		this->handle_event(event, stop, disp);
 	}
 	this->frame += 1;
 	if (this->frame == this->frame_per_cell) {
-		this->dir_next.clamp();
-		if (!this->grid.move_head(this->dir)) {
-			stop = true;
-		}
-		if (this->dir_next.length() != 0) {
-			if (!this->dir.is_opposed_to(this->dir_next)) {
-				this->dir = this->dir_next;
-			}
-			this->dir_next = Direction(0, 0);
-		}
-		this->grid.set_head_dir(this->dir);
-		this->frame = 0;
-		if (this->speedup && this->frame_per_cell > Game::max_speed) {
-			this->frame_per_cell--;
-			this->speedup = false;
-		}
+		this->game_frame(stop);
 	}
 	if (stop) {
 		return false;
@@ -112,9 +84,47 @@ bool			Game::run(void) {
 	adv = static_cast<float>(frame) / static_cast<float>(this->frame_per_cell);
 	usleep(Game::disp_freq - (time(0) - time_start));
 	this->grid.print(this->loader.get_display(), adv);
-	disp->drawScore(this->score);
+	disp->drawScore(this->score.get_score());
 	disp->refreshDisplay();
 	return !stop;
+}
+
+void			Game::game_frame(bool & stop) {
+	this->frame_per_cell -= this->score.increase_speed();
+	if (this->frame_per_cell < Game::max_speed) {
+		this->frame_per_cell = Game::max_speed;
+	}
+	this->dir_next.clamp();
+	if (!this->grid.move_head(this->dir)) {
+		stop = true;
+	}
+	if (this->dir_next.length() != 0) {
+		if (!this->dir.is_opposed_to(this->dir_next)) {
+			this->dir = this->dir_next;
+		}
+		this->dir_next = Direction(0, 0);
+	}
+	this->grid.set_head_dir(this->dir);
+	this->frame = 0;
+}
+
+void			Game::handle_event(IDisplay::EEvent event, bool & stop, \
+					IDisplay * disp) {
+	if (event == IDisplay::Quit) {
+		stop = true;
+	}
+	if (event >= IDisplay::Up && event <= IDisplay::Right) {
+		this->update_dir(event);
+	}
+	if (event >= IDisplay::One && event <= IDisplay::Three) {
+		try {
+			this->loader.load_lib(event - IDisplay::One + 1, \
+				this->grid.get_width(), this->grid.get_height());
+		} catch (std::exception & e) {
+			std::cerr << e.what() << std::endl;
+		}
+		disp = this->loader.get_display();
+	}
 }
 
 void			Game::update_dir(IDisplay::EEvent event) {

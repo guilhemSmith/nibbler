@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 13:50:21 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/05 17:21:23 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/10 12:55:32 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 # define APPLE_HPP
 
 # include "IEntity.hpp"
+# include "Score.hpp"
 
 class Apple: public IEntity {
 public:
-	Apple(int & score, bool & speedup);
+	Apple(Score & score);
 	Apple(Apple const & rhs);
 	virtual ~Apple(void);
 
@@ -32,10 +33,7 @@ private:
 	Apple(void);
 	Apple const &	operator=(Apple const & rhs) const;
 
-	int &				score;
-	bool &				speedup;
-
-	void				increment_score(void);
+	Score &				score;
 
 	static int const	value;
 };
