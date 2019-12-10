@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/12/05 11:46:54 by gsmith           ###   ########.fr        #
+#    Updated: 2019/12/10 12:16:27 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,8 @@ FILES_SRC = \
 	Apple.cpp \
 	Loader.cpp \
 	Direction.cpp \
-	Position.cpp
+	Position.cpp \
+	Score.cpp
 FILES_BUILD = $(FILES_SRC:.cpp=.o)
 FILES_DEP = $(FILES_SRC:.cpp=.d)
 
