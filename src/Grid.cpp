@@ -6,13 +6,14 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:51:59 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/09 17:53:35 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/10 17:02:19 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Grid.hpp"
 #include "SnakeTail.hpp"
 #include "Apple.hpp"
+#include "Blueberry.hpp"
 
 #include <iostream>
 #include <cstdlib>
@@ -127,8 +128,11 @@ bool			Grid::move_head(Direction dir) {
 }
 
 bool			Grid::eat(IEntity * collider) {
+	if (this->eat_berry(collider)) {
+		return true;
+	}
+	
 	Apple *		apl = dynamic_cast<Apple *>(collider);
-
 	if (apl == NULL) {
 		return !this->grow;
 	}
@@ -144,6 +148,17 @@ bool			Grid::eat(IEntity * collider) {
 	}
 	this->entities[new_index] = apl;
 	return true;
+}
+
+bool			Grid::eat_berry(IEntity * collider) {
+	Blueberry *	berry = dynamic_cast<Blueberry *>(collider);
+
+	if (berry != NULL) {
+		this->grow_val += berry->grow_value();
+		delete berry;
+		return true;
+	}
+	return false;
 }
 
 void			Grid::growSnake(Direction dir) {
@@ -190,4 +205,20 @@ size_t			Grid::get_height(void) const {
 
 void			Grid::set_head_dir(Direction dir) const {
 	this->head->set_dir(dir);
+}
+
+bool			Grid::rot_berry(Position pos) {
+	Blueberry *	berry;
+	size_t		index = pos.to_index(this->width);
+	
+	berry = dynamic_cast<Blueberry*>(this->entities[index]);
+	if (berry == NULL) {
+		return true;
+	}
+	if (berry->rot()) {
+		delete berry;
+		this->entities[index] = NULL;
+		return true;
+	}
+	return false;
 }

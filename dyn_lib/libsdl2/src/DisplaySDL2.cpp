@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/09 18:13:14 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/10 18:07:36 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void				DisplaySDL2::newWindow(size_t x, size_t y) {
 		{snakeHead, SDL_MapRGB(this->surf->format, 164, 198, 57)},
 		{snake, SDL_MapRGB(this->surf->format, 135, 169, 107)},
 		{apple, SDL_MapRGB(this->surf->format, 227, 38, 54)},
+		{blueberry, SDL_MapRGB(this->surf->format, 33, 171, 205)},
 		{obstacle, SDL_MapRGB(this->surf->format, 159, 129, 112)},
 	};
 	this->score_pos.x = 1;

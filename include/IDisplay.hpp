@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 11:19:27 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/05 17:16:15 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/10 18:06:34 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ public:
 	enum EMotif {
 		obstacle,
 		apple,
+		blueberry,
 		snake,
 		snakeHead,
 	};

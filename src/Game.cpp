@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/10 13:28:43 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/10 18:04:56 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@
 #include "Apple.hpp"
 #include "SnakeBody.hpp"
 #include "Obstacle.hpp"
+#include "Blueberry.hpp"
 
 Game::Game(int lib, size_t width, size_t height): \
 				paused(false), score(), dir(Direction(0, 1)), \
 				dir_next(Direction(0, 0)), frame(0), \
 				frame_per_cell(Game::start_speed), \
-				loader(lib, width, height), grid(Grid(width, height)) {
+				loader(lib, width, height), grid(Grid(width, height)), \
+				bonus_pos(0, 0), bonus_timer(Game::bonus_freq) {
 	for (size_t i = 0; i < width; i++) {
 		this->spawn_obstacle(Position(i, 0));
 		this->spawn_obstacle(Position(i, height - 1));
@@ -77,6 +79,7 @@ bool			Game::run(void) {
 	this->frame += 1;
 	if (this->frame == this->frame_per_cell) {
 		this->game_frame(stop);
+		this->handle_bonus();
 	}
 	if (stop) {
 		return false;
@@ -124,6 +127,20 @@ void			Game::handle_event(IDisplay::EEvent event, bool & stop, \
 			std::cerr << e.what() << std::endl;
 		}
 		disp = this->loader.get_display();
+	}
+}
+
+void			Game::handle_bonus(void) {
+	this->bonus_timer--;
+	if (this->bonus_timer == 0 || this->grid.rot_berry(this->bonus_pos)) {
+		Blueberry *	berry = new Blueberry(this->score);
+		this->bonus_pos = Position(rand() % this->grid.get_width(), \
+			rand() %this->grid.get_height());
+		if (!this->grid.spawn(berry, this->bonus_pos)) {
+			delete berry;
+			this->bonus_timer = 1;
+		}
+		this->bonus_timer = Game::bonus_freq;
 	}
 }
 

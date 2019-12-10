@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:36 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/10 13:28:30 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/10 18:05:21 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ private:
 	size_t				frame_per_cell;
 	Loader				loader;
 	Grid				grid;
+	Position			bonus_pos;
+	int					bonus_timer;
 	
 	void				update_dir(IDisplay::EEvent event);
 	bool				spawn_obstacle(Position pos);
@@ -44,11 +46,13 @@ private:
 	bool				spawn_snake(Position pos, Direction dir);
 	void				handle_event(IDisplay::EEvent event, bool & stop, \
 							IDisplay * disp);
+	void				handle_bonus(void);
 	void				game_frame(bool & stop);
 
 	static size_t const	disp_freq = 16666;
 	static size_t const	max_speed = 3;
 	static size_t const	start_speed = 10;
+	static int const	bonus_freq = 75;
 };
 
 #endif

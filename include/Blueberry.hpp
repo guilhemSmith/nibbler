@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 14:15:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/10 14:30:51 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/10 18:05:39 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ private:
 	Blueberry const &	operator=(Blueberry const & rhs) const;
 
 	int					value;
-	static int const	new_val = 100;
+	static int const	new_val = 200;
 };
 
 #endif
