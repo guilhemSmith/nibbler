@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:51:59 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/10 17:02:19 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/11 11:52:27 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,9 @@ void			Grid::print(IDisplay *disp, float adv) const {
 			(this->entities[pos.to_index(this->width)]);
 		dir = snk->get_dir();
 		disp->drawMobile(pos, dir, dir, snk->get_motif(), adv);
+		if (this->grow) {
+			disp->drawStatic(pos, snk->get_motif());
+		}
 		while (snk != this->head) {
 			pos = snk->get_dest(pos);
 			pos.clamp(this->width, this->height);
