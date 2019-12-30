@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:27:47 by tbehra            #+#    #+#             */
-/*   Updated: 2019/11/29 15:02:11 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/05 17:16:50 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	SFMLDisplay::clearDisplay(void) {
 	_window->clear(sf::Color::Black);
 }
 
-void	SFMLDisplay::drawStatic(t_position pos, EMotif motif) {
+void	SFMLDisplay::drawStatic(Position & pos, EMotif motif) {
 	sf::Color color;
 	switch (motif) {
 		case snake:
@@ -86,11 +86,12 @@ void	SFMLDisplay::drawStatic(t_position pos, EMotif motif) {
 	_window->draw(toDraw);
 }
 
-void	SFMLDisplay::drawMobile(t_position start, t_position stop, EMotif motif,
-		int progression)
+void	SFMLDisplay::drawMobile(Position & pos, Direction & dest, \
+							Direction & from, EMotif motif, float progression)
 {
-	(void)start;
-	(void)stop;
+	(void)pos;
+	(void)dest;
+	(void)from;
 	(void)motif;
 	(void)progression;
 }	

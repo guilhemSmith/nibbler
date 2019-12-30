@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/11/28 17:49:54 by gsmith           ###   ########.fr        #
+#    Updated: 2019/12/10 14:21:46 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,11 +37,16 @@ FILES_SRC = \
 	Arguments.cpp \
 	Game.cpp \
 	Grid.cpp \
-	Snake.cpp \
+	SnakeBody.cpp \
 	SnakeHead.cpp \
+	SnakeTail.cpp \
 	Obstacle.cpp \
 	Apple.cpp \
-	Loader.cpp
+	Loader.cpp \
+	Direction.cpp \
+	Position.cpp \
+	Score.cpp \
+	Blueberry.cpp
 FILES_BUILD = $(FILES_SRC:.cpp=.o)
 FILES_DEP = $(FILES_SRC:.cpp=.d)
 

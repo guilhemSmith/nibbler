@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 13:50:21 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 16:49:00 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/12/05 17:21:34 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ public:
 	virtual bool		collide(void);
 	virtual char		get_symbol(void) const;
 	IDisplay::EMotif	get_motif(void) const;
+	bool				is_mobile(void) const;
 
 private:
 	Obstacle const &	operator=(Obstacle const & rhs) const;

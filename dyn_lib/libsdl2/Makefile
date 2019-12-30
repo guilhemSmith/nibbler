@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/11/27 17:27:32 by gsmith           ###   ########.fr        #
+#    Updated: 2019/12/09 17:26:30 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ NAME = libsdl2.so
 CXX = clang++
 CXXFLAGS = -std=c++11 -Wall -Werror -Wextra
 LIBFLAGS = -shared -fPIC
-SDL =  -L$(HOME)/.brew/lib -lSDL2
+SDL =  -L$(HOME)/.brew/lib -lSDL2 -lSDL2_TTF
 
 ## main directories and files
 

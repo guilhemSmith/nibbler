@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Position.hpp                                       :+:      :+:    :+:   */
+/*   Direction.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/27 11:39:21 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/05 12:54:43 by gsmith           ###   ########.fr       */
+/*   Created: 2019/12/04 17:22:37 by gsmith            #+#    #+#             */
+/*   Updated: 2019/12/04 17:52:31 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef POSITION_HPP
-# define POSITION_HPP
+#ifndef DIRECTION_HPP
+# define DIRECTION_HPP
 # include <cstdlib>
 
-class Position {
+class Direction {
 public:
-	Position(size_t x, size_t y);
-	Position(Position const & rhs);
-	~Position(void);
+	Direction(int x, int y);
+	Direction(Direction const & rhs);
+	~Direction(void);
 
-	Position const &	operator=(Position const & rhs);
-	Position const &	clamp(size_t width, size_t height);
-	size_t				to_index(size_t width) const;
+	Direction const &	operator=(Direction const & rhs);
+	Direction const &	clamp(void);
+	size_t				length(void) const;
+	bool				is_opposed_to(Direction const & rhs) const;
 
-	size_t	x;
-	size_t	y;
+	int	x;
+	int	y;
 };
 
 #endif
