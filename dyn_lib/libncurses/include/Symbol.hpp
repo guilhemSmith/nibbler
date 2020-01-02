@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/29 13:33:29 by tbehra            #+#    #+#             */
-/*   Updated: 2019/11/29 14:50:07 by tbehra           ###   ########.fr       */
+/*   Updated: 2020/01/02 17:46:59 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ public:
 		COLOR_PAIR_APPLE,
 		COLOR_PAIR_OBSTACLE,
 		COLOR_PAIR_SNAKE,
-		COLOR_PAIR_HEAD
+		COLOR_PAIR_HEAD,
+		COLOR_PAIR_BERRY,
+		COLOR_SCORE
 	};
 
 	Symbol(char sym, color col);
