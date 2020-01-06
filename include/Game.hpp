@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:36 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/10 18:05:21 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/06 14:09:43 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ private:
 	bool				spawn_apple(Position pos);
 	bool				spawn_snake(Position pos, Direction dir);
 	void				handle_event(IDisplay::EEvent event, bool & stop, \
-							IDisplay * disp);
+							IDisplay ** disp);
 	void				handle_bonus(void);
 	void				game_frame(bool & stop);
 

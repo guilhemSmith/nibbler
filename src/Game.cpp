@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/10 18:04:56 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/06 14:09:26 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ bool			Game::run(void) {
 	float				adv;
 
 	while ((event = disp->pollEvent()) != IDisplay::None) {
-		this->handle_event(event, stop, disp);
+		this->handle_event(event, stop, &disp);
 	}
 	this->frame += 1;
 	if (this->frame == this->frame_per_cell) {
@@ -112,7 +112,7 @@ void			Game::game_frame(bool & stop) {
 }
 
 void			Game::handle_event(IDisplay::EEvent event, bool & stop, \
-					IDisplay * disp) {
+					IDisplay ** disp) {
 	if (event == IDisplay::Quit) {
 		stop = true;
 	}
@@ -126,7 +126,7 @@ void			Game::handle_event(IDisplay::EEvent event, bool & stop, \
 		} catch (std::exception & e) {
 			std::cerr << e.what() << std::endl;
 		}
-		disp = this->loader.get_display();
+		*disp = this->loader.get_display();
 	}
 }
 
