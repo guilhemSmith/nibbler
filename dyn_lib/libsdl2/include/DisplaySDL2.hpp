@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 14:25:22 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/29 14:44:43 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/12/09 18:07:24 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <exception>
 # include <string>
 # include <SDL2/SDL.h>
+# include <SDL2/SDL_ttf.h>
 # include <map>
 # include "IDisplay.hpp"
 
@@ -42,9 +43,10 @@ public:
 	void						newWindow(size_t x, size_t y);
 	void						clearDisplay(void);
 	void						refreshDisplay(void);
-	void						drawStatic(t_position pos, EMotif motif);
-	void						drawMobile(t_position start, t_position stop, \
-									EMotif color, int progression);
+	void						drawStatic(Position & pos, EMotif motif);
+	void						drawMobile(Position & pos, Direction & dest, \
+									Direction & from, \
+									EMotif motif, float progression);
 	void						drawScore(int score);
 	EEvent 						pollEvent(void);
 private:
@@ -56,6 +58,8 @@ private:
 	SDL_Window *				wind;
 	SDL_Surface *				surf;
 	std::map<EMotif, Uint32>	motifMap;
+	TTF_Font *					font;
+	SDL_Rect					score_pos;
 
 	EEvent						pollWindowEvent(SDL_Event event);
 	EEvent						pollKeyDownEvent(SDL_Event event);

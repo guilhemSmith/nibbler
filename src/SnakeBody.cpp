@@ -1,48 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Snake.cpp                                          :+:      :+:    :+:   */
+/*   SnakeBody.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:54:42 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 16:50:38 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/12/05 17:21:02 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Snake.hpp"
+#include "SnakeBody.hpp"
 
-Snake::Snake(int x, int y): dir({x, y}) {}
+SnakeBody::SnakeBody(Direction dir): dir(dir) {}
 
-Snake::Snake(Snake const & rhs): dir({rhs.dir[0], rhs.dir[1]}) {}
+SnakeBody::SnakeBody(SnakeBody const & rhs): dir(rhs.dir) {}
 
-Snake::~Snake(void) {}
+SnakeBody::~SnakeBody(void) {}
 
-IEntity *				Snake::clone(void) const {
-	return new Snake(*this);
+IEntity *			SnakeBody::clone(void) const {
+	return new SnakeBody(*this);
 }
 
-bool					Snake::collide(void) {
+bool				SnakeBody::collide(void) {
 	return true;
 }
 
-char					Snake::get_symbol(void) const {
+char				SnakeBody::get_symbol(void) const {
 	return 'o';
 }
 
-std::array<int, 2>		Snake::get_dir(void) const {
+Direction			SnakeBody::get_dir(void) const {
 	return this->dir;
 }
 
-void					Snake::set_dir(int x, int y) {
-	this->dir[0] = x;
-	this->dir[1] = y;
+void				SnakeBody::set_dir(Direction dir) {
+	this->dir = dir;
 }
 
-std::array<size_t, 2>	Snake::get_dest(size_t x, size_t y) const {
-	return {x + this->dir[0], y + this->dir[1]}; 
+Position			SnakeBody::get_dest(Position pos) const {
+	return Position(pos.x + this->dir.x, pos.y + this->dir.y); 
 }
 
-IDisplay::EMotif		Snake::get_motif(void) const {
+IDisplay::EMotif	SnakeBody::get_motif(void) const {
 	return IDisplay::snake;
+}
+
+bool				SnakeBody::is_mobile(void) const {
+	return true;
 }

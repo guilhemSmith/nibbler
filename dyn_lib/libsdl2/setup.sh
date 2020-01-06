@@ -32,3 +32,16 @@ then
 	fi
 	printf "$prefix sdl2 installed.\n"
 fi
+
+sdl2_ttf=`echo $list | grep sdl2_ttf`
+if [ $? -ne 0 ]
+then
+	printf "$prefix sdl2_ttf is missing.\n"
+	brew install sdl2_ttf
+	if [ $? -ne 0 ]
+	then
+		printf "$prefix\033[2;31msdl2_ttf installation failed.\n\033[0m";
+		exit 1;
+	fi
+	printf "$prefix sdl2_ttf installed.\n"
+fi

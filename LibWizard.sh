@@ -8,7 +8,7 @@ do
 	if [ -z $1 ]
 	then
 		sh dyn_lib/$lib/setup.sh;
-		make -C dyn_lib/$lib/ all;
+		make -C dyn_lib/$lib/;
 	else
 		make -C dyn_lib/$lib/ $1
 	fi

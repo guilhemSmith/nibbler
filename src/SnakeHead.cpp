@@ -6,16 +6,16 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 11:01:05 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 16:50:57 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/12/05 13:16:19 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "SnakeHead.hpp"
 
-SnakeHead::SnakeHead(int x, int y, size_t tail_x, size_t tail_y): Snake(x, y), \
-						tail({tail_x, tail_y}) {}
+SnakeHead::SnakeHead(Direction dir, Position tail_pos): \
+						SnakeBody(dir), tail(tail_pos) {}
 
-SnakeHead::SnakeHead(SnakeHead const & rhs): Snake(rhs), tail(rhs.tail) {}
+SnakeHead::SnakeHead(SnakeHead const & rhs): SnakeBody(rhs), tail(rhs.tail) {}
 
 SnakeHead::~SnakeHead(void) {}
 
@@ -27,11 +27,11 @@ char					SnakeHead::get_symbol(void) const {
 	return 'X';
 }
 
-std::array<size_t, 2>	SnakeHead::get_tail(void) const {
+Position	SnakeHead::get_tail(void) const {
 	return this->tail;
 }
 
-void					SnakeHead::set_tail(std::array<size_t, 2> pos) {
+void					SnakeHead::set_tail(Position pos) {
 	this->tail = pos;
 }
 

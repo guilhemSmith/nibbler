@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:27:47 by tbehra            #+#    #+#             */
-/*   Updated: 2019/12/04 16:01:08 by tbehra           ###   ########.fr       */
+/*   Updated: 2020/01/06 17:23:56 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,7 @@ void	SFMLDisplay::clearDisplay(void) {
 	_window->clear(sf::Color::Black);
 }
 
-void	SFMLDisplay::drawStatic(t_position pos, EMotif motif) {
-	sf::RectangleShape toDraw;
+void	SFMLDisplay::drawStatic(Position & pos, EMotif motif) {
 	sf::Color color;
 
 	switch (motif) {
@@ -91,11 +90,12 @@ void	SFMLDisplay::drawStatic(t_position pos, EMotif motif) {
 	_window->draw(toDraw);
 }
 
-void	SFMLDisplay::drawMobile(t_position start, t_position stop, EMotif motif,
-		int progression)
+void	SFMLDisplay::drawMobile(Position & pos, Direction & dest, \
+							Direction & from, EMotif motif, float progression)
 {
-	(void)start;
-	(void)stop;
+	(void)pos;
+	(void)dest;
+	(void)from;
 	(void)motif;
 	(void)progression;
 }	

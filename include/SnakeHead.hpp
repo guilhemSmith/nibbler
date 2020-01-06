@@ -6,18 +6,18 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:54:55 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/27 16:48:36 by tbehra           ###   ########.fr       */
+/*   Updated: 2019/12/05 13:12:17 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SNAKEHEAD_HPP
 # define SNAKEHEAD_HPP
 
-# include "Snake.hpp"
+# include "SnakeBody.hpp"
 
-class SnakeHead: public Snake {
+class SnakeHead: public SnakeBody {
 public:
-	SnakeHead(int x, int y, size_t tail_x, size_t tail_y);
+	SnakeHead(Direction dir, Position tail_pos);
 	SnakeHead(SnakeHead const & rhs);
 	virtual ~SnakeHead(void);
 
@@ -25,14 +25,14 @@ public:
 	virtual char				get_symbol(void) const;
 	IDisplay::EMotif			get_motif(void) const;
 
-	std::array<size_t, 2>		get_tail(void) const;
-	void						set_tail(std::array<size_t, 2> pos);
+	Position		get_tail(void) const;
+	void						set_tail(Position pos);
 
 private:
 	SnakeHead(void);
 	SnakeHead const &			operator=(SnakeHead const & rhs) const;
 
-	std::array<size_t, 2>		tail;	
+	Position		tail;	
 };
 
 #endif
