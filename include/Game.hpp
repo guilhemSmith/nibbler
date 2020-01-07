@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:36 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/07 15:34:17 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/07 15:51:57 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ private:
 							IDisplay ** disp);
 	void				handle_bonus(void);
 	void				game_frame(bool & stop);
+	void				game_over(void);
 
 	static size_t const	disp_freq = 16666;
 	static size_t const	max_speed = 3;

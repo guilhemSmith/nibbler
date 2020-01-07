@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:47 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/07 15:38:14 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/07 16:28:18 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ bool			Game::run(void) {
 		this->handle_bonus();
 	}
 	if (stop) {
+		this->game_over();
 		return false;
 	}
 	adv = static_cast<float>(frame) / static_cast<float>(this->frame_per_cell);
@@ -160,5 +161,18 @@ void			Game::update_dir(IDisplay::EEvent event, Direction & dir) {
 	}
 	if (event == IDisplay::Right) {
 		dir.x++;
+	}
+}
+
+void			Game::game_over(void) {
+	IDisplay *			disp = this->loader.get_display();
+	size_t				time_start;
+	int					i = 0;
+	int					frame_wait = 3 * 60;
+	
+	while (i++ < frame_wait) {
+		time_start = time(0);
+		while (disp->pollEvent() != IDisplay::None);
+		usleep(Game::disp_freq - (time(0) - time_start));
 	}
 }
