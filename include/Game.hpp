@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:36 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/06 14:09:43 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/07 15:34:17 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ private:
 	Score				score;
 	Direction			dir;
 	Direction			dir_next;
+	Direction			dir_memorized;
 	size_t				frame;
 	size_t				frame_per_cell;
 	Loader				loader;
@@ -40,7 +41,7 @@ private:
 	Position			bonus_pos;
 	int					bonus_timer;
 	
-	void				update_dir(IDisplay::EEvent event);
+	void				update_dir(IDisplay::EEvent event, Direction & dir);
 	bool				spawn_obstacle(Position pos);
 	bool				spawn_apple(Position pos);
 	bool				spawn_snake(Position pos, Direction dir);
