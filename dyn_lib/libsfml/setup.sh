@@ -1,6 +1,6 @@
 #! /bin/bash
 
-prefix="\033[2;37m[libsdl2.so/setup] - \033[0m"
+prefix="\033[2;37m[libsfml.so/setup] - \033[0m"
 
 list=`brew list`;
 if [ $? -ne 0 ]

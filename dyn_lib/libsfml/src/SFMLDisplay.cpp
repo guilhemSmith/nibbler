@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:27:47 by tbehra            #+#    #+#             */
-/*   Updated: 2020/01/06 17:23:56 by tbehra           ###   ########.fr       */
+/*   Updated: 2020/01/07 14:15:05 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	SFMLDisplay::drawStatic(Position & pos, EMotif motif) {
 		default:
 			color = sf::Color::Black;
 	}
-	toDraw.setSize(sf::Vector2f(WIDTH_CELL, HEIGHT_CELL));
+	sf::RectangleShape toDraw(sf::Vector2f(WIDTH_CELL, HEIGHT_CELL));
 	toDraw.setFillColor(color);
 	toDraw.setPosition(pos.x * WIDTH_CELL, pos.y * HEIGHT_CELL);
 	_window->draw(toDraw);
