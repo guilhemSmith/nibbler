@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:20:13 by tbehra            #+#    #+#             */
-/*   Updated: 2020/01/07 14:28:11 by tbehra           ###   ########.fr       */
+/*   Updated: 2020/01/07 15:24:54 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include <map>
 # include "IDisplay.hpp"
 
-# define WIDTH_CELL 30
-# define HEIGHT_CELL 30
+# define WIDTH_CELL 20
+# define HEIGHT_CELL 20
 
 class	SFMLDisplay: public IDisplay {
 public:
@@ -39,6 +39,8 @@ private:
 	SFMLDisplay(SFMLDisplay const &src);
 	SFMLDisplay 		&operator=(SFMLDisplay const &rhs);
 	sf::RenderWindow	*_window;
+	sf::Font			_font;
+	int					_score_offset;
 	
 	const static std::map<sf::Keyboard::Key, IDisplay::EEvent> keyboardToEvent;
 	const static std::map<IDisplay::EMotif, sf::Color> motifToColor;

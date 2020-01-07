@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:27:47 by tbehra            #+#    #+#             */
-/*   Updated: 2020/01/07 14:38:22 by tbehra           ###   ########.fr       */
+/*   Updated: 2020/01/07 15:27:27 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ SFMLDisplay::~SFMLDisplay(void) {
 		std::cout << "delete sfml window in destructor" << std::endl;
 		_window->close();
 		delete _window;
-	}
-}
+	} }
 
 const std::map<sf::Keyboard::Key, IDisplay::EEvent> SFMLDisplay::keyboardToEvent = {
 	{sf::Keyboard::Num1, IDisplay::EEvent::One},
@@ -39,6 +38,7 @@ const std::map<IDisplay::EMotif, sf::Color> SFMLDisplay::motifToColor = {
 	{IDisplay::EMotif::snakeHead, sf::Color::Yellow},
 	{IDisplay::EMotif::obstacle, sf::Color::Cyan},
 	{IDisplay::EMotif::apple, sf::Color::Green},
+	{IDisplay::EMotif::blueberry, sf::Color::Magenta},
 };
 
 IDisplay *createDisplay(void) {
@@ -56,9 +56,13 @@ void	SFMLDisplay::newWindow(size_t x, size_t y) {
 		_window->close();
 		delete _window;
 	}
+	if (!_font.loadFromFile("./dyn_lib/libsfml/fonts/Roboto-Regular.ttf")) {
+		std::cout << "font \"Roboto-Regular.ttf\" not found" << std::endl;
+	}
 	_window = new sf::RenderWindow(
-			sf::VideoMode(WIDTH_CELL * x, HEIGHT_CELL * y),
+			sf::VideoMode(WIDTH_CELL * x, HEIGHT_CELL * (y + 1) + 10),
 			"Nibbler - SFML");
+	_score_offset = HEIGHT_CELL * y;
 	_window->setPosition(sf::Vector2i(100, 0));
 	_window->clear(sf::Color::Black);
 	_window->display();
@@ -109,7 +113,13 @@ void	SFMLDisplay::drawMobile(Position & pos, Direction & dest, \
 }	
 
 void	SFMLDisplay::drawScore(int score) {
-	(void)score;
+	sf::Text text;
+	text.setFont(_font);
+	text.setString("Score: " + std::to_string(score));
+	text.setCharacterSize(HEIGHT_CELL);
+	text.setFillColor(sf::Color::White);
+	text.setPosition(10, _score_offset);
+	_window->draw(text);
 }
 
 IDisplay::EEvent SFMLDisplay::pollEvent(void) {
