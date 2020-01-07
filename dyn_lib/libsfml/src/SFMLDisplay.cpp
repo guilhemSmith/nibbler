@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:27:47 by tbehra            #+#    #+#             */
-/*   Updated: 2020/01/07 14:15:05 by tbehra           ###   ########.fr       */
+/*   Updated: 2020/01/07 14:38:22 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,13 @@ const std::map<sf::Keyboard::Key, IDisplay::EEvent> SFMLDisplay::keyboardToEvent
 	{sf::Keyboard::Left, IDisplay::EEvent::Left},
 	{sf::Keyboard::Right, IDisplay::EEvent::Right},
 	{sf::Keyboard::Escape, IDisplay::EEvent::Quit},
+};
+
+const std::map<IDisplay::EMotif, sf::Color> SFMLDisplay::motifToColor = {
+	{IDisplay::EMotif::snake, sf::Color::Red},
+	{IDisplay::EMotif::snakeHead, sf::Color::Yellow},
+	{IDisplay::EMotif::obstacle, sf::Color::Cyan},
+	{IDisplay::EMotif::apple, sf::Color::Green},
 };
 
 IDisplay *createDisplay(void) {
@@ -68,21 +75,11 @@ void	SFMLDisplay::clearDisplay(void) {
 void	SFMLDisplay::drawStatic(Position & pos, EMotif motif) {
 	sf::Color color;
 
-	switch (motif) {
-		case snake:
-			color = sf::Color::Red;	
-			break;
-		case snakeHead:
-			color = sf::Color::Yellow;	
-			break;
-		case obstacle:
-			color = sf::Color::Cyan;	
-			break;
-		case apple:
-			color = sf::Color::Green;
-			break;
-		default:
-			color = sf::Color::Black;
+	try {
+		color = motifToColor.at(motif);
+	}
+	catch (std::out_of_range oor) {
+		color = sf::Color::Black;
 	}
 	sf::RectangleShape toDraw(sf::Vector2f(WIDTH_CELL, HEIGHT_CELL));
 	toDraw.setFillColor(color);
@@ -91,13 +88,24 @@ void	SFMLDisplay::drawStatic(Position & pos, EMotif motif) {
 }
 
 void	SFMLDisplay::drawMobile(Position & pos, Direction & dest, \
-							Direction & from, EMotif motif, float progression)
+					Direction & from, EMotif motif, float progression)
 {
-	(void)pos;
-	(void)dest;
 	(void)from;
-	(void)motif;
-	(void)progression;
+	sf::Color color;
+
+	try {
+		color = motifToColor.at(motif);
+	}
+	catch (std::out_of_range oor) {
+		color = sf::Color::Black;
+	}
+	sf::RectangleShape toDraw(sf::Vector2f(WIDTH_CELL, HEIGHT_CELL));
+	toDraw.setFillColor(color);
+	toDraw.setPosition(
+		static_cast<int>(pos.x * WIDTH_CELL + dest.x * progression * WIDTH_CELL),
+		static_cast<int>(pos.y * HEIGHT_CELL + dest.y * progression * HEIGHT_CELL)
+	);
+	_window->draw(toDraw);
 }	
 
 void	SFMLDisplay::drawScore(int score) {

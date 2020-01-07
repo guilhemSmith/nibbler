@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:20:13 by tbehra            #+#    #+#             */
-/*   Updated: 2019/12/05 17:16:44 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/07 14:28:11 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ private:
 	sf::RenderWindow	*_window;
 	
 	const static std::map<sf::Keyboard::Key, IDisplay::EEvent> keyboardToEvent;
+	const static std::map<IDisplay::EMotif, sf::Color> motifToColor;
 };
 
 extern "C" {
