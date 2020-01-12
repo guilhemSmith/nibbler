@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:27:47 by tbehra            #+#    #+#             */
-/*   Updated: 2020/01/12 16:22:04 by tbehra           ###   ########.fr       */
+/*   Updated: 2020/01/12 17:22:32 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,8 +327,9 @@ void	SFMLDisplay::drawMobile(Position & pos, Direction & dest, \
 		}
 		else {
 			sprite->setPosition(
-				pos.x * WIDTH_CELL + dest.x,
-				pos.y * HEIGHT_CELL + dest.y);
+				pos.x != 0 ? pos.x * WIDTH_CELL + dest.x : 1,
+				pos.y != 0 ? pos.y * HEIGHT_CELL + dest.y : 1
+			);
 		}
 		sprite->setScale(sf::Vector2f(WIDTH_CELL_F/ORIG_SPRITE_SIZE_F,
 					HEIGHT_CELL_F/ORIG_SPRITE_SIZE_F));
@@ -377,11 +378,10 @@ IDisplay::EEvent SFMLDisplay::pollEvent(void) {
 			try {
 				if (event.key.code == sf::Keyboard::Num3)
 				{
-					// doesn't work ! Find why
-					std::cout << "here"<< std::endl;
+					// doesn't work with Num3 (Ncurses) when we quit the window,
+					// but does work with other keys
 					_window->setVisible(false);
 				}
-
 				return this->keyboardToEvent.at(event.key.code);
 			}
 			catch (std::out_of_range &oor) {
