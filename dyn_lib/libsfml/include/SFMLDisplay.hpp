@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:20:13 by tbehra            #+#    #+#             */
-/*   Updated: 2020/01/11 16:33:29 by tbehra           ###   ########.fr       */
+/*   Updated: 2020/01/12 12:08:40 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,12 @@
 # include <SFML/Graphics.hpp>
 # include <map>
 # include "IDisplay.hpp"
-
 # define WIDTH_CELL 20
 # define HEIGHT_CELL 20
 # define WIDTH_CELL_F 20.0
 # define HEIGHT_CELL_F 20.0
 # define ORIG_SPRITE_SIZE 64
 # define ORIG_SPRITE_SIZE_F 64.0
-
-
-enum 					draw_state {
-	DRAW_TAIL,
-	
-};
 
 class	SFMLDisplay: public IDisplay {
 public:
@@ -81,7 +74,8 @@ private:
 	bool						isMobileSnakePosition(EMotif motif);
 	std::pair<size_t, size_t>	getMobileSpritePosition(Direction & dir,
 									Direction & from, EMotif motif);	
-
+	void						drawNeck(Position & pos, Direction & dest, \
+								Direction & from, float progression);
 
 	const static std::map<sf::Keyboard::Key, IDisplay::EEvent> keyboardToEvent;
 	const static std::map<IDisplay::EMotif, sf::Color> motifToColor;

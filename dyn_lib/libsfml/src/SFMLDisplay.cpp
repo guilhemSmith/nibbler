@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:27:47 by tbehra            #+#    #+#             */
-/*   Updated: 2020/01/11 17:47:12 by tbehra           ###   ########.fr       */
+/*   Updated: 2020/01/12 13:05:09 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,15 +227,54 @@ sf::Sprite *SFMLDisplay::tryGetSpriteMobile(Direction & dir,
 }
 
 bool	SFMLDisplay::isMobileSnakePosition(EMotif motif) {
-	if (_drawTail) {
-		return (true);
+	return (_drawTail || motif == IDisplay::EMotif::snakeHead);
+}
+
+void	SFMLDisplay::drawNeck(Position & pos, Direction & dest, \
+			Direction & from, float progression) {
+	sf::Sprite *neckSprite = NULL;
+
+	if (!_spritesAvailable)
+		return ;
+	try {
+		_drawTail = false; // trouver mieux que ça 
+		std::pair<size_t, size_t> spritePos = getMobileSpritePosition(dest, from,
+				IDisplay::EMotif::snake);
+		_drawTail = true;
+
+		int verticalSize = dest.y ? 
+			static_cast<int> (progression * ORIG_SPRITE_SIZE + 1) :
+			ORIG_SPRITE_SIZE;
+		int horizontalSize = dest.x ?
+			static_cast<int> (progression * ORIG_SPRITE_SIZE + 1) :
+			ORIG_SPRITE_SIZE;
+
+		neckSprite = new sf::Sprite(_spritesArray, 
+			sf::IntRect(ORIG_SPRITE_SIZE * (std::get<0>(spritePos)),
+				ORIG_SPRITE_SIZE * (std::get<1>(spritePos)),
+				horizontalSize, verticalSize));
+		neckSprite->setScale(sf::Vector2f(WIDTH_CELL_F/ORIG_SPRITE_SIZE_F,
+			HEIGHT_CELL_F/ORIG_SPRITE_SIZE_F));
+		
+		//il semble qu'on passe 2 fois a chaque fois
+		neckSprite->setPosition(
+			(dest.x == -1) ? (pos.x + 1) * WIDTH_CELL
+				+ (1 - progression * WIDTH_CELL) - 1
+				: pos.x * WIDTH_CELL,
+			(dest.y == -1) ? (pos.y + 1) * HEIGHT_CELL
+				+ (1 - progression * HEIGHT_CELL) - 1
+				: pos.y * HEIGHT_CELL
+		);
+		_window->draw(*neckSprite);
+		delete neckSprite;
 	}
-	return (motif == IDisplay::EMotif::snakeHead);
+	catch (std::exception e) {
+		return ;
+	}
 }
 
 void	SFMLDisplay::drawMobile(Position & pos, Direction & dest, \
-					Direction & from, EMotif motif, float progression)
-{
+			Direction & from, EMotif motif, float progression) {
 	sf::Color color;
 	sf::Sprite *sprite;
 
@@ -247,6 +286,9 @@ void	SFMLDisplay::drawMobile(Position & pos, Direction & dest, \
 			sprite->setPosition(
 				pos.x * WIDTH_CELL + dest.x * progression * WIDTH_CELL,
 				pos.y * HEIGHT_CELL + dest.y * progression * HEIGHT_CELL);
+			if (motif == IDisplay::EMotif::snakeHead) {
+				drawNeck(pos, dest, from, progression);
+			}
 		}
 		else {
 			sprite->setPosition(
