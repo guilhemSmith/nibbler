@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:20:13 by tbehra            #+#    #+#             */
-/*   Updated: 2020/01/12 14:35:57 by tbehra           ###   ########.fr       */
+/*   Updated: 2020/01/12 15:58:25 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,17 @@
 # include <SFML/Graphics.hpp>
 # include <map>
 # include "IDisplay.hpp"
-# define WIDTH_CELL 20
-# define HEIGHT_CELL 20
-# define WIDTH_CELL_F 20.0
-# define HEIGHT_CELL_F 20.0
+# define WIDTH_CELL 30
+# define HEIGHT_CELL 30
+# define WIDTH_CELL_F 30.0
+# define HEIGHT_CELL_F 30.0
 # define ORIG_SPRITE_SIZE 64
 # define ORIG_SPRITE_SIZE_F 64.0
 
 class	SFMLDisplay: public IDisplay {
 public:
 	enum	spriteMotif {
+		grass,
 		obstacle,
 		apple,
 		blueberry,
@@ -66,11 +67,11 @@ private:
 	int							_scoreOffset;
 	bool						_spritesAvailable;
 	bool						_drawTail;
-
 	bool						_doNeckNext;
-
+	size_t						_windowX;
+	size_t						_windowY;
 	sf::Texture					_spritesArray;
-	
+
 	sf::Sprite					*tryGetSpriteStatic(EMotif motif);
 	sf::Sprite					*tryGetSpriteMobile(Direction & dir,
 									Direction & from, EMotif motif);

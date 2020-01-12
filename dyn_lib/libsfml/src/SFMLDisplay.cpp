@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:27:47 by tbehra            #+#    #+#             */
-/*   Updated: 2020/01/12 15:25:47 by tbehra           ###   ########.fr       */
+/*   Updated: 2020/01/12 16:06:39 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ SFMLDisplay::SFMLDisplay(void): _window(NULL) {
 		_spritesArray.loadFromFile("./dyn_lib/libsfml/images/sprites.png");
 	_drawTail = true;
 	_doNeckNext = false;
+	_windowX = 0;
+	_windowY = 0;
 }
 
 SFMLDisplay::~SFMLDisplay(void) {
@@ -58,6 +60,7 @@ const std::map<IDisplay::EMotif, std::pair<size_t, size_t>>
 
 const std::map<SFMLDisplay::spriteMotif, std::pair<size_t, size_t>>
 		SFMLDisplay::spriteMotifToSpritePosition = {
+	{SFMLDisplay::spriteMotif::grass, std::pair<size_t, size_t>(0, 2)},
 	{SFMLDisplay::spriteMotif::obstacle, std::pair<size_t, size_t>(2, 3)},
 	{SFMLDisplay::spriteMotif::apple, std::pair<size_t, size_t>(0, 3)},
 	{SFMLDisplay::spriteMotif::blueberry, std::pair<size_t, size_t>(1, 3)},
@@ -97,6 +100,8 @@ void	SFMLDisplay::newWindow(size_t x, size_t y) {
 	_window = new sf::RenderWindow(
 			sf::VideoMode(WIDTH_CELL * x, HEIGHT_CELL * (y + 1) + 10),
 			"Nibbler - SFML");
+	_windowX = x;
+	_windowY = y;
 	_scoreOffset = HEIGHT_CELL * y;
 	_window->setPosition(sf::Vector2i(100, 0));
 	_window->clear(sf::Color::Black);
@@ -109,6 +114,25 @@ void	SFMLDisplay::refreshDisplay(void) {
 
 void	SFMLDisplay::clearDisplay(void) {
 	_window->clear(sf::Color::Black);
+
+	//TODO: try catch autour du at
+	std::pair<size_t, size_t> spritePos =
+		spriteMotifToSpritePosition.at(spriteMotif::grass); 
+	sf::Sprite *grassSprite = new sf::Sprite(_spritesArray, 
+		sf::IntRect(ORIG_SPRITE_SIZE * (std::get<0>(spritePos)),
+			ORIG_SPRITE_SIZE * (std::get<1>(spritePos)),
+			ORIG_SPRITE_SIZE, ORIG_SPRITE_SIZE));
+
+	grassSprite->setScale(sf::Vector2f(WIDTH_CELL_F/ORIG_SPRITE_SIZE_F,
+			HEIGHT_CELL_F/ORIG_SPRITE_SIZE_F));
+	
+	for (size_t y = 0; y < _windowY; y++) {
+		for (size_t x = 0; x < _windowX; x++) {
+			grassSprite->setPosition(x * WIDTH_CELL, y * HEIGHT_CELL);
+			_window->draw(*grassSprite);
+		}
+	}
+	delete grassSprite;
 }
 
 sf::Sprite *SFMLDisplay::tryGetSpriteStatic(EMotif motif) {
@@ -136,8 +160,6 @@ void	SFMLDisplay::drawStatic(Position & pos, EMotif motif) {
 	}
 	sprite = tryGetSpriteStatic(motif);
 	if (sprite != NULL) {
-		sprite->setScale(sf::Vector2f(WIDTH_CELL_F/ORIG_SPRITE_SIZE_F,
-					HEIGHT_CELL_F/ORIG_SPRITE_SIZE_F));
 		sprite->setPosition(pos.x * WIDTH_CELL, pos.y * HEIGHT_CELL);
 		sprite->setScale(sf::Vector2f(WIDTH_CELL_F/ORIG_SPRITE_SIZE_F,
 					HEIGHT_CELL_F/ORIG_SPRITE_SIZE_F));
