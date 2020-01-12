@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:17:41 by tbehra            #+#    #+#             */
-/*   Updated: 2020/01/02 17:59:35 by tbehra           ###   ########.fr       */
+/*   Updated: 2020/01/12 18:01:37 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ void	deleteDisplay(IDisplay *disp) {
 
 void	NcursesDisplay::initColors(void) {
 	start_color();
-	init_pair(Symbol::COLOR_PAIR_SNAKE, COLOR_YELLOW, COLOR_BLACK);
-	init_pair(Symbol::COLOR_PAIR_HEAD, COLOR_YELLOW, COLOR_BLACK);
-	init_pair(Symbol::COLOR_PAIR_APPLE, COLOR_RED, COLOR_BLACK);
+	init_pair(Symbol::COLOR_PAIR_SNAKE, COLOR_GREEN, COLOR_BLACK);
+	init_pair(Symbol::COLOR_PAIR_HEAD, COLOR_GREEN, COLOR_BLACK);
+	init_pair(Symbol::COLOR_PAIR_APPLE, COLOR_YELLOW, COLOR_BLACK);
 	init_pair(Symbol::COLOR_PAIR_OBSTACLE, COLOR_BLUE, COLOR_RED);
 	init_pair(Symbol::COLOR_PAIR_BERRY, COLOR_BLUE, COLOR_BLACK);
 	init_pair(Symbol::COLOR_SCORE, COLOR_WHITE, COLOR_BLACK);
@@ -75,7 +75,6 @@ void	NcursesDisplay::newWindow(size_t x, size_t y) {
 		delwin(_window);
 	_window = newwin(y + 2, x, 0, 0);
 	_score_row = y + 1;
-//	SCREEN	*secscr = newterm(NULL, stdin, stdout);
 
 	initColors();
 	cbreak();
@@ -83,7 +82,6 @@ void	NcursesDisplay::newWindow(size_t x, size_t y) {
 	wtimeout(_window, 0);
 	keypad(_window, TRUE);
 	curs_set(0);
-//	getmaxyx(stdscr, h, w);
 }
 
 void	NcursesDisplay::refreshDisplay(void) {
@@ -92,7 +90,6 @@ void	NcursesDisplay::refreshDisplay(void) {
 
 void	NcursesDisplay::clearDisplay(void) {
 	wclear(_window);
-	wrefresh(_window);
 }
 
 void	NcursesDisplay::drawStatic(Position & pos, EMotif motif) {
