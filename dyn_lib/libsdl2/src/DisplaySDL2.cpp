@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/10 18:07:36 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/07 15:28:41 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,24 @@ void				DisplaySDL2::drawMobile(Position & pos, Direction & dest, \
 		throw SDL2Except("Trying to render an unknown motif");
 	}
 	SDL_FillRect(this->surf, &rect, color);
+	int new_x = pos.x + dest.x;
+	if (new_x == (int)this->width) {
+		rect.x = 0.0;
+		rect.w = progression * DisplaySDL2::cell_size;
+		SDL_FillRect(this->surf, &rect, color);
+	} else if (new_x < 0) {
+		rect.x = (this->width - progression) * DisplaySDL2::cell_size;
+		SDL_FillRect(this->surf, &rect, color);
+	}
+	int new_y = pos.y + dest.y;
+	if (new_y == (int)this->height) {
+		rect.y = 0.0;
+		rect.h = progression * DisplaySDL2::cell_size;
+		SDL_FillRect(this->surf, &rect, color);
+	} else if (new_y < 0) {
+		rect.y = (this->height - progression) * DisplaySDL2::cell_size;
+		SDL_FillRect(this->surf, &rect, color);
+	}
 }
 
 void				DisplaySDL2::drawScore(int score) {

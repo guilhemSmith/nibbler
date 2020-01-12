@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:47 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/06 14:09:26 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/07 16:28:18 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 
 Game::Game(int lib, size_t width, size_t height): \
 				paused(false), score(), dir(Direction(0, 1)), \
-				dir_next(Direction(0, 0)), frame(0), \
-				frame_per_cell(Game::start_speed), \
+				dir_next(Direction(0, 0)), dir_memorized(Direction(0, 0)), \
+				frame(0), frame_per_cell(Game::start_speed), \
 				loader(lib, width, height), grid(Grid(width, height)), \
 				bonus_pos(0, 0), bonus_timer(Game::bonus_freq) {
 	for (size_t i = 0; i < width; i++) {
@@ -82,6 +82,7 @@ bool			Game::run(void) {
 		this->handle_bonus();
 	}
 	if (stop) {
+		this->game_over();
 		return false;
 	}
 	adv = static_cast<float>(frame) / static_cast<float>(this->frame_per_cell);
@@ -105,7 +106,8 @@ void			Game::game_frame(bool & stop) {
 		if (!this->dir.is_opposed_to(this->dir_next)) {
 			this->dir = this->dir_next;
 		}
-		this->dir_next = Direction(0, 0);
+		this->dir_next = this->dir_memorized;
+		this->dir_memorized = Direction(0, 0);
 	}
 	this->grid.set_head_dir(this->dir);
 	this->frame = 0;
@@ -117,7 +119,10 @@ void			Game::handle_event(IDisplay::EEvent event, bool & stop, \
 		stop = true;
 	}
 	if (event >= IDisplay::Up && event <= IDisplay::Right) {
-		this->update_dir(event);
+		if (this->dir_next.length() == 0)
+			this->update_dir(event, this->dir_next);
+		else
+			this->update_dir(event, this->dir_memorized);
 	}
 	if (event >= IDisplay::One && event <= IDisplay::Three) {
 		try {
@@ -144,17 +149,30 @@ void			Game::handle_bonus(void) {
 	}
 }
 
-void			Game::update_dir(IDisplay::EEvent event) {
+void			Game::update_dir(IDisplay::EEvent event, Direction & dir) {
 	if (event == IDisplay::Up) {
-		this->dir_next.y--;
+		dir.y--;
 	}
 	if (event == IDisplay::Down) {
-		this->dir_next.y++;
+		dir.y++;
 	}
 	if (event == IDisplay::Left) {
-		this->dir_next.x--;
+		dir.x--;
 	}
 	if (event == IDisplay::Right) {
-		this->dir_next.x++;
+		dir.x++;
+	}
+}
+
+void			Game::game_over(void) {
+	IDisplay *			disp = this->loader.get_display();
+	size_t				time_start;
+	int					i = 0;
+	int					frame_wait = 3 * 60;
+	
+	while (i++ < frame_wait) {
+		time_start = time(0);
+		while (disp->pollEvent() != IDisplay::None);
+		usleep(Game::disp_freq - (time(0) - time_start));
 	}
 }
