@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:20:13 by tbehra            #+#    #+#             */
-/*   Updated: 2020/01/12 12:08:40 by tbehra           ###   ########.fr       */
+/*   Updated: 2020/01/12 14:35:57 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ private:
 	int							_scoreOffset;
 	bool						_spritesAvailable;
 	bool						_drawTail;
+
+	bool						_doNeckNext;
+
 	sf::Texture					_spritesArray;
 	
 	sf::Sprite					*tryGetSpriteStatic(EMotif motif);

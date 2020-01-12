@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:27:47 by tbehra            #+#    #+#             */
-/*   Updated: 2020/01/12 13:05:09 by tbehra           ###   ########.fr       */
+/*   Updated: 2020/01/12 15:25:47 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ SFMLDisplay::SFMLDisplay(void): _window(NULL) {
 	_spritesAvailable =
 		_spritesArray.loadFromFile("./dyn_lib/libsfml/images/sprites.png");
 	_drawTail = true;
+	_doNeckNext = false;
 }
 
 SFMLDisplay::~SFMLDisplay(void) {
@@ -85,7 +86,6 @@ void	deleteDisplay(IDisplay *disp) {
 }
 
 void	SFMLDisplay::newWindow(size_t x, size_t y) {
-	std::cout << "new window called" << std::endl;
 	if (_window) {
 		std::cout << "delete sfml window in new window" << std::endl;
 		_window->close();
@@ -131,6 +131,9 @@ void	SFMLDisplay::drawStatic(Position & pos, EMotif motif) {
 	sf::Color color;
 	sf::Sprite *sprite;
 
+	if (_spritesAvailable && motif == IDisplay::EMotif::snake) {
+		return ;
+	}
 	sprite = tryGetSpriteStatic(motif);
 	if (sprite != NULL) {
 		sprite->setScale(sf::Vector2f(WIDTH_CELL_F/ORIG_SPRITE_SIZE_F,
@@ -227,7 +230,7 @@ sf::Sprite *SFMLDisplay::tryGetSpriteMobile(Direction & dir,
 }
 
 bool	SFMLDisplay::isMobileSnakePosition(EMotif motif) {
-	return (_drawTail || motif == IDisplay::EMotif::snakeHead);
+	return (motif == IDisplay::EMotif::snakeHead);
 }
 
 void	SFMLDisplay::drawNeck(Position & pos, Direction & dest, \
@@ -237,33 +240,33 @@ void	SFMLDisplay::drawNeck(Position & pos, Direction & dest, \
 	if (!_spritesAvailable)
 		return ;
 	try {
-		_drawTail = false; // trouver mieux que ça 
+		bool drawTailCpy = _drawTail;
+		_drawTail = false; 
 		std::pair<size_t, size_t> spritePos = getMobileSpritePosition(dest, from,
 				IDisplay::EMotif::snake);
-		_drawTail = true;
+		_drawTail = drawTailCpy;
 
 		int verticalSize = dest.y ? 
-			static_cast<int> (progression * ORIG_SPRITE_SIZE + 1) :
+			static_cast<int> (progression * ORIG_SPRITE_SIZE) :
 			ORIG_SPRITE_SIZE;
 		int horizontalSize = dest.x ?
-			static_cast<int> (progression * ORIG_SPRITE_SIZE + 1) :
+			static_cast<int> (progression * ORIG_SPRITE_SIZE) :
 			ORIG_SPRITE_SIZE;
 
 		neckSprite = new sf::Sprite(_spritesArray, 
 			sf::IntRect(ORIG_SPRITE_SIZE * (std::get<0>(spritePos)),
 				ORIG_SPRITE_SIZE * (std::get<1>(spritePos)),
 				horizontalSize, verticalSize));
+
 		neckSprite->setScale(sf::Vector2f(WIDTH_CELL_F/ORIG_SPRITE_SIZE_F,
 			HEIGHT_CELL_F/ORIG_SPRITE_SIZE_F));
-		
-		//il semble qu'on passe 2 fois a chaque fois
 		neckSprite->setPosition(
 			(dest.x == -1) ? (pos.x + 1) * WIDTH_CELL
-				+ (1 - progression * WIDTH_CELL) - 1
+				+ static_cast <int>(1 - progression * WIDTH_CELL_F - 2)
 				: pos.x * WIDTH_CELL,
 			(dest.y == -1) ? (pos.y + 1) * HEIGHT_CELL
-				+ (1 - progression * HEIGHT_CELL) - 1
-				: pos.y * HEIGHT_CELL
+				+ static_cast <int>(1 - progression * HEIGHT_CELL_F - 2) 
+				: pos.y * HEIGHT_CELL 
 		);
 		_window->draw(*neckSprite);
 		delete neckSprite;
@@ -278,16 +281,21 @@ void	SFMLDisplay::drawMobile(Position & pos, Direction & dest, \
 	sf::Color color;
 	sf::Sprite *sprite;
 
+	if (!_doNeckNext) {
+		_doNeckNext = true;
+		return ;
+	}
 	sprite = tryGetSpriteMobile(dest, from, motif);
 	if (sprite != NULL) {
 		sprite->setScale(sf::Vector2f(WIDTH_CELL_F/ORIG_SPRITE_SIZE_F,
-					HEIGHT_CELL_F/ORIG_SPRITE_SIZE_F));
+				HEIGHT_CELL_F/ORIG_SPRITE_SIZE_F));
 		if (isMobileSnakePosition(motif)) {
-			sprite->setPosition(
-				pos.x * WIDTH_CELL + dest.x * progression * WIDTH_CELL,
-				pos.y * HEIGHT_CELL + dest.y * progression * HEIGHT_CELL);
+			int xPos = pos.x * WIDTH_CELL + dest.x * progression * WIDTH_CELL;
+			int yPos = pos.y * HEIGHT_CELL + dest.y * progression * HEIGHT_CELL;
+			sprite->setPosition(xPos, yPos);
 			if (motif == IDisplay::EMotif::snakeHead) {
 				drawNeck(pos, dest, from, progression);
+				_doNeckNext = false;
 			}
 		}
 		else {
