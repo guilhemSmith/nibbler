@@ -6,7 +6,7 @@
 /*   By: tbehra <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:16:58 by tbehra            #+#    #+#             */
-/*   Updated: 2019/11/29 16:01:26 by tbehra           ###   ########.fr       */
+/*   Updated: 2020/01/02 17:40:30 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ public:
  	~NcursesDisplay(void);
 
 	void				newWindow(size_t x, size_t y);
+	void				setScoreRow(size_t y);
 	void				clearDisplay(void);
 	void				refreshDisplay(void);
 	void				drawStatic(Position & pos, EMotif motif);
@@ -39,6 +40,7 @@ private:
 	NcursesDisplay 		&operator=(NcursesDisplay const &rhs);
 
 	WINDOW				*_window;
+	size_t				_score_row;
 	static void			initColors(void);
 	const static std::map<IDisplay::EMotif, Symbol &> motifToSymbol;
 	const static std::map<int, IDisplay::EEvent> keyboardToEvent;
