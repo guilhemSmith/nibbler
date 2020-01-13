@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:17:41 by tbehra            #+#    #+#             */
-/*   Updated: 2020/01/12 18:01:37 by tbehra           ###   ########.fr       */
+/*   Updated: 2020/01/13 15:43:38 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ const std::map<IDisplay::EMotif, Symbol &> NcursesDisplay::motifToSymbol = {
 };
 
 const std::map<int, IDisplay::EEvent> NcursesDisplay::keyboardToEvent = {
-	{'q', IDisplay::Quit},
+	{27, IDisplay::Quit},
 	{KEY_UP, IDisplay::Up},
 	{KEY_DOWN, IDisplay::Down},
 	{KEY_LEFT, IDisplay::Left},
