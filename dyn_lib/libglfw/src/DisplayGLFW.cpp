@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/27 15:02:20 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/27 15:33:04 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ std::map<unsigned int, IDisplay::EEvent> const DisplayGLFW::keyMap = {
 };
 
 DisplayGLFW::DisplayGLFW(void): width(0), height(0), wind(NULL), eventStack(), \
-	eventPolled(false) {
+	eventPolled(false), vao(0), vbo(0), ebo(0), shader(0) {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
@@ -38,6 +38,18 @@ DisplayGLFW::DisplayGLFW(void): width(0), height(0), wind(NULL), eventStack(), \
 }
 
 DisplayGLFW::~DisplayGLFW(void) {
+	if (this->shader) {
+		glDeleteProgram(this->shader);
+	}
+	if (this->vao) {
+		glDeleteVertexArrays(1, &(this->vao));
+	}
+	if (this->vbo) {
+		glDeleteBuffers(1, &(this->vbo));
+	}
+	if (this->ebo) {
+		glDeleteBuffers(1, &(this->ebo));
+	}
 	if (this->wind != NULL) {
 		glfwDestroyWindow(this->wind);
 		this->wind = NULL;

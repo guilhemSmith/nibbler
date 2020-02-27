@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 14:25:22 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/27 14:58:34 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/27 15:30:50 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,10 @@ private:
 	GLFWwindow *					wind;
 	std::stack<EEvent>				eventStack;
 	bool							eventPolled;
+	unsigned int					vao;
+	unsigned int					vbo;
+	unsigned int					ebo;
+	unsigned int					shader;
 
 	static size_t const							cell_size = 16;
 	static size_t const							keyMapSize = 12;
