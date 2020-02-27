@@ -6,14 +6,45 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/27 15:33:04 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/27 17:37:26 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include "DisplayGLFW.hpp"
 
-std::map<unsigned int, IDisplay::EEvent> const DisplayGLFW::keyMap = {
+float const										DisplayGLFW::vertices[24] = {
+	-0.5, -0.5, -0.5,
+	-0.5, -0.5, 0.5,
+	-0.5, 0.5, 0.5,
+	0.5, 0.5, 0.5,
+	0.5, -0.5, 0.5,
+	0.5, -0.5, -0.5,
+	0.5, 0.5, -0.5,
+	-0.5, 0.5, -0.5,
+};
+
+int const										DisplayGLFW::indices[36] = {
+	0, 1, 2,
+	0, 7, 2,
+
+	0, 1, 4,
+	0, 5, 4,
+
+	0, 5, 6,
+	0, 7, 6,
+
+	3, 4, 5,
+	3, 6, 5,
+
+	3, 2, 7,
+	3, 6, 7,
+
+	3, 4, 1,
+	3, 2, 1,
+};
+
+std::map<unsigned int, IDisplay::EEvent> const	DisplayGLFW::keyMap = {
 	{GLFW_KEY_1, One},
 	{GLFW_KEY_2, Two},
 	{GLFW_KEY_3, Three},
@@ -74,6 +105,8 @@ void				DisplayGLFW::newWindow(size_t x, size_t y) {
 		throw GLFWExcept("Failed to init an Glew");
 	}
 	glViewport(0, 0, x * DisplayGLFW::cell_size, y * DisplayGLFW::cell_size);
+	glEnable(GL_DEPTH_TEST);
+	this->initCube();
 	this->clearDisplay();
 	this->refreshDisplay();
 }
@@ -195,6 +228,22 @@ void				DisplayGLFW::pollAllEvent()  {
 			this->eventStack.push(it->second);
 		}
 	}
+}
+
+void				DisplayGLFW::initCube() {
+	glGenVertexArrays(1, &(this->vao));
+	glGenBuffers(1, &(this->vbo));
+	glGenBuffers(1, &(this->ebo));
+	glBindVertexArray(this->vao);
+	glBindBuffer(GL_ARRAY_BUFFER, (this->vbo));
+	glBufferData(GL_ARRAY_BUFFER, sizeof(DisplayGLFW::vertices), \
+		DisplayGLFW::vertices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (this->ebo));
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(DisplayGLFW::indices), \
+		DisplayGLFW::indices, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	glBindVertexArray(0);
 }
 
 DisplayGLFW::GLFWExcept::GLFWExcept(std::string message): message(message) {}

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 14:25:22 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/27 15:30:50 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/27 17:05:39 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ public:
 private:
 	DisplayGLFW(DisplayGLFW const & rhs);
 	DisplayGLFW const &			operator=(DisplayGLFW const & rhs);
-	void						pollAllEvent();
+	void						pollAllEvent(void);
+	void						initCube(void);
 	
 	size_t							width;
 	size_t							height;
@@ -68,6 +69,8 @@ private:
 	static size_t const							cell_size = 16;
 	static size_t const							keyMapSize = 12;
 	static std::map<unsigned int, EEvent> const	keyMap;
+	static float const							vertices[24];
+	static int const							indices[36];
 
 };
 
