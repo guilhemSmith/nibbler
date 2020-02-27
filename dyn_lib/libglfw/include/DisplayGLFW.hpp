@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 14:25:22 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/27 17:05:39 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/27 18:19:18 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ private:
 	DisplayGLFW const &			operator=(DisplayGLFW const & rhs);
 	void						pollAllEvent(void);
 	void						initCube(void);
+	void						loadShaders();
+	unsigned int				compileShader(const char *filename, \
+		unsigned int kind);
 	
 	size_t							width;
 	size_t							height;

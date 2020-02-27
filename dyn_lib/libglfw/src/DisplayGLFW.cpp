@@ -6,11 +6,12 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/27 17:37:26 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/27 18:30:05 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
+#include <fstream>
 #include "DisplayGLFW.hpp"
 
 float const										DisplayGLFW::vertices[24] = {
@@ -107,6 +108,7 @@ void				DisplayGLFW::newWindow(size_t x, size_t y) {
 	glViewport(0, 0, x * DisplayGLFW::cell_size, y * DisplayGLFW::cell_size);
 	glEnable(GL_DEPTH_TEST);
 	this->initCube();
+	this->loadShaders();
 	this->clearDisplay();
 	this->refreshDisplay();
 }
@@ -244,6 +246,53 @@ void				DisplayGLFW::initCube() {
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 	glBindVertexArray(0);
+}
+
+void				DisplayGLFW::loadShaders() {
+	unsigned int		shaders[2];
+	int					success;
+	char				err_log[512];
+	
+	shaders[0] = compileShader("dyn_lib/libglfw/shaders/vertex.glsl", \
+		GL_VERTEX_SHADER);
+	shaders[1] = compileShader("dyn_lib/libglfw/shaders/fragment.glsl", \
+		GL_FRAGMENT_SHADER);
+	this->shader = glCreateProgram();
+	glAttachShader(this->shader, shaders[0]);
+	glAttachShader(this->shader, shaders[1]);
+	glLinkProgram(this->shader);
+	glGetProgramiv(this->shader, GL_LINK_STATUS, &success);
+	if (!success) {
+		glGetProgramInfoLog(this->shader, 512, NULL, err_log);
+		throw GLFWExcept(err_log);
+	}
+	glDeleteShader(shaders[0]);
+	glDeleteShader(shaders[1]);
+}
+
+unsigned int		DisplayGLFW::compileShader(const char *filename, \
+	unsigned int kind) {
+	std::ifstream		ifstr;
+	std::string			fileContent;
+	const char			*filechars;
+	unsigned int		shader;
+	int					success;
+	char				err_log[512];
+
+
+	ifstr = std::ifstream(filename);
+	fileContent = std::string((std::istreambuf_iterator<char>(ifstr)),
+		std::istreambuf_iterator<char>());
+	filechars = fileContent.c_str();
+	shader = glCreateShader(kind);
+	glShaderSource(shader, 1, &filechars, NULL);
+	glCompileShader(shader);
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+	if (!success) {
+		glGetShaderInfoLog(shader, 512, NULL, err_log);
+		throw GLFWExcept(err_log);
+	}
+	return shader;
 }
 
 DisplayGLFW::GLFWExcept::GLFWExcept(std::string message): message(message) {}
