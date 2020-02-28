@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 14:25:22 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/27 18:19:18 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/28 17:37:15 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@
 # include <string>
 # include <GL/glew.h>
 # include <GLFW/glfw3.h>
+# include <glm/glm.hpp>
+# include <glm/gtc/matrix_transform.hpp>
+# include <glm/gtc/type_ptr.hpp>
 # include <map>
+# include <vector>
 # include <stack>
 # include "IDisplay.hpp"
 
@@ -66,14 +70,15 @@ private:
 	bool							eventPolled;
 	unsigned int					vao;
 	unsigned int					vbo;
-	unsigned int					ebo;
 	unsigned int					shader;
+	glm::mat4						cameraView;
+	glm::mat4						projection;
+	std::map<EMotif, std::vector<float>>	motifMap;
 
 	static size_t const							cell_size = 16;
 	static size_t const							keyMapSize = 12;
 	static std::map<unsigned int, EEvent> const	keyMap;
-	static float const							vertices[24];
-	static int const							indices[36];
+	static float const							vertices[108];
 
 };
 

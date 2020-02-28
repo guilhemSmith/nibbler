@@ -45,3 +45,16 @@ then
 	fi
 	printf "$prefix glew installed.\n"
 fi
+
+glm=`echo $list | grep glm`
+if [ $? -ne 0 ]
+then
+	printf "$prefix glm is missing.\n"
+	brew install glm
+	if [ $? -ne 0 ]
+	then
+		printf "$prefix\033[2;31mglm installation failed.\n\033[0m";
+		exit 1;
+	fi
+	printf "$prefix glm installed.\n"
+fi

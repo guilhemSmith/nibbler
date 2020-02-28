@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/27 18:30:05 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/28 17:37:27 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,48 @@
 #include <fstream>
 #include "DisplayGLFW.hpp"
 
-float const										DisplayGLFW::vertices[24] = {
-	-0.5, -0.5, -0.5,
-	-0.5, -0.5, 0.5,
-	-0.5, 0.5, 0.5,
-	0.5, 0.5, 0.5,
-	0.5, -0.5, 0.5,
-	0.5, -0.5, -0.5,
-	0.5, 0.5, -0.5,
-	-0.5, 0.5, -0.5,
-};
+float const										DisplayGLFW::vertices[108] = {
+	-0.5f, -0.5f, -0.5f,
+	0.5f, -0.5f, -0.5f,
+	0.5f,  0.5f, -0.5f,
+	0.5f,  0.5f, -0.5f,
+	-0.5f,  0.5f, -0.5f,
+	-0.5f, -0.5f, -0.5f,
 
-int const										DisplayGLFW::indices[36] = {
-	0, 1, 2,
-	0, 7, 2,
+	-0.5f, -0.5f,  0.5f,
+	0.5f, -0.5f,  0.5f,
+	0.5f,  0.5f,  0.5f,
+	0.5f,  0.5f,  0.5f,
+	-0.5f,  0.5f,  0.5f,
+	-0.5f, -0.5f,  0.5f,
 
-	0, 1, 4,
-	0, 5, 4,
+	-0.5f,  0.5f,  0.5f,
+	-0.5f,  0.5f, -0.5f,
+	-0.5f, -0.5f, -0.5f,
+	-0.5f, -0.5f, -0.5f,
+	-0.5f, -0.5f,  0.5f,
+	-0.5f,  0.5f,  0.5f,
 
-	0, 5, 6,
-	0, 7, 6,
+	0.5f,  0.5f,  0.5f,
+	0.5f,  0.5f, -0.5f,
+	0.5f, -0.5f, -0.5f,
+	0.5f, -0.5f, -0.5f,
+	0.5f, -0.5f,  0.5f,
+	0.5f,  0.5f,  0.5f,
 
-	3, 4, 5,
-	3, 6, 5,
+	-0.5f, -0.5f, -0.5f,
+	0.5f, -0.5f, -0.5f,
+	0.5f, -0.5f,  0.5f,
+	0.5f, -0.5f,  0.5f,
+	-0.5f, -0.5f,  0.5f,
+	-0.5f, -0.5f, -0.5f,
 
-	3, 2, 7,
-	3, 6, 7,
-
-	3, 4, 1,
-	3, 2, 1,
+	-0.5f,  0.5f, -0.5f,
+	0.5f,  0.5f, -0.5f,
+	0.5f,  0.5f,  0.5f,
+	0.5f,  0.5f,  0.5f,
+	-0.5f,  0.5f,  0.5f,
+	-0.5f,  0.5f, -0.5f,
 };
 
 std::map<unsigned int, IDisplay::EEvent> const	DisplayGLFW::keyMap = {
@@ -61,7 +74,8 @@ std::map<unsigned int, IDisplay::EEvent> const	DisplayGLFW::keyMap = {
 };
 
 DisplayGLFW::DisplayGLFW(void): width(0), height(0), wind(NULL), eventStack(), \
-	eventPolled(false), vao(0), vbo(0), ebo(0), shader(0) {
+	eventPolled(false), vao(0), vbo(0), shader(0), cameraView(), \
+	projection(), motifMap() {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
@@ -78,9 +92,6 @@ DisplayGLFW::~DisplayGLFW(void) {
 	}
 	if (this->vbo) {
 		glDeleteBuffers(1, &(this->vbo));
-	}
-	if (this->ebo) {
-		glDeleteBuffers(1, &(this->ebo));
 	}
 	if (this->wind != NULL) {
 		glfwDestroyWindow(this->wind);
@@ -109,6 +120,18 @@ void				DisplayGLFW::newWindow(size_t x, size_t y) {
 	glEnable(GL_DEPTH_TEST);
 	this->initCube();
 	this->loadShaders();
+	this->projection = glm::perspective(glm::radians(60.0f), \
+		(float)(this->width * DisplayGLFW::cell_size)/(float)(this->height * DisplayGLFW::cell_size), 0.1f, 550.0f);
+	this->cameraView = glm::translate(glm::mat4(1.0f), \
+		glm::vec3(-(float)(this->width * DisplayGLFW::cell_size) / 2.0f, \
+		-(float)(this->height * DisplayGLFW::cell_size) / 2.0f, -500.0f));
+	this->motifMap = {
+		{snakeHead, {164.0f / 255.0f, 198.0f / 255.0f, 57.0f / 255.0f}},
+		{snake, {135.0f / 255.0f, 169.0f / 255.0f, 107.0f / 255.0f}},
+		{apple, {227.0f / 255.0f, 38.0f / 255.0f, 54.0f / 255.0f}},
+		{blueberry, {33.0f / 255.0f, 171.0f / 255.0f, 205.0f / 255.0f}},
+		{obstacle, {159.0f / 255.0f, 129.0f / 255.0f, 112.0f / 255.0f}},
+	};
 	this->clearDisplay();
 	this->refreshDisplay();
 }
@@ -120,70 +143,39 @@ void				DisplayGLFW::clearDisplay(void) {
 
 void				DisplayGLFW::refreshDisplay(void) {
 	glfwSwapBuffers(this->wind);
-    glfwPollEvents(); 
 }
 
 void				DisplayGLFW::drawStatic(Position & pos, EMotif motif) {
-	(void)pos;
-	(void)motif;
-	// Uint32			color;
-	// SDL_Rect		rect = {
-	// 	static_cast<int>(pos.x * DisplayGLFW::cell_size),
-	// 	static_cast<int>(pos.y * DisplayGLFW::cell_size),
-	// 	DisplayGLFW::cell_size,
-	// 	DisplayGLFW::cell_size,
-	// };
-	
-	// try {
-	// 	color = this->motifMap.at(motif);
-	// } catch(std::out_of_range oor) {
-	// 	throw GLFWExcept("Trying to render an unknown motif");
-	// }
-	// SDL_FillRect(this->surf, &rect, color);
+	glUseProgram(this->shader);
+	glUniform3fv(glGetUniformLocation(this->shader, "base_color"), 1, &(this->motifMap[motif][0]));
+	glUniformMatrix4fv(glGetUniformLocation(this->shader, "projection"), 1, GL_FALSE, glm::value_ptr(this->projection));
+	glUniformMatrix4fv(glGetUniformLocation(this->shader, "view"), 1, GL_FALSE, glm::value_ptr(this->cameraView));
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3((float)(pos.x * DisplayGLFW::cell_size), (float)((this->height - pos.y) * DisplayGLFW::cell_size), 0.0f));
+	model = glm::scale(model, glm::vec3(DisplayGLFW::cell_size, DisplayGLFW::cell_size, DisplayGLFW::cell_size));
+	glUniformMatrix4fv(glGetUniformLocation(this->shader, "model"), 1, GL_FALSE, glm::value_ptr(model));
+	glBindVertexArray(this->vao);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glBindVertexArray(0);
 }
 
 void				DisplayGLFW::drawMobile(Position & pos, Direction & dest, \
 							Direction & from, EMotif motif, float progression) {
-	(void)pos;
 	(void)dest;
 	(void)from;
 	(void)motif;
 	(void)progression;
-	
-	// Uint32			color;
-	// SDL_Rect		rect = {
-	// 	static_cast<int>(pos.x * DisplayGLFW::cell_size \
-	// 		+ dest.x * progression * DisplayGLFW::cell_size),
-	// 	static_cast<int>(pos.y * DisplayGLFW::cell_size \
-	// 		+ dest.y * progression * DisplayGLFW::cell_size),
-	// 	DisplayGLFW::cell_size,
-	// 	DisplayGLFW::cell_size,
-	// };
-
-	// try {
-	// 	color = this->motifMap.at(motif);
-	// } catch(std::out_of_range oor) {
-	// 	throw GLFWExcept("Trying to render an unknown motif");
-	// }
-	// SDL_FillRect(this->surf, &rect, color);
-	// int new_x = pos.x + dest.x;
-	// if (new_x == (int)this->width) {
-	// 	rect.x = 0.0;
-	// 	rect.w = progression * DisplayGLFW::cell_size;
-	// 	SDL_FillRect(this->surf, &rect, color);
-	// } else if (new_x < 0) {
-	// 	rect.x = (this->width - progression) * DisplayGLFW::cell_size;
-	// 	SDL_FillRect(this->surf, &rect, color);
-	// }
-	// int new_y = pos.y + dest.y;
-	// if (new_y == (int)this->height) {
-	// 	rect.y = 0.0;
-	// 	rect.h = progression * DisplayGLFW::cell_size;
-	// 	SDL_FillRect(this->surf, &rect, color);
-	// } else if (new_y < 0) {
-	// 	rect.y = (this->height - progression) * DisplayGLFW::cell_size;
-	// 	SDL_FillRect(this->surf, &rect, color);
-	// }
+	glUseProgram(this->shader);
+	glUniform3fv(glGetUniformLocation(this->shader, "base_color"), 1, &(this->motifMap[motif][0]));
+	glUniformMatrix4fv(glGetUniformLocation(this->shader, "projection"), 1, GL_FALSE, glm::value_ptr(this->projection));
+	glUniformMatrix4fv(glGetUniformLocation(this->shader, "view"), 1, GL_FALSE, glm::value_ptr(this->cameraView));
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3((float)(pos.x * DisplayGLFW::cell_size), (float)((this->height - pos.y) * DisplayGLFW::cell_size), 0.0f));
+	model = glm::scale(model, glm::vec3(DisplayGLFW::cell_size, DisplayGLFW::cell_size, DisplayGLFW::cell_size));
+	glUniformMatrix4fv(glGetUniformLocation(this->shader, "model"), 1, GL_FALSE, glm::value_ptr(model));
+	glBindVertexArray(this->vao);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glBindVertexArray(0);
 }
 
 void				DisplayGLFW::drawScore(int score) {
@@ -222,6 +214,7 @@ IDisplay::EEvent	DisplayGLFW::pollEvent(void) {
 }
 
 void				DisplayGLFW::pollAllEvent()  {
+    glfwPollEvents();
 	while (!this->eventStack.empty()) {
 		this->eventStack.pop();
 	}
@@ -235,14 +228,10 @@ void				DisplayGLFW::pollAllEvent()  {
 void				DisplayGLFW::initCube() {
 	glGenVertexArrays(1, &(this->vao));
 	glGenBuffers(1, &(this->vbo));
-	glGenBuffers(1, &(this->ebo));
 	glBindVertexArray(this->vao);
 	glBindBuffer(GL_ARRAY_BUFFER, (this->vbo));
 	glBufferData(GL_ARRAY_BUFFER, sizeof(DisplayGLFW::vertices), \
 		DisplayGLFW::vertices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (this->ebo));
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(DisplayGLFW::indices), \
-		DisplayGLFW::indices, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 	glBindVertexArray(0);
