@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/28 17:37:27 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/28 18:20:21 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void				DisplayGLFW::newWindow(size_t x, size_t y) {
 	this->width = x;
 	this->height = y;
 	this->wind = glfwCreateWindow(x * DisplayGLFW::cell_size, \
-		y * DisplayGLFW::cell_size, "nibbler", NULL, NULL);
+		(y + 1) * DisplayGLFW::cell_size, "nibbler", NULL, NULL);
 	if (this->wind == NULL) {
 		throw GLFWExcept("Failed to create an GLFW window");
 	}
@@ -116,15 +116,17 @@ void				DisplayGLFW::newWindow(size_t x, size_t y) {
 	if (GLEW_OK != glewInit()) {
 		throw GLFWExcept("Failed to init an Glew");
 	}
-	glViewport(0, 0, x * DisplayGLFW::cell_size, y * DisplayGLFW::cell_size);
+	glViewport(0, 0, x * DisplayGLFW::cell_size, (y + 1) * DisplayGLFW::cell_size);
 	glEnable(GL_DEPTH_TEST);
 	this->initCube();
 	this->loadShaders();
+	float dist = ((float)y / 2.0f + 1.0f) * (float)DisplayGLFW::cell_size / std::tan(glm::radians(30.0f));
 	this->projection = glm::perspective(glm::radians(60.0f), \
-		(float)(this->width * DisplayGLFW::cell_size)/(float)(this->height * DisplayGLFW::cell_size), 0.1f, 550.0f);
+		(float)(x * DisplayGLFW::cell_size) \
+		/ (float)((y + 1) * DisplayGLFW::cell_size), 0.1f, dist + DisplayGLFW::cell_size);
 	this->cameraView = glm::translate(glm::mat4(1.0f), \
-		glm::vec3(-(float)(this->width * DisplayGLFW::cell_size) / 2.0f, \
-		-(float)(this->height * DisplayGLFW::cell_size) / 2.0f, -500.0f));
+		glm::vec3(-(((float)x - 1.0f) * (float)DisplayGLFW::cell_size) / 2.0f, \
+		-(float)(y * DisplayGLFW::cell_size) / 2.0f, -dist));
 	this->motifMap = {
 		{snakeHead, {164.0f / 255.0f, 198.0f / 255.0f, 57.0f / 255.0f}},
 		{snake, {135.0f / 255.0f, 169.0f / 255.0f, 107.0f / 255.0f}},
@@ -143,17 +145,24 @@ void				DisplayGLFW::clearDisplay(void) {
 
 void				DisplayGLFW::refreshDisplay(void) {
 	glfwSwapBuffers(this->wind);
+    glfwPollEvents();
 }
 
 void				DisplayGLFW::drawStatic(Position & pos, EMotif motif) {
 	glUseProgram(this->shader);
-	glUniform3fv(glGetUniformLocation(this->shader, "base_color"), 1, &(this->motifMap[motif][0]));
-	glUniformMatrix4fv(glGetUniformLocation(this->shader, "projection"), 1, GL_FALSE, glm::value_ptr(this->projection));
-	glUniformMatrix4fv(glGetUniformLocation(this->shader, "view"), 1, GL_FALSE, glm::value_ptr(this->cameraView));
+	glUniform3fv(glGetUniformLocation(this->shader, "base_color"), 1, \
+		&(this->motifMap[motif][0]));
+	glUniformMatrix4fv(glGetUniformLocation(this->shader, "projection"), 1, \
+		GL_FALSE, glm::value_ptr(this->projection));
+	glUniformMatrix4fv(glGetUniformLocation(this->shader, "view"), 1, \
+		GL_FALSE, glm::value_ptr(this->cameraView));
 	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3((float)(pos.x * DisplayGLFW::cell_size), (float)((this->height - pos.y) * DisplayGLFW::cell_size), 0.0f));
-	model = glm::scale(model, glm::vec3(DisplayGLFW::cell_size, DisplayGLFW::cell_size, DisplayGLFW::cell_size));
-	glUniformMatrix4fv(glGetUniformLocation(this->shader, "model"), 1, GL_FALSE, glm::value_ptr(model));
+	model = glm::translate(model, glm::vec3((float)(pos.x * DisplayGLFW::cell_size), \
+		(float)((this->height - pos.y) * DisplayGLFW::cell_size), 0.0f));
+	model = glm::scale(model, glm::vec3(DisplayGLFW::cell_size, \
+		DisplayGLFW::cell_size, DisplayGLFW::cell_size));
+	glUniformMatrix4fv(glGetUniformLocation(this->shader, "model"), 1, \
+		GL_FALSE, glm::value_ptr(model));
 	glBindVertexArray(this->vao);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
@@ -166,13 +175,19 @@ void				DisplayGLFW::drawMobile(Position & pos, Direction & dest, \
 	(void)motif;
 	(void)progression;
 	glUseProgram(this->shader);
-	glUniform3fv(glGetUniformLocation(this->shader, "base_color"), 1, &(this->motifMap[motif][0]));
-	glUniformMatrix4fv(glGetUniformLocation(this->shader, "projection"), 1, GL_FALSE, glm::value_ptr(this->projection));
-	glUniformMatrix4fv(glGetUniformLocation(this->shader, "view"), 1, GL_FALSE, glm::value_ptr(this->cameraView));
+	glUniform3fv(glGetUniformLocation(this->shader, "base_color"), 1, \
+		&(this->motifMap[motif][0]));
+	glUniformMatrix4fv(glGetUniformLocation(this->shader, "projection"), 1, \
+		GL_FALSE, glm::value_ptr(this->projection));
+	glUniformMatrix4fv(glGetUniformLocation(this->shader, "view"), 1, \
+		GL_FALSE, glm::value_ptr(this->cameraView));
 	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3((float)(pos.x * DisplayGLFW::cell_size), (float)((this->height - pos.y) * DisplayGLFW::cell_size), 0.0f));
-	model = glm::scale(model, glm::vec3(DisplayGLFW::cell_size, DisplayGLFW::cell_size, DisplayGLFW::cell_size));
-	glUniformMatrix4fv(glGetUniformLocation(this->shader, "model"), 1, GL_FALSE, glm::value_ptr(model));
+	model = glm::translate(model, glm::vec3((float)(pos.x * DisplayGLFW::cell_size), \
+		(float)((this->height - pos.y) * DisplayGLFW::cell_size), 0.0f));
+	model = glm::scale(model, glm::vec3(DisplayGLFW::cell_size, \
+		DisplayGLFW::cell_size, DisplayGLFW::cell_size));
+	glUniformMatrix4fv(glGetUniformLocation(this->shader, "model"), 1, \
+		GL_FALSE, glm::value_ptr(model));
 	glBindVertexArray(this->vao);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
@@ -214,7 +229,6 @@ IDisplay::EEvent	DisplayGLFW::pollEvent(void) {
 }
 
 void				DisplayGLFW::pollAllEvent()  {
-    glfwPollEvents();
 	while (!this->eventStack.empty()) {
 		this->eventStack.pop();
 	}
