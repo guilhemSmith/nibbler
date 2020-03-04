@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:27:47 by tbehra            #+#    #+#             */
-/*   Updated: 2020/01/12 17:22:32 by tbehra           ###   ########.fr       */
+/*   Updated: 2020/03/04 16:20:19 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ SFMLDisplay::SFMLDisplay(void): _window(NULL) {
 
 SFMLDisplay::~SFMLDisplay(void) {
 	if (_window != NULL) {
-		std::cout << "delete sfml window in destructor" << std::endl;
 		_window->setVisible(false);
 		_window->close();
 		delete _window;

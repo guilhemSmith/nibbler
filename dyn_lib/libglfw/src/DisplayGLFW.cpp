@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2020/03/04 16:12:34 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/03/04 16:33:40 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,9 +210,6 @@ void				DisplayGLFW::drawScore(int score) {
 
 
 IDisplay::EEvent	DisplayGLFW::pollEvent(void) {
-	if (glfwWindowShouldClose(this->wind)) {
-		return Quit;
-	}
 	if (!this->eventPolled) {
 		this->eventPolled = true;
 		this->pollAllEvent();
@@ -231,6 +228,9 @@ void				DisplayGLFW::pollAllEvent()  {
 	bool		state;
 	while (!this->eventStack.empty()) {
 		this->eventStack.pop();
+	}
+	if (glfwWindowShouldClose(this->wind)) {
+		this->eventStack.push(Quit);
 	}
 	for (auto it = keyMap.begin(); it != keyMap.end(); it++) {
 		state = glfwGetKey(this->wind, it->first);
