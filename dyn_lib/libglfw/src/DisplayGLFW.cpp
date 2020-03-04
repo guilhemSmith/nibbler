@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2020/03/04 14:03:15 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/03/04 14:30:49 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void				DisplayGLFW::newWindow(size_t x, size_t y) {
 	this->width = x;
 	this->height = y;
 	this->wind = glfwCreateWindow(x * DisplayGLFW::cell_size, \
-		(y + 1) * DisplayGLFW::cell_size, "nibbler", NULL, NULL);
+		y * DisplayGLFW::cell_size, "nibbler", NULL, NULL);
 	if (this->wind == NULL) {
 		throw GLFWExcept("Failed to create an GLFW window");
 	}
@@ -116,17 +116,17 @@ void				DisplayGLFW::newWindow(size_t x, size_t y) {
 	if (GLEW_OK != glewInit()) {
 		throw GLFWExcept("Failed to init an Glew");
 	}
-	glViewport(0, 0, x * DisplayGLFW::cell_size, (y + 1) * DisplayGLFW::cell_size);
+	glViewport(0, 0, x * DisplayGLFW::cell_size, y * DisplayGLFW::cell_size);
 	glEnable(GL_DEPTH_TEST);
 	this->initCube();
 	this->loadShaders();
-	float dist = ((float)y / 2.0f + 1.0f) * (float)DisplayGLFW::cell_size / std::tan(glm::radians(30.0f));
+	float dist = (float)y / 2.0f * (float)DisplayGLFW::cell_size / std::tan(glm::radians(30.0f));
 	this->projection = glm::perspective(glm::radians(60.0f), \
 		(float)(x * DisplayGLFW::cell_size) \
-		/ (float)((y + 1) * DisplayGLFW::cell_size), 0.1f, dist + DisplayGLFW::cell_size);
+		/ (float)(y * DisplayGLFW::cell_size), 0.1f, dist + DisplayGLFW::cell_size);
 	this->cameraView = glm::translate(glm::mat4(1.0f), \
 		glm::vec3(-(((float)x - 1.0f) * (float)DisplayGLFW::cell_size) / 2.0f, \
-		-(float)(y * DisplayGLFW::cell_size) / 2.0f, -dist));
+		-(float)((y + 1) * DisplayGLFW::cell_size) / 2.0f, -dist));
 	this->motifMap = {
 		{snakeHead, {164.0f / 255.0f, 198.0f / 255.0f, 57.0f / 255.0f}},
 		{snake, {135.0f / 255.0f, 169.0f / 255.0f, 107.0f / 255.0f}},
@@ -145,7 +145,7 @@ void				DisplayGLFW::clearDisplay(void) {
 
 void				DisplayGLFW::refreshDisplay(void) {
 	glfwSwapBuffers(this->wind);
-    glfwPollEvents();
+	glfwPollEvents();
 }
 
 void				DisplayGLFW::drawStatic(Position & pos, EMotif motif) {
