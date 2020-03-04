@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2020/03/04 14:30:49 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/03/04 15:14:48 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,10 +170,8 @@ void				DisplayGLFW::drawStatic(Position & pos, EMotif motif) {
 
 void				DisplayGLFW::drawMobile(Position & pos, Direction & dest, \
 							Direction & from, EMotif motif, float progression) {
-	(void)dest;
 	(void)from;
 	(void)motif;
-	(void)progression;
 	glUseProgram(this->shader);
 	glUniform3fv(glGetUniformLocation(this->shader, "base_color"), 1, \
 		&(this->motifMap[motif][0]));
@@ -182,8 +180,8 @@ void				DisplayGLFW::drawMobile(Position & pos, Direction & dest, \
 	glUniformMatrix4fv(glGetUniformLocation(this->shader, "view"), 1, \
 		GL_FALSE, glm::value_ptr(this->cameraView));
 	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3((float)(pos.x * DisplayGLFW::cell_size), \
-		(float)((this->height - pos.y) * DisplayGLFW::cell_size), 0.0f));
+	model = glm::translate(model, glm::vec3((float)((pos.x + dest.x * progression) * DisplayGLFW::cell_size), \
+		(float)((this->height - (pos.y + dest.y * progression)) * DisplayGLFW::cell_size), 0.0f));
 	model = glm::scale(model, glm::vec3(DisplayGLFW::cell_size, \
 		DisplayGLFW::cell_size, DisplayGLFW::cell_size));
 	glUniformMatrix4fv(glGetUniformLocation(this->shader, "model"), 1, \
