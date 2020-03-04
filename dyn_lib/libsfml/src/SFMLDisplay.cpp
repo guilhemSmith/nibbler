@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:27:47 by tbehra            #+#    #+#             */
-/*   Updated: 2020/01/12 17:22:32 by tbehra           ###   ########.fr       */
+/*   Updated: 2020/03/04 16:50:25 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	SFMLDisplay::newWindow(size_t x, size_t y) {
 	}
 	_window = new sf::RenderWindow(
 			sf::VideoMode(WIDTH_CELL * x, HEIGHT_CELL * (y + 1) + 10),
-			"Nibbler - SFML");
+			"Nibbler - SFML", sf::Style::Titlebar | sf::Style::Close);
 	_windowX = x;
 	_windowY = y;
 	_scoreOffset = HEIGHT_CELL * y;
