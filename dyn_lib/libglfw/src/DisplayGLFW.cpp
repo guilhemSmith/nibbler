@@ -6,11 +6,10 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2020/03/04 15:14:48 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/03/04 16:12:34 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
 #include <fstream>
 #include "DisplayGLFW.hpp"
 
@@ -134,6 +133,20 @@ void				DisplayGLFW::newWindow(size_t x, size_t y) {
 		{blueberry, {33.0f / 255.0f, 171.0f / 255.0f, 205.0f / 255.0f}},
 		{obstacle, {159.0f / 255.0f, 129.0f / 255.0f, 112.0f / 255.0f}},
 	};
+	this->keyState = {
+		{GLFW_KEY_1, false},
+		{GLFW_KEY_2, false},
+		{GLFW_KEY_3, false},
+		{GLFW_KEY_UP, false},
+		{GLFW_KEY_W, false},
+		{GLFW_KEY_DOWN, false},
+		{GLFW_KEY_S, false},
+		{GLFW_KEY_LEFT, false},
+		{GLFW_KEY_A, false},
+		{GLFW_KEY_RIGHT, false},
+		{GLFW_KEY_D, false},
+		{GLFW_KEY_ESCAPE, false},
+	};
 	this->clearDisplay();
 	this->refreshDisplay();
 }
@@ -193,18 +206,6 @@ void				DisplayGLFW::drawMobile(Position & pos, Direction & dest, \
 
 void				DisplayGLFW::drawScore(int score) {
 	(void)score;
-	// SDL_Color White = {255, 255, 255, 255};
-	// std::string value;
-	
-	// try {
-	// 	value = std::to_string(score);
-	// } catch (std::exception e) {
-	// 	value = "ERR";
-	// }
-	// SDL_Surface* surfaceMessage = TTF_RenderText_Solid(this->font, \
-	// 	value.c_str(), White);
-	// SDL_BlitSurface(surfaceMessage, NULL, this->surf, &this->score_pos);
-	// SDL_FreeSurface(surfaceMessage);
 }
 
 
@@ -227,12 +228,17 @@ IDisplay::EEvent	DisplayGLFW::pollEvent(void) {
 }
 
 void				DisplayGLFW::pollAllEvent()  {
+	bool		state;
 	while (!this->eventStack.empty()) {
 		this->eventStack.pop();
 	}
 	for (auto it = keyMap.begin(); it != keyMap.end(); it++) {
-		if (glfwGetKey(this->wind, it->first)) {
+		state = glfwGetKey(this->wind, it->first);
+		if (state && !this->keyState.at(it->first)) {
 			this->eventStack.push(it->second);
+			this->keyState.at(it->first) = true;
+		} else if (!state && this->keyState.at(it->first)) {
+			this->keyState[it->first] = false;
 		}
 	}
 }

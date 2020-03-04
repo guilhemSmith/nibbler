@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 14:25:22 by gsmith            #+#    #+#             */
-/*   Updated: 2020/03/04 14:01:52 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/03/04 16:08:45 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,18 @@ private:
 	unsigned int				compileShader(const char *filename, \
 		unsigned int kind);
 	
-	size_t							width;
-	size_t							height;
-	GLFWwindow *					wind;
-	std::stack<EEvent>				eventStack;
-	bool							eventPolled;
-	unsigned int					vao;
-	unsigned int					vbo;
-	unsigned int					shader;
-	glm::mat4						cameraView;
-	glm::mat4						projection;
+	size_t									width;
+	size_t									height;
+	GLFWwindow *							wind;
+	std::stack<EEvent>						eventStack;
+	bool									eventPolled;
+	unsigned int							vao;
+	unsigned int							vbo;
+	unsigned int							shader;
+	glm::mat4								cameraView;
+	glm::mat4								projection;
 	std::map<EMotif, std::vector<float>>	motifMap;
+	std::map<unsigned int, bool>			keyState;
 
 	static size_t const							cell_size = 32;
 	static size_t const							keyMapSize = 12;
