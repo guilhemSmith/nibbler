@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 14:25:22 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/28 17:37:15 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/03/04 14:01:52 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,10 @@ private:
 	glm::mat4						projection;
 	std::map<EMotif, std::vector<float>>	motifMap;
 
-	static size_t const							cell_size = 16;
+	static size_t const							cell_size = 32;
 	static size_t const							keyMapSize = 12;
 	static std::map<unsigned int, EEvent> const	keyMap;
-	static float const							vertices[108];
+	static float const							vertices[216];
 
 };
 

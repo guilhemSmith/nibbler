@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 14:25:22 by gsmith            #+#    #+#             */
-/*   Updated: 2019/12/09 18:07:24 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/03/04 13:33:39 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ private:
 	EEvent						pollWindowEvent(SDL_Event event);
 	EEvent						pollKeyDownEvent(SDL_Event event);
 
-	static size_t const							cell_size = 16;
+	static size_t const							cell_size = 32;
 	static std::map<SDL_Scancode, EEvent> const keyMap;
 };
 
