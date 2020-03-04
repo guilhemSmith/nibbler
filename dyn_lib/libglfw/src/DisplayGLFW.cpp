@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2020/03/04 16:33:40 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/03/04 16:43:39 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,10 @@ void				DisplayGLFW::newWindow(size_t x, size_t y) {
 	if (this->wind == NULL) {
 		throw GLFWExcept("Failed to create an GLFW window");
 	}
+	glfwSetWindowAspectRatio(this->wind, x * DisplayGLFW::cell_size, \
+		y * DisplayGLFW::cell_size);
+	glfwSetWindowSizeLimits(this->wind, x * DisplayGLFW::cell_size, x * DisplayGLFW::cell_size, \
+		y * DisplayGLFW::cell_size, y * DisplayGLFW::cell_size);
 	glfwMakeContextCurrent(this->wind);
 	if (GLEW_OK != glewInit()) {
 		throw GLFWExcept("Failed to init an Glew");
