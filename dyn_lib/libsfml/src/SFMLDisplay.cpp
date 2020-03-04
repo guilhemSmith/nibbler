@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:27:47 by tbehra            #+#    #+#             */
-/*   Updated: 2020/03/04 16:59:17 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/03/04 17:01:41 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,6 @@ void	SFMLDisplay::newWindow(size_t x, size_t y) {
 	_windowX = x;
 	_windowY = y;
 	_scoreOffset = HEIGHT_CELL * y;
-	// _window->setPosition();
-	// _window->setPosition(sf::Vector2i(100, 0));
 	_window->clear(sf::Color::Black);
 	_window->display();
 }
