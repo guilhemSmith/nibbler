@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:27:47 by tbehra            #+#    #+#             */
-/*   Updated: 2020/03/05 13:38:00 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/03/05 14:18:52 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ const std::map<sf::Keyboard::Key, IDisplay::EEvent> SFMLDisplay::keyboardToEvent
 	{sf::Keyboard::Down, IDisplay::EEvent::Down},
 	{sf::Keyboard::Left, IDisplay::EEvent::Left},
 	{sf::Keyboard::Right, IDisplay::EEvent::Right},
+	{sf::Keyboard::W, IDisplay::EEvent::Up},
+	{sf::Keyboard::S, IDisplay::EEvent::Down},
+	{sf::Keyboard::A, IDisplay::EEvent::Left},
+	{sf::Keyboard::D, IDisplay::EEvent::Right},
 	{sf::Keyboard::Escape, IDisplay::EEvent::Quit},
 };
 
