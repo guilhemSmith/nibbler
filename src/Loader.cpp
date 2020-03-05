@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:07:32 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/06 14:05:13 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/27 14:56:40 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ Loader::Loader(int lib, size_t width, size_t height): libId(lib) {
 	this->libTab = {
 		{1, "libsdl2"},
 		{2, "libsfml"},
-		{3, "libncurses"},
+		{3, "libglfw"},
 	};
 	this->load_lib(lib, width, height);
 }
