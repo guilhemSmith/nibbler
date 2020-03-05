@@ -98,11 +98,10 @@ void	SFMLDisplay::newWindow(size_t x, size_t y) {
 	}
 	_window = new sf::RenderWindow(
 			sf::VideoMode(WIDTH_CELL * x, HEIGHT_CELL * (y + 1) + 10),
-			"Nibbler - SFML");
+			"Nibbler - SFML", sf::Style::Titlebar | sf::Style::Close);
 	_windowX = x;
 	_windowY = y;
 	_scoreOffset = HEIGHT_CELL * y;
-	_window->setPosition(sf::Vector2i(100, 0));
 	_window->clear(sf::Color::Black);
 	_window->display();
 }

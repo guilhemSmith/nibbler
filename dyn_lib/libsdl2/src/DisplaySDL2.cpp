@@ -61,8 +61,8 @@ void				DisplaySDL2::newWindow(size_t x, size_t y) {
 	}
 	this->width = x;
 	this->height = y;
-	this->wind = SDL_CreateWindow("Nibbler", SDL_WINDOWPOS_UNDEFINED, \
-						SDL_WINDOWPOS_UNDEFINED, x * DisplaySDL2::cell_size, \
+	this->wind = SDL_CreateWindow("Nibbler", SDL_WINDOWPOS_CENTERED, \
+						SDL_WINDOWPOS_CENTERED, x * DisplaySDL2::cell_size, \
 						y * DisplaySDL2::cell_size + DisplaySDL2::cell_size, \
 						SDL_WINDOW_SHOWN | SDL_WINDOW_INPUT_FOCUS);
 	if (this->wind == NULL) {
