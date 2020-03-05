@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 13:58:27 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/28 15:23:05 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/03/05 13:49:44 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 // temporary define to be replace with static attribute from lib class or main.
 # define STARTINGLIB_MIN 1
 # define STARTINGLIB_MAX 3
-# define WIDTH_MAX 100
-# define WIDTH_MIN 30
-# define HEIGHT_MAX 100
-# define HEIGHT_MIN 30
+# define WIDTH_MAX 40
+# define WIDTH_MIN 15
+# define HEIGHT_MAX 40
+# define HEIGHT_MIN 15
 
 class Arguments {
 public:

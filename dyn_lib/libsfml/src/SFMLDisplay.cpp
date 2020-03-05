@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:27:47 by tbehra            #+#    #+#             */
-/*   Updated: 2020/03/04 16:20:19 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/03/05 13:38:00 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ void	deleteDisplay(IDisplay *disp) {
 
 void	SFMLDisplay::newWindow(size_t x, size_t y) {
 	if (_window) {
-		std::cout << "delete sfml window in new window" << std::endl;
 		_window->close();
 		delete _window;
 	}

@@ -16,6 +16,7 @@
 #include "IDisplay.hpp"
 #include <unistd.h>
 #include <iostream>
+#include "Loader.hpp"
 
 int		main(int argc, char * argv[]) {
 	Arguments			args;
@@ -30,6 +31,9 @@ int		main(int argc, char * argv[]) {
 		Game	game(args.getStartingLib(), args.getWidth(), args.getHeight());
 		while (game.run());
 		std::cout << "Game Over" << std::endl;
+	} catch (Loader::LoaderExcept le){
+		std::cerr << le.what() << std::endl;
+		return 1;
 	} catch (std::exception e) {
 		std::cerr << e.what() << std::endl;
 		return 1;

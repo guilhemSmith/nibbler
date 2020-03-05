@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2020/03/04 16:43:39 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/03/05 13:38:31 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void				DisplayGLFW::newWindow(size_t x, size_t y) {
 	this->width = x;
 	this->height = y;
 	this->wind = glfwCreateWindow(x * DisplayGLFW::cell_size, \
-		y * DisplayGLFW::cell_size, "nibbler", NULL, NULL);
+		y * DisplayGLFW::cell_size, "Nibbler - GLFW", NULL, NULL);
 	if (this->wind == NULL) {
 		throw GLFWExcept("Failed to create an GLFW window");
 	}

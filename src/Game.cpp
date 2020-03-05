@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:47 by gsmith            #+#    #+#             */
-/*   Updated: 2020/03/04 16:12:12 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/03/05 13:48:46 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,18 @@ Game::Game(int lib, size_t width, size_t height): \
 				loader(lib, width, height), grid(Grid(width, height)), \
 				bonus_pos(0, 0), bonus_timer(Game::bonus_freq) {
 	for (size_t i = 0; i < width; i++) {
-		this->spawn_obstacle(Position(i, 0));
-		this->spawn_obstacle(Position(i, height - 1));
+		if (i < width / 3 || i >= 2 * width / 3) {
+			this->spawn_obstacle(Position(i, 0));
+			this->spawn_obstacle(Position(i, height - 1));
+		}
 	}
-
-	this->spawn_obstacle(Position(width / 3, height / 2));
-	this->spawn_apple(Position(width / 2 + 7, height / 2));
+	for (size_t i = 0; i < height; i++) {
+		if (i < height / 3 || i >= 2 * height / 3) {
+			this->spawn_obstacle(Position(0, i));
+			this->spawn_obstacle(Position(width - 1, i));
+		}
+	}
+	while (!this->spawn_apple(Position(rand() % width, rand() % height)));
 }
 
 Game::~Game(void) {}
@@ -168,11 +174,12 @@ void			Game::game_over(void) {
 	IDisplay *			disp = this->loader.get_display();
 	size_t				time_start;
 	int					i = 0;
-	int					frame_wait = 3 * 60;
+	int					frame_wait = 10;
 	
 	while (i++ < frame_wait) {
 		time_start = time(0);
 		while (disp->pollEvent() != IDisplay::None);
 		usleep(Game::disp_freq - (time(0) - time_start));
 	}
+	std::cout << "Score: " << this->score.get_score() << std::endl;
 }
