@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:39:47 by gsmith            #+#    #+#             */
-/*   Updated: 2020/03/05 13:48:46 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/03/05 14:15:01 by tbehra           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,17 @@ Game::Game(int lib, size_t width, size_t height): \
 				loader(lib, width, height), grid(Grid(width, height)), \
 				bonus_pos(0, 0), bonus_timer(Game::bonus_freq) {
 	for (size_t i = 0; i < width; i++) {
-		if (i < width / 3 || i >= 2 * width / 3) {
+		if (i < width / 3
+			|| ((width % 2 == 1) && (i >= 2 * width / 3))
+			|| (i > 2 * width / 3) ) {
 			this->spawn_obstacle(Position(i, 0));
 			this->spawn_obstacle(Position(i, height - 1));
 		}
 	}
 	for (size_t i = 0; i < height; i++) {
-		if (i < height / 3 || i >= 2 * height / 3) {
+		if (i < height / 3
+			|| ((height % 2 == 1) && (i >= 2 * height / 3))
+			|| (i > 2 * height / 3) ) {
 			this->spawn_obstacle(Position(0, i));
 			this->spawn_obstacle(Position(width - 1, i));
 		}
