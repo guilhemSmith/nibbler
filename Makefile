@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
+#    By: guilhem <guilhem@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/12/10 14:21:46 by gsmith           ###   ########.fr        #
+#    Updated: 2020/06/06 18:41:37 by guilhem          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,7 +80,7 @@ PREFIX = $(subst $(S_N),$(S_D),$(WHITE))[$(NAME)] - $(NC)
 
 .PHONY: all
 all:
-	sh $(WIZARD)
+	bash $(WIZARD)
 	@Make $(NAME)
 
 .PHONY: re
@@ -126,7 +126,7 @@ endif
 
 .PHONY: clean
 clean:
-	sh $(WIZARD) clean
+	bash $(WIZARD) clean
 	@Make cleanobj
 
 .PHONY: cleanobj
@@ -148,7 +148,7 @@ endif
 
 .PHONY: fclean
 fclean:
-	sh $(WIZARD) fclean
+	bash $(WIZARD) fclean
 	@Make cleanobj
 ifndef VERBOSE
 	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(RED))Deleting $(NAME)$(RED) binary...$(NC)\r"

@@ -2,59 +2,72 @@
 
 prefix="\033[2;37m[libglfw.so/setup] - \033[0m"
 
-list=`brew list`;
-if [ $? -ne 0 ]
-then
-	printf "$prefix brew is missing.\n";
-	rm -rf $HOME/.brew \
-		&& git clone --depth=1 https://github.com/Homebrew/brew $HOME/.brew \
-		&& echo 'export PATH=$HOME/.brew/bin:$PATH' >> $HOME/.zshrc \
-		&& source $HOME/.zshrc \
-		&& brew update;
-	printf "$prefix brew installed.\n";
+function mac_setup() {
 	list=`brew list`;
 	if [ $? -ne 0 ]
 	then
-		printf "$prefix\033[2;31mbrew installation failed.\n\033[0m";
-		exit 1;
+		printf "$prefix brew is missing.\n";
+		rm -rf $HOME/.brew \
+			&& git clone --depth=1 https://github.com/Homebrew/brew $HOME/.brew \
+			&& echo 'export PATH=$HOME/.brew/bin:$PATH' >> $HOME/.zshrc \
+			&& source $HOME/.zshrc \
+			&& brew update;
+		printf "$prefix brew installed.\n";
+		list=`brew list`;
+		if [ $? -ne 0 ]
+		then
+			printf "$prefix\033[2;31mbrew installation failed.\n\033[0m";
+			exit 1;
+		fi
 	fi
-fi
 
-glfw=`echo $list | grep glfw`
-if [ $? -ne 0 ]
-then
-	printf "$prefix glfw is missing.\n"
-	brew install glfw
+	glfw=`echo $list | grep glfw`
 	if [ $? -ne 0 ]
 	then
-		printf "$prefix\033[2;31mglfw installation failed.\n\033[0m";
-		exit 1;
+		printf "$prefix glfw is missing.\n"
+		brew install glfw
+		if [ $? -ne 0 ]
+		then
+			printf "$prefix\033[2;31mglfw installation failed.\n\033[0m";
+			exit 1;
+		fi
+		printf "$prefix glfw installed.\n"
 	fi
-	printf "$prefix glfw installed.\n"
-fi
 
-glew=`echo $list | grep glew`
-if [ $? -ne 0 ]
-then
-	printf "$prefix glew is missing.\n"
-	brew install glew
+	glew=`echo $list | grep glew`
 	if [ $? -ne 0 ]
 	then
-		printf "$prefix\033[2;31mglew installation failed.\n\033[0m";
-		exit 1;
+		printf "$prefix glew is missing.\n"
+		brew install glew
+		if [ $? -ne 0 ]
+		then
+			printf "$prefix\033[2;31mglew installation failed.\n\033[0m";
+			exit 1;
+		fi
+		printf "$prefix glew installed.\n"
 	fi
-	printf "$prefix glew installed.\n"
-fi
 
-glm=`echo $list | grep glm`
-if [ $? -ne 0 ]
-then
-	printf "$prefix glm is missing.\n"
-	brew install glm
+	glm=`echo $list | grep glm`
 	if [ $? -ne 0 ]
 	then
-		printf "$prefix\033[2;31mglm installation failed.\n\033[0m";
-		exit 1;
+		printf "$prefix glm is missing.\n"
+		brew install glm
+		if [ $? -ne 0 ]
+		then
+			printf "$prefix\033[2;31mglm installation failed.\n\033[0m";
+			exit 1;
+		fi
+		printf "$prefix glm installed.\n"
 	fi
-	printf "$prefix glm installed.\n"
+}
+
+function linux_setup() {
+	printf "$prefix linux todo.\n"
+	exit 1;
+}
+
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    linux_setup;
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    mac_setup;
 fi
