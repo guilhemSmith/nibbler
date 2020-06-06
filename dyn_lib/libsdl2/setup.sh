@@ -49,8 +49,7 @@ function mac_setup() {
 }
 
 function linux_setup() {
-	printf "$prefix linux todo.\n"
-	exit 1;
+	sudo apt install libsdl2-dev libsdl2-ttf-dev 
 }
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
