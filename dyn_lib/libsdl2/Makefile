@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
+#    By: guilhem <guilhem@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/12/09 17:26:30 by gsmith           ###   ########.fr        #
+#    Updated: 2020/06/13 13:28:21 by guilhem          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,12 @@ NAME = libsdl2.so
 
 CXX = clang++
 CXXFLAGS = -std=c++11 -Wall -Werror -Wextra
-LIBFLAGS = -shared -fPIC
-SDL =  -L$(HOME)/.brew/lib -lSDL2 -lSDL2_TTF
+SDL =
+ifeq ($(UNAME_S), Darwin)
+	SDL +=  -L$(HOME)/.brew/lib 
+else
+	SDL +=  ${shell pkg-config --libs sdl2 SDL2_ttf}
+endif
 
 ## main directories and files
 
@@ -39,7 +43,12 @@ FILES_DEP = $(FILES_SRC:.cpp=.d)
 SRC = $(addprefix $(DIR_SRC)/, $(FILES_SRC))
 BUILD = $(addprefix $(DIR_BUILD)/, $(FILES_BUILD))
 DEP = $(addprefix $(DIR_DEP)/, $(FILES_DEP))
-INC = -I $(DIR_INC) -I $(HOME)/.brew/include -I ../../$(DIR_INC)
+INC = -I $(DIR_INC) -I ../../$(DIR_INC)
+ifeq ($(UNAME_S), Darwin)
+	INC +=  -L$(HOME)/.brew/include 
+else
+	INC +=  ${shell pkg-config --cflags sdl2 SDL2_ttf}
+endif
 
 # Color and output macros
 
@@ -90,7 +99,7 @@ $(NAME): $(BUILD)
 ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Compiling $(subst $(S_N),$(S_B),$(YELLOW))$(NAME)$(YELLOW) library...$(NC)\r"
 endif
-	$(CXX) $(CXXFLAGS) $(SDL) $(LIBFLAGS) $(INC) -o $@ $^
+	$(CXX) -shared $(CXXFLAGS) $(SDL) $(INC) -o $@ $^
 ifndef VERBOSE
 	printf "$(PREFIX)$(BLUE)Library $(subst $(S_N),$(S_B),$(BLUE))$(NAME)$(BLUE) ready.      \n$(NC)"
 endif
@@ -100,7 +109,7 @@ ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Compiling $@...$(NC)\r"
 endif
 	mkdir -p $(DIR_BUILD)
-	$(CXX) $(CXXFLAGS) $(INC) $(PR_INC) -c -o $@ $<
+	$(CXX) -fpic $(CXXFLAGS) $(INC) $(PR_INC) -c -o $@ $<
 ifndef VERBOSE
 	printf "$(PREFIX)$(BLUE)File $@ compiled.\n$(NC)"
 endif
