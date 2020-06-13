@@ -6,7 +6,7 @@
 #    By: guilhem <guilhem@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2020/06/13 13:56:12 by guilhem          ###   ########.fr        #
+#    Updated: 2020/06/13 14:03:34 by guilhem          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,7 +94,7 @@ $(NAME): $(BUILD)
 ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Compiling $(subst $(S_N),$(S_B),$(YELLOW))$(NAME)$(YELLOW) binary...$(NC)\r"
 endif
-	$(CXX) $(CXXFLAGS) $(INC) -o $@ $^
+	$(CXX) -ldl $(CXXFLAGS) $(INC) -o $@ $^
 ifndef VERBOSE
 	printf "$(PREFIX)$(BLUE)Binary $(subst $(S_N),$(S_B),$(BLUE))$(NAME)$(BLUE) ready.      \n$(NC)"
 endif
