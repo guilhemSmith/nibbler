@@ -62,8 +62,7 @@ function mac_setup() {
 }
 
 function linux_setup() {
-	printf "$prefix linux todo.\n"
-	exit 1;
+	sudo apt install libglfw3-dev libglew-dev libglm-dev
 }
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
