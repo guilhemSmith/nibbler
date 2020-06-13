@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
+#    By: guilhem <guilhem@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/21 17:25:31 by tbehra            #+#    #+#              #
-#    Updated: 2020/01/07 14:13:11 by tbehra           ###   ########.fr        #
+#    Updated: 2020/06/13 13:04:41 by guilhem          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,7 @@ $(NAME): $(BUILD)
 ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Compiling $(subst $(S_N),$(S_B),$(YELLOW))$(NAME)$(YELLOW) library...$(NC)\r"
 endif
-	$(CXX) $(CXXFLAGS) $(LIBFLAGS) $(INC) -o $@ $^ $(SFMLINK)
+	$(CXX) $(CXXFLAGS) -shared $(INC) -o $@ $^ $(SFMLINK)
 ifndef VERBOSE
 	printf "$(PREFIX)$(BLUE)Library $(subst $(S_N),$(S_B),$(BLUE))$(NAME)$(BLUE) ready.      \n$(NC)"
 endif
@@ -89,7 +89,7 @@ ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Compiling $@...$(NC)\r"
 endif
 	mkdir -p $(DIR_BUILD)
-	$(CXX) $(CXXFLAGS) $(INC) $(PR_INC) -c -o $@ $<
+	$(CXX) -fpic $(CXXFLAGS) $(INC) $(PR_INC) -c -o $@ $<
 ifndef VERBOSE
 	printf "$(PREFIX)$(BLUE)File $@ compiled.\n$(NC)"
 endif

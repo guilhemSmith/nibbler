@@ -36,8 +36,7 @@ function mac_setup() {
 }
 
 function linux_setup() {
-	printf "$prefix linux todo.\n"
-	exit 1;
+	sudo apt install libsfml-dev;
 }
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
