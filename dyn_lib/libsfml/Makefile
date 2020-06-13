@@ -6,7 +6,7 @@
 #    By: guilhem <guilhem@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/21 17:25:31 by tbehra            #+#    #+#              #
-#    Updated: 2020/06/13 13:04:41 by guilhem          ###   ########.fr        #
+#    Updated: 2020/06/13 13:30:29 by guilhem          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,6 @@ NAME = libsfml.so
 
 CXX = clang++
 CXXFLAGS = -std=c++11 -Wall -Werror -Wextra
-LIBFLAGS = -shared -fPIC
 
 ## main directories and files
 
