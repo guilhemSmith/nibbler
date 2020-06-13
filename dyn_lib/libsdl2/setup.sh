@@ -49,7 +49,7 @@ function mac_setup() {
 }
 
 function linux_setup() {
-	sudo apt install libsdl2-dev libsdl2-ttf-dev 
+	sudo apt install libsdl2-dev libsdl2-ttf-dev;
 }
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then

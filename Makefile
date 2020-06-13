@@ -6,7 +6,7 @@
 #    By: guilhem <guilhem@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2020/06/06 18:41:37 by guilhem          ###   ########.fr        #
+#    Updated: 2020/06/13 13:56:12 by guilhem          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,12 +81,12 @@ PREFIX = $(subst $(S_N),$(S_D),$(WHITE))[$(NAME)] - $(NC)
 .PHONY: all
 all:
 	bash $(WIZARD)
-	@Make $(NAME)
+	@make $(NAME)
 
 .PHONY: re
 re:
-	@Make fclean
-	@Make all
+	@make fclean
+	@make all
 
 # Binary and object files building
 
@@ -127,7 +127,7 @@ endif
 .PHONY: clean
 clean:
 	bash $(WIZARD) clean
-	@Make cleanobj
+	@make cleanobj
 
 .PHONY: cleanobj
 cleanobj:
@@ -149,7 +149,7 @@ endif
 .PHONY: fclean
 fclean:
 	bash $(WIZARD) fclean
-	@Make cleanobj
+	@make cleanobj
 ifndef VERBOSE
 	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(RED))Deleting $(NAME)$(RED) binary...$(NC)\r"
 endif

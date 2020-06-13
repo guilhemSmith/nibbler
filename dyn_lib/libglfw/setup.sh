@@ -62,7 +62,7 @@ function mac_setup() {
 }
 
 function linux_setup() {
-	sudo apt install libglfw3-dev libglew-dev libglm-dev
+	sudo apt install libglfw3-dev libglew-dev libglm-dev;
 }
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
