@@ -6,7 +6,7 @@
 #    By: guilhem <guilhem@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2020/06/13 14:03:34 by guilhem          ###   ########.fr        #
+#    Updated: 2020/06/14 12:11:37 by guilhem          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,11 @@ CXXFLAGS = -std=c++11 -Wall -Werror -Wextra
 
 # lib builder and cleaner
 
-WIZARD = LibWizard.sh
+SDL2 = dyn_lib/libsdl2/
+SFML = dyn_lib/libsfml/
+GLFW = dyn_lib/libglfw/
+DYN_LIB = $(SDL2) $(SFML) $(GLFW)
+DL_LIB = .dl_lib
 
 ## directories and files
 
@@ -79,8 +83,7 @@ PREFIX = $(subst $(S_N),$(S_D),$(WHITE))[$(NAME)] - $(NC)
 # Build all and rebuild
 
 .PHONY: all
-all:
-	bash $(WIZARD)
+all: $(DYN_LIB)
 	@make $(NAME)
 
 .PHONY: re
@@ -122,11 +125,25 @@ ifndef VERBOSE
 	printf "$(PREFIX)$(CYAN)Dependency $@ updated.  \n$(NC)"
 endif
 
+# dyn library building
+
+$(DL_LIB):
+	bash $(SDL2)/setup.sh
+	bash $(SFML)/setup.sh
+	bash $(GLFW)/setup.sh
+	touch $@
+
+.PHONY: $(DYN_LIB)
+$(DYN_LIB): $(DL_LIB)
+	make -s -C $@
+
 # Files cleaning
 
 .PHONY: clean
 clean:
-	bash $(WIZARD) clean
+	make -s -C $(SDL2) clean
+	make -s -C $(SFML) clean
+	make -s -C $(GLFW) clean
 	@make cleanobj
 
 .PHONY: cleanobj
@@ -148,7 +165,9 @@ endif
 
 .PHONY: fclean
 fclean:
-	bash $(WIZARD) fclean
+	make -s -C $(SDL2) fclean
+	make -s -C $(SFML) fclean
+	make -s -C $(GLFW) fclean
 	@make cleanobj
 ifndef VERBOSE
 	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(RED))Deleting $(NAME)$(RED) binary...$(NC)\r"

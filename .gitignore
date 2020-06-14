@@ -31,3 +31,6 @@ nibbler
 
 #editor files
 .vscode
+
+#other
+.dl_lib
