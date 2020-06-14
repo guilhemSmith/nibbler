@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   DisplaySDL2.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
+/*   By: guilhem <guilhem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2020/03/05 13:52:14 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/06/14 11:09:35 by guilhem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ DisplaySDL2::DisplaySDL2(void): width(0), height(0), wind(NULL), surf(NULL), \
 	if (TTF_Init() < 0) {
 		throw SDL2Except("Failed to init SDL2_TTF");
 	}
-	this->font = TTF_OpenFont("/Library/Fonts/Arial.ttf", \
+	this->font = TTF_OpenFont("./dyn_lib/libsdl2/fonts/Roboto-Regular.ttf", \
 		DisplaySDL2::cell_size - 2);
 	if (this->font == NULL) {
 		throw SDL2Except("Failed to load font.");
