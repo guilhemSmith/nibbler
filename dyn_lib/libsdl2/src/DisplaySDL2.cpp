@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   DisplaySDL2.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
+/*   By: guilhem <guilhem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2020/03/05 13:52:14 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/06/20 19:19:52 by guilhem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ std::map<SDL_Scancode, IDisplay::EEvent> const DisplaySDL2::keyMap = {
 	{SDL_SCANCODE_RIGHT, Right},
 	{SDL_SCANCODE_D, Right},
 	{SDL_SCANCODE_ESCAPE, Quit},
+	{SDL_SCANCODE_SPACE, Quit},
 };
 
 DisplaySDL2::DisplaySDL2(void): width(0), height(0), wind(NULL), surf(NULL), \
@@ -36,7 +37,7 @@ DisplaySDL2::DisplaySDL2(void): width(0), height(0), wind(NULL), surf(NULL), \
 	if (TTF_Init() < 0) {
 		throw SDL2Except("Failed to init SDL2_TTF");
 	}
-	this->font = TTF_OpenFont("/Library/Fonts/Arial.ttf", \
+	this->font = TTF_OpenFont("./dyn_lib/libsdl2/fonts/Roboto-Regular.ttf", \
 		DisplaySDL2::cell_size - 2);
 	if (this->font == NULL) {
 		throw SDL2Except("Failed to load font.");
@@ -61,8 +62,8 @@ void				DisplaySDL2::newWindow(size_t x, size_t y) {
 	}
 	this->width = x;
 	this->height = y;
-	this->wind = SDL_CreateWindow("Nibbler - SDL2", SDL_WINDOWPOS_UNDEFINED, \
-						SDL_WINDOWPOS_UNDEFINED, x * DisplaySDL2::cell_size, \
+	this->wind = SDL_CreateWindow("Nibbler - SDL2", 0, \
+						0, x * DisplaySDL2::cell_size, \
 						y * DisplaySDL2::cell_size + DisplaySDL2::cell_size, \
 						SDL_WINDOW_SHOWN | SDL_WINDOW_INPUT_FOCUS);
 	if (this->wind == NULL) {

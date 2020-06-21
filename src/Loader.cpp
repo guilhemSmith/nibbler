@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Loader.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
+/*   By: guilhem <guilhem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:07:32 by gsmith            #+#    #+#             */
-/*   Updated: 2020/03/05 13:57:54 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/06/14 11:04:43 by guilhem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include <string>
 #include "Loader.hpp"
 
-Loader::Loader(int lib, size_t width, size_t height): libId(lib) {
+Loader::Loader(int lib, size_t width, size_t height): libId(lib), handle(NULL), disp(NULL), \
+	createD(NULL), deleteD(NULL) {
 	this->libTab = {
 		{1, "libsdl2"},
 		{2, "libsfml"},

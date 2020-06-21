@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   DisplayGLFW.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
+/*   By: guilhem <guilhem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:05:38 by gsmith            #+#    #+#             */
-/*   Updated: 2020/03/05 13:38:31 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/06/21 11:17:55 by guilhem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ std::map<unsigned int, IDisplay::EEvent> const	DisplayGLFW::keyMap = {
 	{GLFW_KEY_RIGHT, Right},
 	{GLFW_KEY_D, Right},
 	{GLFW_KEY_ESCAPE, Quit},
+	{GLFW_KEY_SPACE, Quit},
 };
 
 DisplayGLFW::DisplayGLFW(void): width(0), height(0), wind(NULL), eventStack(), \
@@ -111,6 +112,7 @@ void				DisplayGLFW::newWindow(size_t x, size_t y) {
 	if (this->wind == NULL) {
 		throw GLFWExcept("Failed to create an GLFW window");
 	}
+	glfwSetWindowPos(this->wind, 0, 0);
 	glfwSetWindowAspectRatio(this->wind, x * DisplayGLFW::cell_size, \
 		y * DisplayGLFW::cell_size);
 	glfwSetWindowSizeLimits(this->wind, x * DisplayGLFW::cell_size, x * DisplayGLFW::cell_size, \
@@ -150,6 +152,7 @@ void				DisplayGLFW::newWindow(size_t x, size_t y) {
 		{GLFW_KEY_RIGHT, false},
 		{GLFW_KEY_D, false},
 		{GLFW_KEY_ESCAPE, false},
+		{GLFW_KEY_SPACE, false},
 	};
 	this->clearDisplay();
 	this->refreshDisplay();
