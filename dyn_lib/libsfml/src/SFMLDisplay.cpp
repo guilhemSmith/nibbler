@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   SFMLDisplay.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
+/*   By: guilhem <guilhem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 17:27:47 by tbehra            #+#    #+#             */
-/*   Updated: 2020/03/05 14:18:52 by tbehra           ###   ########.fr       */
+/*   Updated: 2020/06/20 19:24:16 by guilhem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,13 @@ const std::map<sf::Keyboard::Key, IDisplay::EEvent> SFMLDisplay::keyboardToEvent
 	{sf::Keyboard::Left, IDisplay::EEvent::Left},
 	{sf::Keyboard::Right, IDisplay::EEvent::Right},
 	{sf::Keyboard::W, IDisplay::EEvent::Up},
+	{sf::Keyboard::Z, IDisplay::EEvent::Up},
 	{sf::Keyboard::S, IDisplay::EEvent::Down},
 	{sf::Keyboard::A, IDisplay::EEvent::Left},
+	{sf::Keyboard::Q, IDisplay::EEvent::Left},
 	{sf::Keyboard::D, IDisplay::EEvent::Right},
 	{sf::Keyboard::Escape, IDisplay::EEvent::Quit},
+	{sf::Keyboard::Space, IDisplay::EEvent::Quit},
 };
 
 const std::map<IDisplay::EMotif, sf::Color> SFMLDisplay::motifToColor = {
@@ -102,6 +105,7 @@ void	SFMLDisplay::newWindow(size_t x, size_t y) {
 	_window = new sf::RenderWindow(
 			sf::VideoMode(WIDTH_CELL * x, HEIGHT_CELL * (y + 1) + 10),
 			"Nibbler - SFML", sf::Style::Titlebar | sf::Style::Close);
+	_window->setPosition(sf::Vector2i(0, 0));
 	_windowX = x;
 	_windowY = y;
 	_scoreOffset = HEIGHT_CELL * y;
